@@ -1,0 +1,36 @@
+@import '../create-level/create-level.component.scss';
+@import '../shared/scss/ok_animation.scss';
+
+button
+{
+  margin-left: 0 !important;
+}
+
+.modal-view
+{
+  .message-alert
+  {
+    margin-left: 2rem;
+    margin-top: -3rem;
+  }
+
+  .notification
+  {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .modal-alert
+  {
+    padding: 2rem 2rem 2rem 2rem;
+    z-index: 10;
+    position: absolute;
+    box-shadow: 1px 1px 18px 4px rgba(0,0,0,0.55);
+    -webkit-box-shadow: 1px 1px 18px 4px rgba(0,0,0,0.55);
+    -moz-box-shadow: 1px 1px 18px 4px rgba(0,0,0,0.55);
+    margin-top: 25%;
+    margin-left: 20%;
+    border-radius: 4px;
+    background-color: rgb(102, 110, 128);
+  }
+}

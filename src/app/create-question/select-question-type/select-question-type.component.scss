@@ -1,0 +1,49 @@
+.selection-container
+{
+  background-color: rgb(149, 125, 182);
+  border-radius: 5px;
+  height: 100%;
+
+  h2
+  {
+    margin: 1rem;
+    color: whitesmoke;
+    border-bottom: 2px solid slategrey  ;
+  }
+
+  .card-option
+  {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(55, 122, 153);
+    transition: all 0.2s ease;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+    .card-option-img
+    {
+      margin-top: -1rem;
+    }
+
+    .card-option-text
+    {
+      margin-top: -1.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      color: whitesmoke;
+    }
+
+    &:hover
+    {
+      transform: translateY(-1rem);
+      filter: brightness(1.4);
+    }
+
+    &:active
+    {
+      transform: translateY(0rem);
+    }
+  }
+}

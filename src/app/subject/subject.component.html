@@ -1,0 +1,26 @@
+<div style="background-color: white;
+border-radius: 10px;">
+  <div class="row" style="padding-right: 7px;">
+    <div class="col-md-1" style="z-index: 2;">
+      <app-navegation [subjectName]="subject.nombre"></app-navegation>
+    </div>
+
+    <div class="col-md-11" style="padding-top: 8px;">
+      <div class="row">
+        <div class="col" *ngIf="userType==1">
+          <app-options></app-options>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <app-level [cantStudents]='subject.studentsCount' [userType]='userType'></app-level>
+        </div>
+        <!--
+        <div class="col-md">
+          <router-outlet></router-outlet>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+</div>

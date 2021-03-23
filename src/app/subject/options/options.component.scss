@@ -1,0 +1,29 @@
+@media screen and (max-width: 900px)
+{
+  .center-button-space
+  {
+    margin-top: 0.8rem;
+  }
+
+}
+
+@media screen and (max-width: 860px)
+{
+  .center-button-space
+  {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 600px)
+{
+  .space-button-bottom
+  {
+    margin-bottom: 0.5rem;
+  }
+
+  .center-button-space
+  {
+    margin-bottom: 0.5rem;
+  }
+}

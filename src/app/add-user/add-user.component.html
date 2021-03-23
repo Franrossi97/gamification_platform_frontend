@@ -1,0 +1,53 @@
+<div class="container modal-view">
+
+  <div class="modal-alert" *ngIf="successful">
+    <div class="row">
+
+      <div class="container-burger">
+        <div class="wrapper-burguer">
+          <div class="burger">
+            <div class="one"></div>
+            <div class="two"></div>
+            <div class="three"></div>
+          </div>
+
+          <div class="circle"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      El usuario fue ingresado con éxito.
+    </div>
+  </div>
+
+  <div class="row">
+
+    <span class="title" *ngIf="userType===1">Ingrese el email del profesor que desea agregar:</span>
+    <span class="title" *ngIf="userType===2">Ingrese el email del estudiante que desea agregar:</span>
+    <form class="form" [formGroup]="searchUserForm" #fform="ngForm">
+      <div class="form-element">
+
+        <label class="input-title">Email:</label>
+        <div class="row">
+          <input type="email" formControlName='email' class="form-input" placeholder="marinezj2000@gmail.com">
+        </div>
+
+
+      </div>
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="searchUserForm.invalid" (click)="onSubmitUser()">
+        <fa-icon [icon]="magnifying"></fa-icon>
+        Buscar
+      </button>
+    </form>
+
+  </div>
+
+  <div class="row">
+    <span style="color: red;" class="message-alert" *ngIf="searchUserForm.touched && searchUserForm.invalid">
+      Ingrese una dirección email válida.
+    </span>
+    <span style="color: snow;" class="message-alert notification" *ngIf="message!==null">{{message}}</span>
+  </div>
+
+</div>

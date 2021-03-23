@@ -1,0 +1,31 @@
+<div class="navbar-left">
+  <div class="title">
+    <fa-icon [icon]="faAngleDoubleRight"></fa-icon> <a href="#">Introducción a la informática</a>
+  </div>
+
+  <div class="item" *ngFor="let item of numberArray">
+    <fa-icon [icon]="faAngleRight"></fa-icon><a href="#">Nivel {{item+1}}</a>
+  </div>
+
+  <!--
+  <div class="item">
+    <fa-icon [icon]="faAngleRight"></fa-icon><a href="#">Nivel 1</a>
+  </div>
+
+  <div class="item">
+    <fa-icon [icon]="faAngleRight"></fa-icon><a href="#">Nivel 2</a>
+  </div>
+
+  <div class="item">
+    <fa-icon [icon]="faAngleRight"></fa-icon><a href="#">Nivel 3</a>
+  </div>
+
+  <div class="icon">
+    <div class="item">
+      <fa-icon [icon]="faAngleRight"></fa-icon><a href="#">Nivel 4</a>
+    </div>
+  </div>
+
+  -->
+
+</div>

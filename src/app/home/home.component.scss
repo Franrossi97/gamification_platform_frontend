@@ -1,0 +1,44 @@
+.empty-alert
+{
+  color: whitesmoke;
+  font-size: 2rem;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 7px;
+  background: rgb(78,61,61);
+  background: linear-gradient(45deg, rgba(78,61,61,1) 25%, rgba(255,0,0,1) 63%, rgba(255,106,106,1) 88%);
+  padding: 5rem;
+
+  .text-alert
+  {
+    margin-left: 10%;
+
+    .exclamation
+    {
+      margin-left: 40%;
+      margin-right: 45%;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 3px solid rgb(255, 255, 255);
+      padding: 5px;
+      border-radius: 100%;
+      color: white;
+      //margin-left: 37%;
+      //margin-right: 59%;
+      font-size: 4rem;
+      background-color: rgb(255, 255, 109);
+    }
+  }
+
+  .center-form
+  {
+    width: 40%;
+    margin-top: 4rem;
+    margin-left: 30%;
+  }
+
+  .btn-center
+  {
+    margin-left: 44%;
+  }
+}

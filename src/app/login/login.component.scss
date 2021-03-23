@@ -1,0 +1,30 @@
+$background-color: #63d1db;
+
+.left-side-form
+{
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  background-image: linear-gradient(to right bottom, $background-color, rgba(40, 180, 133));
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+
+  &__text
+  {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: whitesmoke;
+  }
+}
+
+@media only screen and (max-width: 750px)
+{
+  .left-side-form
+  {
+    display: none;
+  }
+}

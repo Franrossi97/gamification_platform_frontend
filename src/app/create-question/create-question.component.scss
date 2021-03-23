@@ -1,0 +1,136 @@
+//@import '../create-level/create-level.component.scss';
+
+.left-text
+{
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: whitesmoke;
+  padding: 2rem 2rem 2rem 2rem;
+  background: rgb(64,73,126);
+  background: linear-gradient(45deg, rgba(64,73,126,1) 25%, rgba(0,212,255,1) 93%);
+  border-radius: 4px;
+  padding-top: 18%;
+  //padding-bottom: 10%;
+}
+
+.form-question
+{
+  height: 100%;
+  width: 100%;
+  margin-left: -1.4rem;
+  border-radius: 5px 5px 0 0;
+  background-color: whitesmoke;
+  padding: 2rem 1rem 1rem 2rem;
+
+  /*&:first-child
+  {
+    margin-top: 0.6rem;
+  }*/
+
+  &:last-child
+  {
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+.form-element
+{
+  margin: 0 0.5rem 0.5rem 0.5rem;
+  float: left;
+
+  .alert-valid
+  {
+    color: crimson;
+    font-size: 0.8rem;
+    font-weight: bold;
+
+    .shorter
+    {
+      font-size: 0.5rem;
+    }
+  }
+
+  .input-title
+  {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+
+  .form-input
+  {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background: whitesmoke;
+    border-bottom: 1px solid rgb(131, 131, 131);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+
+    &:focus
+    {
+      border-color: chartreuse;
+      outline: chartreuse;
+    }
+  }
+
+  .top-space
+  {
+    margin-top: 2rem;
+  }
+
+  input[type='checkbox']
+  {
+    margin-top: 0.8rem;
+    margin-right: 1.6rem;
+    position: relative;
+    width: 4.7rem;
+    height: 2rem;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #c6c6c6;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+    transition: 0.5s;
+
+    &:checked
+    {
+      background: #03a9f4;
+    }
+
+    &:before
+    {
+      content: '';
+      position: absolute;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 20px;
+      top:0;
+      left: 0;
+      background: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 2px 5px rgba(0,0,0, .2);
+      transition: .5s;
+    }
+  }
+
+  input:checked[type='checkbox']:before
+  {
+    left: 3rem;
+  }
+
+  .title
+  {
+    //position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 2px solid grey;
+    width: 100%;
+    margin-top: 2rem;
+  }
+}

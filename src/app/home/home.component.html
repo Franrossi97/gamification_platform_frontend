@@ -1,0 +1,90 @@
+<div class="container" style="padding-top: 1rem;">
+  <div class="row">
+    <div class="col-md-12 card">
+      <h2>Mis materias</h2>
+      <hr>
+      <div *ngIf="subjectsStudent.length>0">
+        <h3>Cursando</h3>
+        <div class="row row-cols-md-3 row-cols-sm-1">
+          <div class="col">
+            <div class="card" style="width: 18rem;">
+              <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg" class="card-img-top" alt="..." height="180rem">
+              <div class="card-body">
+                <h5 class="card-title">Introduccion a la Informática</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a routerLink='/subject/1' class="btn btn-primary">Ingresar</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col" *ngFor="let subject of subjectsStudent">
+            <div class="card" style="width: 18rem;">
+              <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg" class="card-img-top" alt="..." height="180rem">
+              <div class="card-body">
+                <h5 class="card-title">{{subject.nombre}}</h5>
+                <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
+                <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
+                <a routerLink="/subject/{{subject.id_materia}}" class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="subjectsTeacher.length>0">
+        <h3 style="margin-top: 2rem;">Administrando</h3>
+        <hr>
+        <div class="row row-cols-md-3 row-cols-sm-1">
+          <div class="col" *ngFor="let subject of subjectsTeacher">
+            <div class="card" style="width: 18rem;">
+              <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg" class="card-img-top" alt="..." height="180rem">
+              <div class="card-body">
+                <h5 class="card-title">{{subject.nombre}}</h5>
+                <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
+                <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
+                <a routerLink="/subject/{{subject.id_materia}}" class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card" style="width: 18rem;">
+              <!--<img src="https://us.123rf.com/450wm/blankstock/blankstock1409/blankstock140905118/31640485-signo-m%C3%A1s-icono-s%C3%ADmbolo-positivo-acercar-bot%C3%B3n-plano-c%C3%ADrculo-con-la-sombra-modern-sitio-web-de-interfaz-de-us.jpg?ver=6" class="card-img-top" alt="..." height="180rem">-->
+              <img src="../../assets/img/plus.png" class="card-img-top" alt="Nueva materia">
+              <div class="card-body">
+                <h5 class="card-title">Agregar una nueva materia</h5>
+                <p class="card-text">Crear una nueva materia.</p>
+                <a class="btn btn-primary" (click)="onNewSubject()">Crear nueva materia</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col empty-alert" *ngIf="subjectsStudent.length==0 && subjectsTeacher.length==0">
+        <div class="row">
+          <div class="text-alert">
+            <div class="exclamation">
+              !
+            </div>
+            No tienes materias.
+            Puedes buscarlas a continuación
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <form>
+                <input type="text" class="form-control center-form">
+                <button class="btn btn-primary btn-center">
+                  <fa-icon [icon]='magnifying'></fa-icon>&nbsp;
+                  Buscar
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

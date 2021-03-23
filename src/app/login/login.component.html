@@ -1,0 +1,33 @@
+<div class="container card">
+  <h2>Inicio de sesión</h2><hr>
+  <div class="row">
+
+    <div class="col-md-3 left-side-form">
+      <div class="left-side-form__text">
+        <h3>Ingrese los datos solicitados</h3>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <form class="form-horizontal" [formGroup]="loginUserForm" #fform="ngForm">
+        <div class="form-group">
+            <label class="col-lg-4 control-label">Mail:</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="mail" placeholder="fede_mart99@gmail.com">
+            </div><br>
+            <label class="col-lg-4 control-label">Contraseña:</label>
+						<div class="col-md-8">
+							<input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+            </div>
+          </div>
+          <button class="btn btn-primary mb-3" type="submit" [disabled]="loginUserForm.invalid" (click)="onSubmit()">Ingresar</button><br>
+          <span *ngIf="invalidLogin" style="color: red;">Usuario y/o contraseña incorrectos</span>
+          <span *ngIf="loginUserForm.touched && loginUserForm.invalid" style="color: red;">
+            <span *ngIf="loginUserForm.get('mail').errors">Inserte un mail válido.</span><br>
+            <span *ngIf="loginUserForm.get('password').errors">Inserte una contraseña válida.</span><br>
+          </span>
+      </form>
+    </div>
+
+  </div>
+</div>

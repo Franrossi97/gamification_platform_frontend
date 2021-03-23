@@ -1,0 +1,62 @@
+<div class="question-container">
+  <div class="question">
+    <div class="question-title">
+      <h3>Nivel 1</h3>
+    </div>
+    <div>
+      <div class="timer-number">
+        {{floorTimer(actualTime).toString()}}
+      </div>
+      <!--<progress max="{{maxTime}}" value="{{actualTime.toString()}}"></progress>-->
+      <progress max="{{maxTime}}" value="{{actualTime}}"></progress>
+      <!--<div class="progress-bar" style="width: {{actualTime/maxTime}}%;"></div>-->
+    </div>
+    <div class="question-text-option">
+      &nbsp;
+
+      <div class="question-text">
+        {{this.questions[this.actualQuestion].texto}}
+      </div>
+<!--
+      <div class="question-text">
+        ¿Qué es un bit?
+      </div>
+-->
+      <div class="question-option" *ngFor="let option of this.questions[this.actualQuestion].opciones; let i=index" (click)='onSelectAnswer(i)' [ngClass]="{'wrong': selectionWrong[i], 'right': selectionRight[i] }">
+        {{option.texto}}
+      </div>
+      &nbsp;
+<!--
+      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
+        Unidad mínima de información
+      </div>
+
+      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
+        Unidad máxima de información
+      </div>
+
+      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
+        Unidad de información
+      </div>
+
+      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
+        Unidad mínima de almacenamiento.
+      </div>
+      &nbsp;
+-->
+    </div>
+
+    <div class="boosters">
+      <div class="booster-item double-chance">
+        Doble chance
+      </div>
+      <div class="booster-item delete">
+        Eliminar dos opciones
+      </div>
+      <div class="booster-item other">
+        Otra pregunta
+      </div>
+    </div>
+
+  </div>
+</div>

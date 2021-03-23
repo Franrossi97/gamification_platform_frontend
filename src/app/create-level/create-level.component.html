@@ -1,0 +1,88 @@
+<div class="container modal-view">
+  <div class="row">
+
+    <span class="title">Ingrese los datos del nuevo nivel:</span>
+    <form class="form" [formGroup]="newLevelForm" #fform="ngForm" *ngIf="mostrarPrimero">
+      <div class="form-element">
+
+        <label class="input-title">Descripcion:</label>
+        <div class="row">
+          <textarea class="form-input" formControlName="description" placeholder="Nivel introductorio" maxlength="200" rows="5"></textarea>
+        </div>
+
+        <label class="input-title">Fecha recomendada de realización:</label>
+        <div class="row">
+          <input type="date" formControlName="recommended_date" class="form-input" placeholder="17/06/2021">
+        </div>
+
+        <label class="input-title">Puntaje máximo:</label>
+        <div class="row">
+          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='0' max="100">
+          <span *ngIf="newLevelForm.get('max_score').touched && newLevelForm.get('max_score').invalid" style="color: red;">
+            Ingrese un valor válido.
+          </span>
+        </div>
+
+        <label class="input-title">Cantidad de preguntas a responder:</label>
+        <div class="row">
+          <input type="number" formControlName="count_questions" class="form-input" placeholder="15" min='0'>
+          <span *ngIf="newLevelForm.get('count_questions').touched && newLevelForm.get('count_questions').invalid" style="color: red;">
+            Ingrese un valor válido.
+          </span>
+        </div>
+
+        <label class="input-title">Penalización (%):</label>
+        <div class="row">
+          <input type="number" formControlName="penalization" class="form-input" placeholder="30" min='0' max="100">
+          <span *ngIf="newLevelForm.get('penalization').touched && newLevelForm.get('penalization').invalid" style="color: red;">
+            Ingrese un valor válido.
+          </span>
+        </div>
+
+        <label class="input-title">Unidades:</label>
+
+        <label>Cantidad de unidades:</label>
+        <div class="row">
+          <input type="number" formControlName="nUnits" class="form-input" placeholder="1" min='0'>
+          <span *ngIf="newLevelForm.get('nUnits').touched && newLevelForm.get('nUnits').invalid" style="color: red;">
+            Ingrese un valor válido.
+          </span>
+        </div>
+        <div class="row" *ngIf="numberUnits===1">
+          Indique el nombre en la página siguiente.
+        </div>
+
+        <div class="row" *ngIf="numberUnits>1">
+          Indique los nombres en las páginas siguientes.
+        </div>
+
+      </div>
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="newLevelForm.invalid || !allUnitsCreated" (click)="onSubmitLevel()">Crear nivel</button>
+    </form>
+
+    <form class="form" [formGroup]="newUnitForm" *ngIf="!mostrarPrimero">
+      <div class="form-element">
+
+        <label class="input-title">Título de la unidad número {{actualPage}}</label>
+        <div class="row">
+          <input type="text" formControlName="unitName" class="form-input" placeholder="Unidad 1">
+        </div>
+      </div>
+
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="" (click)="onSubmitUnit()">Cargar</button>
+    </form>
+
+  </div>
+
+  <div class="row" *ngIf="numberUnits>0">
+
+    <a (click)="onLeft()">
+      <fa-icon [icon]="doubleLeft" class="arrow left"></fa-icon>
+    </a>
+
+    <a (click)="onRight()">
+      <fa-icon [icon]="doubleRight" class="arrow right"></fa-icon>
+    </a>
+
+  </div>
+</div>

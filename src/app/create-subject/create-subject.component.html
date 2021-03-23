@@ -1,0 +1,46 @@
+<div class="container card">
+  <h2>Nueva materia</h2><hr>
+  <div class="row">
+
+    <div class="col-md-3 left-side-form">
+      <div class="left-side-form__text">
+        <h3>Ingrese los datos de la materia</h3>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <form class="form-horizontal" [formGroup]="newSubjectForm" #fform="ngForm">
+        <div class="form-group">
+						<label class="col-lg-4 control-label">Nombre</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="name" placeholder="Introduccion a la quimica">
+            </div>
+            <label class="col-lg-4 control-label">Cuatrimestre</label>
+						<div class="col-md-8">
+							<select class="form-select" aria-label="Default select example" formControlName="quarter">
+                <option value="1">Primer cuatrimestre</option>
+                <option value="2">Segundo cuatrimestre</option>
+              </select>
+            </div>
+            <label class="col-lg-4 control-label">Año</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="year" placeholder="2021">
+            </div>
+            <label class="col-lg-4 control-label">Carrera</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="career" placeholder="Ingenieria en Informática">
+						</div>
+          </div>
+
+          <span *ngIf="newSubjectForm.touched && newSubjectForm.invalid" style="color: red;">
+            <span *ngIf="newSubjectForm.get('name').errors && newSubjectForm.get('name').invalid">Por favor inserte un nombre válido.</span><br>
+            <span *ngIf="newSubjectForm.get('quarter').errors">Por favor seleccione un cuatrimestre.</span><br>
+            <span *ngIf="newSubjectForm.get('year').errors">Por favor inserte un año válido.</span><br>
+            <span *ngIf="newSubjectForm.get('career').errors">Por favor inserte un nombre de carrera válido.</span><br>
+          </span>
+          <button class="btn btn-primary mb-3" type="submit" [disabled]="newSubjectForm.invalid" (click)="onSubmit()">Change</button>
+      </form>
+    </div>
+
+  </div>
+</div>

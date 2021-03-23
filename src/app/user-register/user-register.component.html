@@ -1,0 +1,56 @@
+<div class="container card">
+  <h2>Registro de nuevo usuario</h2><hr>
+  <div class="row">
+
+    <div class="col-md-3 left-side-form">
+      <div class="left-side-form__text">
+        <h3>Ingrese los datos solicitados</h3>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <form class="form-horizontal" [formGroup]="newUserForm" #fform="ngForm">
+        <div class="form-group">
+						<label class="col-lg-4 control-label">Nombre</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="name" placeholder="Federico">
+              <span *ngIf="newUserForm.get('name').touched && newUserForm.get('name').invalid" class="error-alert-form">Inserte un nombre válido.</span>
+            </div>
+            <label class="col-lg-4 control-label">Apellido</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="lastname" placeholder="Martinez">
+              <span *ngIf="newUserForm.get('lastname').touched && newUserForm.get('lastname').invalid" class="error-alert-form">Inserte un apellido válido.</span>
+            </div>
+            <label class="col-lg-4 control-label">Mail</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="mail" placeholder="fede_mart99@gmail.com">
+              <span *ngIf="newUserForm.get('mail').touched && newUserForm.get('mail').errors" class="error-alert-form">Inserte un mail válido.</span>
+            </div>
+            <label class="col-lg-4 control-label">Contraseña</label>
+						<div class="col-md-8">
+							<input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+              <span *ngIf="newUserForm.get('password').touched && newUserForm.get('password').errors" class="error-alert-form">Inserte una contraseña válida.</span>
+            </div>
+            <label class="col-lg-4 control-label">Matricula</label>
+						<div class="col-md-8">
+							<input type="text" class="form-control" formControlName="enrollment" placeholder="11792">
+              <span *ngIf="newUserForm.get('enrollment').touched && newUserForm.get('enrollment').errors" class="error-alert-form">Inserte una matricula válida.</span>
+            </div>
+            <!--
+            <label class="col-lg-4 control-label">Usted es:</label>
+            <div class="col-md-8">
+							<select class="form-select" aria-label="Default select example" formControlName="usertype">
+                <option value="3">Alumno</option>
+                <option value="1">Profesor</option>
+                <option value="2">Ayudante</option>
+              </select>
+            </div>
+            -->
+          </div>
+          <button class="btn btn-primary mb-3" type="submit" [disabled]="newUserForm.invalid" (click)="onSubmit()">Registrarse</button>
+          <br><span *ngIf="newUserError" style="color: red;">Ocurrió un error al ingresar el usuario.</span>
+      </form>
+    </div>
+
+  </div>
+</div>

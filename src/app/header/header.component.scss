@@ -1,0 +1,80 @@
+.session-btn
+{
+  padding: 2rem 0 0 0;
+}
+
+.topnavbar
+{
+  //background-color: darkgray;
+  background: linear-gradient(-45deg, #54718f, #6ba6e6);
+  width: 100%;
+  //padding-top: 1rem;
+  //padding-bottom: 1rem;
+
+  a
+  {
+    &:hover
+    {
+      filter: brightness(0.9);
+      background-color: rgb(83, 83, 83);
+    }
+  }
+
+  .navbar-items
+  {
+    //background-color: darkgray;
+
+    .navbar-item
+    {
+      float: left;
+      position: relative;
+      text-decoration: none;
+      padding: 0.5rem 2rem 0.5rem 2rem;
+      color: rgb(227, 248, 219);
+      margin-top: 2.2rem;
+    }
+
+    .dropdown
+    {
+      float: left;
+    }
+
+    .vert
+    {
+      border-right: 1px solid black;
+    }
+  }
+
+  .dropdown-content
+  {
+    position: absolute;
+    z-index: 1;
+    margin-top: 4.7rem;
+    background-color: rgb(241, 238, 231);
+    border-radius: 6px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    list-style: none;
+
+    .dropdown-item
+    {
+      padding: 6px 6px 6px 6px;
+      list-style: none;
+
+      &:not(:last-child)
+      {
+        border-bottom: 1px solid rgba(100, 100, 100, 0.466);
+      }
+    }
+  }
+
+  .navbar-title
+  {
+    float: left;
+    color: black;
+    margin-left: 1rem;
+    //text-decoration: none;
+    padding-right: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    //background-color: darkgray;
+  }
+}

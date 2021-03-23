@@ -1,0 +1,9 @@
+a
+{
+  text-decoration: none;
+
+  &:hover
+  {
+    filter: brightness(1) invert(1.2);
+  }
+}

@@ -1,0 +1,39 @@
+<ng-template #contentNewLevel let-modal>
+  <app-create-level></app-create-level>
+</ng-template>
+
+<ng-template #contentNewUser let-modal>
+  <app-add-user [userType]="userType"></app-add-user>
+</ng-template>
+
+<!--
+<app-create-level></app-create-level>
+-->
+<div style="padding-bottom: 25px">
+
+  <div style="border: 2px solid lightgray;
+  border-radius: 0.8rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;">
+
+    <div class="row row-cols-sm-5"> <!--row-cols-md-3-->
+      <div class="col-md center-button-space">
+        <button type="button" class="btn btn-primary" (click)="onClickNewLevel(contentNewLevel)">Agregar nivel</button>
+      </div>
+      <div class="col-md space-button-bottom">
+        <button type="button" class="btn btn-success" (click)="onClickNewUser(contentNewUser, 2)">Agregar estudiante</button>
+      </div>
+      <div class="col-md space-button-bottom">
+        <button type="button" class="btn btn-success" (click)="onClickNewUser(contentNewUser, 1)">Agregar profesor</button>
+      </div>
+      <div class="col-md space-button-bottom">
+        <button type="button" class="btn btn-info">Listado de estudiantes</button>
+      </div>
+      <div class="col-md space-button-bottom">
+        <button type="button" class="btn btn-danger">Eliminar la materia</button>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
