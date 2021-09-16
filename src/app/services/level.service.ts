@@ -1,9 +1,14 @@
+import { BadgeTimer } from './../shared/BadgeTimer';
+import { BadgeQuestions } from './../shared/BadgeQuestion';
+import { BadgeDate } from './../shared/BadgeDate';
+import { BadgeAttempts } from './../shared/BadgeAttempts';
+import { Level } from './../shared/Level';
+import { Badge } from './../shared/Badge';
 import { UnitService } from './unit.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { baseURL } from '../shared/baseUrl';
-import { Level } from '../shared/Level';
 import { Unit } from '../shared/Unit';
 
 @Injectable({
@@ -13,14 +18,23 @@ export class LevelService
 {
 
   levelMaxScore: BehaviorSubject<number>;
-  countLevels: BehaviorSubject<number>;
+  //countLevels: BehaviorSubject<number>;
+  countLevels: number;
   countQuestionsLevel: BehaviorSubject<number>;
+  idSubject: BehaviorSubject<number>;
   constructor(private http: HttpClient, private unitService:UnitService) { }
 
   getLevels(id_subject:number|string): Observable<Level[]>
   {
     const url:string=baseURL;
     return this.http.get<Level[]>(`${url}/subject/${id_subject}/levels`);
+  }
+
+  getOneLevel(idLevel: number)
+  {
+    const getUrl: string=`${baseURL}/level/${idLevel}`;
+
+    return this.http.get<Level>(getUrl);
   }
 
   getUnits(id_level:number|string): Observable<Unit[]>
@@ -36,16 +50,23 @@ export class LevelService
     return this.http.post(postUrl, newLevel);
   }
 
-  getAttempts(idLevel: number|string): Observable<number>
+  getAttempts(idLevel: number|string, idSubject: number): Observable<number>
   {
-    const getAttemptsUrl: string=`${baseURL}/level/${idLevel}/attempts`;
+    const getAttemptsUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/attempts`;
 
     return this.http.get<number>(getAttemptsUrl);
   }
 
-  changeAvailability(idLevel: number|string, status: boolean)
+  allowAttempt(idSubject: number, idLevel: number|string, idUser: number|string)
   {
-    const patchUrl: string=`${baseURL}/level/${idLevel}/availability`;
+    const getBooleanAttemptUrl: string=`${baseURL}/user/${idUser}/subject/${idSubject}/level/${idLevel}/allowattempts`;
+
+    return this.http.get(getBooleanAttemptUrl);
+  }
+
+  changeAvailability(idSubject: number, idLevel: number|string, status: boolean)
+  {
+    const patchUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/availability`;
 
     console.log(patchUrl);
     console.log(status);
@@ -56,17 +77,30 @@ export class LevelService
 
   receiveCountLevels(count: number)
   {
-    this.countLevels=new BehaviorSubject(count);
+    this.countLevels=count;
   }
 
-  getCountLevels(): Observable<number>
+  getCountLevels(idSubject: number)
   {
-    return this.countLevels.asObservable();
+    //return this.countLevels;
+    const getCountUrl: string=`${baseURL}/subject/${idSubject}/levelsamount`
+
+    return this.http.get<number>(getCountUrl);
   }
 
   sendMaxScore(maxScore: number)
   {
     this.levelMaxScore=new BehaviorSubject(maxScore);
+  }
+
+  sendSubjectId(subjectId: number)
+  {
+    this.idSubject=new BehaviorSubject(subjectId)
+  }
+
+  getSubjectId()
+  {
+    return this.idSubject;
   }
 
   getMaxScore(): Observable<number>
@@ -82,13 +116,6 @@ export class LevelService
   getCountQuestions(): Observable<number>
   {
     return this.countQuestionsLevel.asObservable();
-  }
-
-  addNewAttempt(idLevel: number, idUser: number)
-  {
-    const postAttemptUrl:string=`${baseURL}/student/${idUser}/level/${idLevel}`;
-
-    return this.http.post(postAttemptUrl, {});
   }
 
   addNewLevelUnit(levelId: number|string, newUnit: Unit)
@@ -117,5 +144,33 @@ export class LevelService
     const deleteUrl: string=`${baseURL}/unit/${unitId}`;
 
     return this.http.delete(deleteUrl);
+  }
+
+  getBadges(idLevel: number|string): Observable<any[]>
+  {
+    const getBadgesUrl: string=`${baseURL}/level/${idLevel}/badges`;
+
+    return this.http.get<any[]>(getBadgesUrl);
+  }
+
+  getBadgeSpecify(idBadge: number|string, badgeType: number)
+  {
+    const getBadgesUrl: string=`${baseURL}/badges/${idBadge}/type/${badgeType}`;
+
+    return this.http.get<BadgeAttempts|BadgeDate|BadgeQuestions|BadgeTimer>(getBadgesUrl);
+  }
+
+  updateUsedBadges(idLevel: number|string, idStudent: number|string, newValue: string): Observable<any>
+  {
+    const updateBadgesUrl: string=`${baseURL}/badges/level/${idLevel}/student/${idStudent}`;
+
+    return this.http.patch(updateBadgesUrl, newValue);
+  }
+
+  editBadge(badge: any)
+  {
+    const patchBadgeUrl: string=`${baseURL}/badge/${badge.id_insignia}`;
+
+    return this.http.patch(patchBadgeUrl, badge);
   }
 }

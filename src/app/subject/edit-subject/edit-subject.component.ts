@@ -8,17 +8,50 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EditSubjectComponent implements OnInit
 {
-  @Input() editingLevelId:number;
+  @Input() editingLevelId: number;
+  @Input() subjectId: number;
+  showBadgeMenu: boolean=false;
   constructor(private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
+    this.route.paramMap.subscribe(param =>
+    {
+      this.subjectId=Number(param.get('id'));
+
+      console.log(this.subjectId);
+    });
   }
 
 
   onAddQuestion()
   {
     //this.router.navigate([`level/${this.editingLevelId}/question/create`])
-    return `/level/${this.editingLevelId}/question/create/select`;
+    return `/subject/${this.subjectId}/level/${this.editingLevelId}/question/create/select`;
   }
 
+  onEditQuestions()
+  {
+    return `/subject/${this.subjectId}/level/${this.editingLevelId}/edit`;
+  }
+
+  onEditBadges()
+  {
+    this.showBadgeMenu=!this.showBadgeMenu;
+  }
+
+  closeWindow(evn)
+  {
+    this.showBadgeMenu=false;
+  }
+
+  receiveErrorEvent(event)
+  {
+    this.showErrorMessage(event.target.value);
+  }
+
+  showErrorMessage(message)
+  {
+
+  }
 }

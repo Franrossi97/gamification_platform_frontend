@@ -31,7 +31,7 @@ export class QuestionService {
 
   getOptionsforQuestion(idQuestion: number|string): Observable<Option[]>
   {
-    const getUrl: string=`${baseURL}/question/${idQuestion}`
+    const getUrl: string=`${baseURL}/question/${idQuestion}`;
 
     return this.http.get<Option[]>(getUrl);
   }
@@ -39,5 +39,76 @@ export class QuestionService {
   getMaxScore(): Observable<number>
   {
     return this.levelService.getMaxScore();
+  }
+
+  editQuestion(idQuestion: number, newQuestion: Question)
+  {
+    const editQuestionUrl: string=`${baseURL}/question/${idQuestion}`
+
+    return this.http.patch(editQuestionUrl, newQuestion);
+  }
+
+  editOptions(newOptions: Array<Option>)
+  {
+    const editUrl: string=`${baseURL}/question/options`;
+
+    return this.http.patch(editUrl, newOptions);
+  }
+
+  deleteQuestion(idQuestion: number)
+  {
+    const deleteUrl: string=`${baseURL}/question/${idQuestion}`;
+
+    return this.http.delete(deleteUrl);
+  }
+
+  getIndividualAttempts(idStudent: number, idLevel: number|string, idSubject: number): Observable<any>
+  {
+    //const getAttemptUrl: string=`${baseURL}/student/${idStudent}/level/${idLevel}/attempt`;
+    const getAttemptUrl: string=`${baseURL}/student/${idStudent}/subject/${idSubject}/level/${idLevel}/attempt`;
+
+    return this.http.get<any>(getAttemptUrl);
+  }
+
+  addNewAttempt(idSubject: number, idLevel: number|string, idUser: number)
+  {
+    const postAttemptUrl:string=`${baseURL}/student/${idUser}/subject/${idSubject}/level/${idLevel}`;
+
+    return this.http.post(postAttemptUrl, {});
+  }
+
+  getQuestionsAfterDate(idSubject: number, idStudent: number, idLevel: number|string, date: string): Observable<any>
+  {
+    const getQuestionsUrl: string=`${baseURL}/questions/student/${idStudent}/subject/${idSubject}/level/${idLevel}/${date}`;
+
+    return this.http.get<any>(getQuestionsUrl);
+  }
+
+  setFinishedQuestionnaire(idStudent: number|string, idSubject: number, idLevel: number|string, finalScore: number)
+  {
+    const patchFinishedUrl: string=`${baseURL}/student/${idStudent}/subject/${idSubject}/level/${idLevel}/status`;
+
+    return this.http.patch(patchFinishedUrl, {finalScore});
+  }
+
+  addNewUsedQuestion(idSubject: number, idLevel: number|string, idStudent: number|string, idQuestion: number|string)
+  {
+    let postAnswerUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/student/${idStudent}/question/${idQuestion}`;
+
+    return this.http.post(postAnswerUrl,{});
+  }
+
+  addNewAnswer(idSubject: number, idLevel: number|string, idStudent: number|string, idQuestion: number|string, result: number, dateToUse: string)
+  {
+    let postAnswerUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/student/${idStudent}/question/${idQuestion}`;
+
+    return this.http.patch(postAnswerUrl, {result, dateToUse});
+  }
+
+  deleteAnswer(idSubject: number, idLevel: number|string, idStudent: number|string, idQuestion: number|string, dateToUse: string)
+  {
+    let deleteAnswerUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/student/${idStudent}/question/${idQuestion}/${dateToUse}`;
+
+    return this.http.delete(deleteAnswerUrl);
   }
 }

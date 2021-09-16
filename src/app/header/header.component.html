@@ -2,11 +2,12 @@
   <div class="topnavbar">
     <div class="navbar-items">
       <!--<a routerLink='home' class="navbar-title vert">Gamification</a>-->
-      <a routerLink='home' class="navbar-title">
+      <a routerLink='home' class="navbar-title" style="visibility: visible !important;">
         <img src="../../assets/img/logo.png" alt="logo" width="140px" height="100px">
       </a>
       <a routerLink='home' class="navbar-item vert">Home</a>
-      <a href="" class="navbar-item vert">Flashcards</a>
+      <a routerLink='subjects' class="navbar-item vert">Materias</a>
+      <a routerLink='flashcards/list' class="navbar-item vert">Flashcards</a>
       <a href="" class="navbar-item vert">About</a>
       <div class="dropdown">
         <a class="navbar-item" (click)="onShow()">
@@ -14,14 +15,55 @@
           <fa-icon [icon]="caretDown"></fa-icon>
         </a>
         <div class="dropdown-content" *ngIf="show">
-          <a class="dropdown-item list-item">..........</a>
+          <a routerLink='subject/subject.id_materia' class="dropdown-item list-item" *ngFor="let subject of subjects">{{subject.nombre}}</a>
+          <a class="dropdown-item list-item">....................</a>
           <a class="dropdown-item last-item" routerLink='create-subject'>Crear una nueva clase</a>
         </div>
       </div>
     </div>
+
+    <div>
+      <div class="right-hamburger" (click)="onShowRight()">
+        <div class="hamburger">&nbsp;</div>
+        <div class="hamburger">&nbsp;</div>
+        <div class="hamburger">&nbsp;</div>
+      </div>
+
+      <div class="dropdown right">
+        <div class="dropdown-content" *ngIf="showRight">
+          <!--
+          <a routerLink='subject/subject.id_materia' class="dropdown-item list-item" *ngFor="let subject of subjects">{{subject.nombre}}</a>
+          <a class="dropdown-item list-item">..........</a>
+          <a class="dropdown-item last-item" routerLink='create-subject'>Crear una nueva clase</a>
+          -->
+          <a routerLink='home' class="dropdown-item list-item">Home</a>
+          <a routerLink='subjects' class="dropdown-item list-item">Materias</a>
+          <a routerLink='flashcards/list' class="dropdown-item list-item">Flashcards</a>
+          <a href="" class="dropdown-item list-item">About</a>
+          <a (click)="logOut()" class="dropdown-item list-item">Salir</a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="btn-inside">
+          <div class="col-md-12">
+            <div class="session-btn" *ngIf="!this.isAuthenticated()">
+              <button type="button" class="btn btn-primary btn-sm" routerLink='login'>Ingresar</button>&nbsp;&nbsp;
+              <button type="button" class="btn btn-secondary btn-sm" routerLink='register'>Registrarse</button>
+            </div>
+
+            <div class="session-btn" *ngIf="this.isAuthenticated()">
+              <button type="button" class="btn btn-primary btn-sm" routerLink='login' (click)="logOut()">Salir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 
+<!--
 <div class="row" style="padding: 1rem;">
   <div class="col-md-10">
     &nbsp;
@@ -35,7 +77,7 @@
     <button type="button" class="btn btn-primary btn-sm" routerLink='login' (click)="logOut()">Salir</button>
   </div>
 </div>
-
+-->
 <!--
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width: 100%; height: 75px;">
   <div class="container-fluid">

@@ -13,21 +13,22 @@ export class HeaderComponent implements OnInit
 {
   caretDown=faCaretDown;
   subjects: SubjectClass[];
-  isShow: boolean;
+  showRight: boolean;
   show:boolean;
   constructor(private subjectService:SubjectService, private route:ActivatedRoute) { }
 
   ngOnInit(): void
   {
     this.getSubjects();
-    this.isShow=false;
+    //this.isShow=false;
     this.show=false;
+    this.showRight=false;
   }
 
   showDropdown()
   {
     //this.isShow=!this.isShow;
-    console.log(this.isShow);
+    //console.log(this.isShow);
   }
 
   getSubjects()
@@ -36,7 +37,8 @@ export class HeaderComponent implements OnInit
     {
       console.log('tomo datos');
       this.subjects=subjects;
-      this.subjects.length=4
+      if(this.subjects.length>4)
+        this.subjects.length=4
     })
   }
 
@@ -53,5 +55,10 @@ export class HeaderComponent implements OnInit
   onShow()
   {
     this.show=!this.show;
+  }
+
+  onShowRight()
+  {
+    this.showRight=!this.showRight;
   }
 }

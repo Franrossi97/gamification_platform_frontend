@@ -30,4 +30,40 @@
     </div>
 
   </div>
+
+  <div class="row options-login-container">
+
+    <div class="login-button-container">
+      <button (click)="onGoogleLogin()" class="google">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+
+          <p>Login with Google</p>
+      </button>
+    </div>
+
+    <div class="login-button-container">
+      <button (click)="onFacebookLogin()" class="facebook">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Facebook_f_Logo_%28with_gradient%29.svg">
+
+        <p>Login with Facebook</p>
+      </button>
+    </div>
+  </div>
+
+  <div class="row user-form-component" *ngIf="showRegistrationForm">
+    <h3>Datos extra necesarios:</h3>
+
+    <form [formGroup]="completeRegistrationForm" (ngSubmit)="onFinishedLogin()">
+
+      <div class="input-container">
+        <label>Matrícula o DNI:</label>
+        <input type="text" maxlength="8" minlength="5" formControlName='identifier' placeholder="11792">
+
+        <p *ngIf="completeRegistrationForm.get('identifier').touched && completeRegistrationForm.get('identifier').invalid">Ingresar una valor válido de longitud entre 5 y 8 caracteres</p>
+      </div>
+
+      <button class="btn btn-primary" [disabled]="completeRegistrationForm.invalid">Cargar</button>
+
+    </form>
+  </div>
 </div>

@@ -1,6 +1,8 @@
+import { UserService } from './../services/user.service';
+import { SubjectService } from './../services/subject.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {SubjectService} from '../services/subject.service';
 import { SubjectClass } from '../shared/Subject';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
@@ -13,12 +15,18 @@ export class HomeComponent implements OnInit {
 
   subjectsTeacher: SubjectClass[]=new Array();
   subjectsStudent: SubjectClass[]=new Array();
+  searchResultSubject: Array<SubjectClass>;
+  selectedSubject: SubjectClass=null;
+  searchForm: FormGroup;
+
   magnifying=faSearch;
-  constructor(private router: Router, private subjectService:SubjectService) { }
+  constructor(private router: Router, private subjectService:SubjectService, private fb: FormBuilder,
+    private userService: UserService) { }
 
   ngOnInit(): void
   {
     this.getSubjects();
+    this.createSearchForm();
   }
 
   onNewSubject()
@@ -41,39 +49,80 @@ export class HomeComponent implements OnInit {
       },(err) => console.log(err));
   }
 
-  getSubjectById(id:number): Promise<SubjectClass>
-  {
-    let i=0;
-    let subject=null;
-    let allSubjects: SubjectClass[]=this.subjectsStudent.concat(this.subjectsTeacher);
-    while(allSubjects.length>i && allSubjects[i].id_materia!==id)
-    {
-      i++;
-    }
-    if(allSubjects.length>i)
-      subject=allSubjects[i];
-    /*const subject=this.subjects.find(subject =>
-    {
-      subject.id_materia==id;
-    })*/
-    console.log(subject);
-
-    this.subjectService
-
-    if(subject!=null)
-      return new Promise(resolve =>
-      {
-        resolve(subject);
-      });
-  }
-
   sendRequestData(requestedSubject: SubjectClass)
   {
     console.log(requestedSubject);
-    this.getSubjectById(requestedSubject.id_materia).then(resSubject =>
+
+    this.subjectService.sendData(requestedSubject);
+
+    this.router.navigate(['subject', requestedSubject.id_materia]);
+  }
+
+  createSearchForm()
+  {
+    this.searchForm=this.fb.group(
     {
-      this.subjectService.sendRequestData(resSubject);
+      search: new FormControl('', [Validators.required]),
     });
+  }
+
+  onSearchSubject()
+  {
+    this.subjectService.getSubjectBySearch(this.searchForm.get('search').value).subscribe(res =>
+    {
+      this.searchResultSubject=res;
+    });
+  }
+
+  onSelectSubject(index: number)
+  {
+    this.selectedSubject=this.searchResultSubject[index];
+  }
+
+  onSingUpSubject(idSubject: number)
+  {
+    this.userService.linkUsertoSubject(2, +localStorage.getItem('userId'), idSubject).subscribe(res =>
+    {
+      this.router.navigate(['subject', idSubject]);
+    });
+  }
+
+  disableSubject(idSubject: number)
+  {
+    this.subjectService.deleteSubject(idSubject).subscribe(res =>
+    {
+      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].disponible=false;
+    }, err =>
+    {
+      console.log(err);
+    });
+  }
+
+  enableSubject(idSubject: number)
+  {
+    this.subjectService.restoreSubject(idSubject).subscribe(res =>
+    {
+      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].disponible=true;
+    }, err =>
+    {
+      console.log(err);
+    });
+  }
+
+  getTeacherSubjectIndexById(idSubject: number): number
+  {
+    let res: number=-1;
+
+    for(let i=0; i<this.subjectsTeacher.length && res==-1; i++)
+    {
+      if(this.subjectsTeacher[i].id_materia==idSubject)
+      {
+        res=i;
+      }
+    }
+
+    console.log(res);
+    return res;
   }
 
 }

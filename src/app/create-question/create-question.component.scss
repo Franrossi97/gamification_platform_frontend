@@ -37,6 +37,7 @@
 {
   margin: 0 0.5rem 0.5rem 0.5rem;
   float: left;
+  width: 93vw;
 
   .alert-valid
   {
@@ -132,5 +133,23 @@
     border-bottom: 2px solid grey;
     width: 100%;
     margin-top: 2rem;
+  }
+}
+
+@media screen and (min-width: 700px)
+{
+  .form-element
+  {
+    width: 130%;
+
+    .form-input
+    {
+      margin-left: -4rem;
+    }
+
+    .margin-left-checkbox
+    {
+      margin-left: -4rem;
+    }
   }
 }

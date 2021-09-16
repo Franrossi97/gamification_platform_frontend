@@ -26,10 +26,14 @@
         <button type="button" class="btn btn-success" (click)="onClickNewUser(contentNewUser, 1)">Agregar profesor</button>
       </div>
       <div class="col-md space-button-bottom">
-        <button type="button" class="btn btn-info">Listado de estudiantes</button>
+        <button type="button" class="btn btn-info" routerLink='participants'>Listado de estudiantes</button>
       </div>
       <div class="col-md space-button-bottom">
-        <button type="button" class="btn btn-danger">Eliminar la materia</button>
+        <button type="button" class="btn btn-danger" (click)="onClickDelete()">Eliminar la materia</button>
+      </div>
+
+      <div class="col-md space-button-bottom">
+        <button type="button" class="btn btn-dark" routerLink="copy">Copiar preguntas</button>
       </div>
     </div>
 

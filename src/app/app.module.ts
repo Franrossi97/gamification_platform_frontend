@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms'
 import {HttpClientModule} from '@angular/common/http';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { LevelComponent } from './subject/level/level.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import { CreateLevelComponent } from './create-level/create-level.component';
@@ -27,6 +29,22 @@ import { LevelQuestionsComponent } from './level-questions/level-questions.compo
 import { CreateQuestionComponent } from './create-question/create-question.component';
 import { SelectQuestionTypeComponent } from './create-question/select-question-type/select-question-type.component';
 import { MultipleChoiceComponent } from './create-question/multiple-choice/multiple-choice.component';
+import { LevelResultComponent } from './level-questions/level-result/level-result.component';
+import { LevelQuestionsContainerComponent } from './level-questions/level-questions-container/level-questions-container.component';
+import { ParticipantsListComponent } from './participants-list/participants-list.component';
+import { AchievementMenuComponent } from './participants-list/achievement-menu/achievement-menu.component';
+import { CreateFlashcardComponent } from './flashcards/create-flashcard/create-flashcard.component';
+import { MenuFlashcardsComponent } from './flashcards/menu-flashcards/menu-flashcards.component';
+import { ShowFlashcardsComponent } from './flashcards/show-flashcards/show-flashcards.component';
+import { ContainerFlashcardComponent } from './flashcards/container-flashcard/container-flashcard.component';
+import { EditFlashcardComponent } from './flashcards/edit-flashcard/edit-flashcard.component';
+import { ShowFlashcardResultComponent } from './flashcards/show-flashcard-result/show-flashcard-result.component';
+import { PresentationComponent } from './presentation/presentation.component';
+import { CopyLevelsComponent } from './subject/copy-levels/copy-levels.component';
+import { LevelEditComponent } from './subject/level/level-edit/level-edit.component';
+import { BadgeMenuComponent } from './subject/edit-subject/badge-menu/badge-menu.component';
+import { AccountActivationComponent } from './account-activation/account-activation.component';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
 
 @NgModule({
@@ -48,7 +66,22 @@ import { MultipleChoiceComponent } from './create-question/multiple-choice/multi
     LevelQuestionsComponent,
     CreateQuestionComponent,
     SelectQuestionTypeComponent,
-    MultipleChoiceComponent
+    MultipleChoiceComponent,
+    LevelResultComponent,
+    LevelQuestionsContainerComponent,
+    ParticipantsListComponent,
+    AchievementMenuComponent,
+    CreateFlashcardComponent,
+    MenuFlashcardsComponent,
+    ShowFlashcardsComponent,
+    ContainerFlashcardComponent,
+    EditFlashcardComponent,
+    ShowFlashcardResultComponent,
+    PresentationComponent,
+    CopyLevelsComponent,
+    LevelEditComponent,
+    BadgeMenuComponent,
+    AccountActivationComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,9 +92,48 @@ import { MultipleChoiceComponent } from './create-question/multiple-choice/multi
     FontAwesomeModule,
     BrowserAnimationsModule,
     BsDropdownModule,
-    CollapseModule
+    CollapseModule,
+    ChartsModule,
+    NgbModule,
+    SocialLoginModule,
   ],
-  providers: [],
+  providers:
+  [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(
+              '1161166887721679'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }/*,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(
+              '1161166887721679'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }*/
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

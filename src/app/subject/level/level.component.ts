@@ -1,3 +1,4 @@
+import { badgeInfo } from '../../shared/BadgeInformation';
 import { Unit } from './../../shared/Unit';
 import { UserService } from './../../services/user.service';
 import { LevelService } from './../../services/level.service';
@@ -30,10 +31,15 @@ export class LevelComponent implements OnInit
   editUnitNameForm: FormGroup;
   newMaxScoreForm: FormGroup;
   newUnitForm: FormGroup;
+  newCountQuetionsForm: FormGroup;
   showEditName: number=0;
   showEditUnit: number=0;
   showNewUnit: number=0;
   showNewScore: number=0;
+  showNewCountQuestions: number=0;
+  showAttemptError: number=0;
+  //badgesInfo: Map<number, string[]>;
+
   constructor(private router:Router, private route: ActivatedRoute, private location: Location, private levelService: LevelService,
   private userService: UserService, private fb: FormBuilder) { }
 
@@ -45,6 +51,7 @@ export class LevelComponent implements OnInit
     this.route.paramMap.subscribe(params =>
     {
       this.getLevels(params.get('id'));
+      //this.initializeBadgeInfo();
     });
   }
 
@@ -81,16 +88,23 @@ export class LevelComponent implements OnInit
           level.unitList=res;
         });
 
-        this.levelService.getAttempts(level.id_nivel).subscribe(attempts =>
+        this.levelService.getAttempts(level.id_nivel, level.id_materia).subscribe(attempts =>
         {
           level.cantidad_estudiantes_intentos =attempts[0].attempsCount;
         });
+
+        this.levelService.getBadges(level.id_nivel).subscribe(allBadges =>
+        {
+          level.badges=allBadges;
+        })
       })
       this.levels=levels;
       console.log(this.levels);
-      this.sendNumberOfLevels(this.levels.length);
     });
   }
+
+
+
 
   calculateDateDifference(creationDate: string): number
   {
@@ -98,14 +112,11 @@ export class LevelComponent implements OnInit
     return Math.ceil(dif/(1000 * 3600 * 24));
   }
 
-  onChangeAvailability(indexLevel: number, idLevel: number, status: boolean)
+  onChangeAvailability(indexLevel: number, idSubject: number, idLevel: number, status: boolean)
   {
-    console.log(status);
 
-    this.levelService.changeAvailability(idLevel, status).subscribe(res =>
+    this.levelService.changeAvailability(idSubject, idLevel, status).subscribe(res =>
     {
-      console.log(res);
-      console.log(status);
 
       this.levels[indexLevel].cuestionario_disponible=!this.levels[indexLevel].cuestionario_disponible;
       console.log(this.levels);
@@ -118,23 +129,68 @@ export class LevelComponent implements OnInit
     })
   }
 
-  onPlay(idLevel: number, penalizacion: number, maxScore: number, countQuestions: number)
+  onChangeretries(indexLevel: number, idLevel: number, retries: boolean)
   {
-    this.userService.getAttemptsofUser(idLevel).subscribe(numberAttempts =>
+    let newLevelParams: Level=new Level();
+    newLevelParams.id_nivel=idLevel;
+    newLevelParams.reintentos=!retries;
+    console.log(newLevelParams);
+
+    this.levelService.editLevel(newLevelParams).subscribe(res =>
     {
-      if(numberAttempts>0)
+      this.levels[indexLevel].reintentos=!retries;
+      console.log(this.levels);
+    }, err =>
+    {
+      console.log(err);
+    });
+  }
+
+  onPlay(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number, retries: boolean)
+  {/*
+    let allowAttemptValue: boolean=(this.showAttemptError!=idLevel && this.allowAttempt(retries, idLevel));
+
+    if(retries || (allowAttemptValue))
+    {
+      this.userService.getAttemptsofUser(idLevel).subscribe(numberAttempts =>
       {
-        console.log(maxScore);
+        this.startGame(numberAttempts, penalizacion, maxScore, countQuestions, idLevel);
+      });
+    }
+    else
+    {
+      this.showAttemptError=idLevel;
+    }*/
 
-        maxScore=maxScore*(penalizacion/100);
-      }
+    if(retries)
+    {
+      this.userService.getAttemptsofUser(idSubject, idLevel).subscribe(numberAttempts =>
+      {
+        this.startGame(numberAttempts, penalizacion, maxScore, countQuestions, idLevel, idSubject);
+      });
+    }
+    else
+    {
+      this.allowAttempt(idLevel, idSubject, penalizacion, maxScore, countQuestions);
+      //let allowAttemptValue: boolean=(this.showAttemptError!=idLevel && this.allowAttempt(retries, idLevel));
+    }
+  }
 
+  startGame(numberAttempts: number, penalizacion: number, maxScore: number, countQuestions: number, idLevel: number, idSubject: number)
+  {
+    if(numberAttempts>0)
+    {
       console.log(maxScore);
 
-      this.levelService.sendMaxScore(maxScore);
-      this.levelService.receiveCountQuestions(countQuestions)
-      this.router.navigate([`/level/${idLevel}/questions`])
-    });
+      maxScore=maxScore*(penalizacion/100);
+    }
+
+    console.log(maxScore);
+
+    this.levelService.sendMaxScore(maxScore);
+    this.levelService.receiveCountQuestions(countQuestions);
+    this.levelService.sendSubjectId(idSubject);
+    this.router.navigate([`/level/${idLevel}/questions`]);
   }
 
   onEditName(idLevel: number)
@@ -153,7 +209,13 @@ export class LevelComponent implements OnInit
     editedLevel.id_nivel=idLevel;
     editedLevel.descripcion=this.editNameForm.get('name').value;
     console.log(editedLevel);
-    this.levelService.editLevel(editedLevel)
+    this.levelService.editLevel(editedLevel).subscribe(res =>
+    {
+      this.cancelEditName();
+    },err =>
+    {
+      console.log(err);
+    });
   }
 
   cancelEditName()
@@ -186,9 +248,24 @@ export class LevelComponent implements OnInit
     this.editUnitNameForm=null;
   }
 
-  onDeleteUnit(unitId: number|string)
+  onDeleteUnit(unitId: number|string, levelIndex: number)
   {
-    this.levelService.deleteUnitLevel(unitId);
+    this.levelService.deleteUnitLevel(unitId).subscribe(res =>
+    {
+      console.log(res);
+      let i: number=0;
+      this.levels[levelIndex].unitList.every(unit =>
+      {
+        i++;
+        return unit.id_unidad!=unitId
+      });
+
+      this.levels[levelIndex].unitList.splice(i, 1);
+      this.cancelEditName();
+    },err =>
+    {
+      console.log(err);
+    });
   }
 
   onAddNewUnit(idLevel: number|string)
@@ -200,12 +277,20 @@ export class LevelComponent implements OnInit
     });
   }
 
-  onSubmitNewUnit(idLevel: number)
+  onSubmitNewUnit(idLevel: number, levelIndex: number)
   {
     let newUnit: Unit=new Unit();
     newUnit.nombre=this.newUnitForm.get('name').value;
     this.editNameForm.reset();
-    this.levelService.addNewLevelUnit(idLevel, newUnit);
+    this.levelService.addNewLevelUnit(idLevel, newUnit).subscribe(res =>
+    {
+      this.levels[levelIndex].unitList.push(newUnit);
+      this.cancelNewUnit();
+    },err =>
+    {
+      console.log(err);
+
+    });
   }
 
   cancelNewUnit()
@@ -223,13 +308,52 @@ export class LevelComponent implements OnInit
     });
   }
 
-  onSubmitNewScore(idLevel: number)
+  onEditCountQuestions(idLevel: number)
+  {
+    this.showNewCountQuestions=idLevel;
+    this.newCountQuetionsForm=this.fb.group(
+    {
+      count: new FormControl(null, [Validators.required, Validators.min(1)]),
+    });
+  }
+
+  cancelNewCountQuestion()
+  {
+    this.showNewCountQuestions=0;
+    this.newCountQuetionsForm=null;
+  }
+
+  onSubmitNewCountQuestions(idLevel: number, levelIndex: number)
+  {
+    let newLevelValue: Level=new Level();
+    newLevelValue.id_nivel=idLevel;
+    newLevelValue.cantidad_preguntas=this.newCountQuetionsForm.get('count').value;
+    this.newCountQuetionsForm.reset;
+    this.levelService.editLevel(newLevelValue).subscribe(res =>
+    {
+      this.levels[levelIndex].cantidad_preguntas=newLevelValue.cantidad_preguntas;
+      this.cancelNewCountQuestion();
+    }, err =>
+    {
+      console.log(err);
+    });
+  }
+
+  onSubmitNewScore(idLevel: number, levelIndex: number)
   {
     let newLevelValue: Level=new Level();
     newLevelValue.id_nivel=idLevel;
     newLevelValue.puntaje_maximo=this.newMaxScoreForm.get('score').value;
     this.newMaxScoreForm.reset;
-    this.levelService.editLevel(newLevelValue);
+    this.levelService.editLevel(newLevelValue).subscribe(res =>
+    {
+      this.levels[levelIndex].puntaje_maximo=newLevelValue.puntaje_maximo;
+      this.cancelNewScore()
+    },err =>
+    {
+      console.log(err);
+
+    });
   }
 
   cancelNewScore()
@@ -238,9 +362,71 @@ export class LevelComponent implements OnInit
     this.newMaxScoreForm=null;
   }
 
-  sendNumberOfLevels(countLevel: number)
+  allowAttempt(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number)
   {
-    this.levelService.receiveCountLevels(countLevel);
+
+    this.levelService.allowAttempt(idSubject, idLevel, localStorage.getItem('userId')).subscribe(attempt =>
+    {
+      console.log(attempt);
+
+      if(attempt[0].count==0 || (attempt[0].count==1 && !attempt[0].finalizado))
+      {
+        this.startGame(0, penalizacion, maxScore, countQuestions, idLevel, idSubject);
+      }
+      else
+      {
+        this.showAttemptError=idLevel;
+      }
+    });
   }
+
+  getFormattedRecommendedDate(recommendedDate: Date): string
+  {
+    let auxDate=new Date(recommendedDate);
+
+    return `${auxDate.getDay()}/${auxDate.getMonth()}/${auxDate.getFullYear()}`;
+  }
+
+  getPictureLinkForBadge(badgeType: number): string
+  {
+    return badgeInfo.get(badgeType)[0];
+    //return this.badgesInfo.get(badgeType)[0];
+
+    if(badgeType==0)
+    {
+      return '../../../assets/img/badges/question_badge.png';
+    }
+    else
+    if(badgeType==1)
+    {
+      return '../../../assets/img/badges/timer_badge.png';
+    }
+    else
+    if(badgeType==2)
+    {
+      return '../../../assets/img/badges/date_badge.png';
+    }
+    else
+    if(badgeType==3)
+    {
+      return '../../../assets/img/badges/attempts_badge.png';
+    }
+  }
+
+  getBadgeTitle(badgeType: number): string
+  {
+    return badgeInfo.get(badgeType)[1];
+    //return this.badgesInfo.get(badgeType)[1];
+  }
+/*
+  initializeBadgeInfo()
+  {
+    this.badgesInfo=new Map<number, string[]>();
+
+    this.badgesInfo.set(0, ['../../../assets/img/badges/question_badge.png', 'Insignia de pregunta']);
+    this.badgesInfo.set(1, ['../../../assets/img/badges/timer_badge.png', 'Insignia de tiempo']);
+    this.badgesInfo.set(2, ['../../../assets/img/badges/date_badge.png', 'Insignia límite de fecha']);
+    this.badgesInfo.set(3, ['../../../assets/img/badges/attempts_badge.png', 'Insignia de intentos']);
+  }*/
 
 }

@@ -16,6 +16,6 @@ export class SelectQuestionTypeComponent implements OnInit
 
   onSelectType(questionType: number)
   {
-    this.router.navigate([`level/${this.route.snapshot.params.id}/question/create/${questionType}`])
+    this.router.navigate([`subject/${this.route.snapshot.params.id_subject}/level/${this.route.snapshot.params.id}/question/create/${questionType}`])
   }
 }

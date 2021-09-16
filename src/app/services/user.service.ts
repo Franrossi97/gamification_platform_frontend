@@ -1,8 +1,8 @@
+import { NewUser } from './../shared/NewUser';
+import { baseURL } from './../shared/baseUrl';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { baseURL } from '../shared/baseUrl';
-import { NewUser } from '../shared/NewUser';
 import { User } from '../shared/User';
 
 @Injectable({
@@ -15,6 +15,14 @@ export class UserService {
   registerUser(newUser: NewUser): Observable<any>
   {
     const postUrl=`${baseURL}/users`;
+
+    return this.http.post<any>(postUrl, newUser);
+  }
+
+  registerExternalUser(newUser: NewUser)
+  {
+    const postUrl=`${baseURL}/users/external`;
+
     return this.http.post<any>(postUrl, newUser);
   }
 
@@ -37,17 +45,44 @@ export class UserService {
     return this.http.post(postUrl, {});
   }
 
-  numberUserType(idUser: number|string, idSubject: number|string): Observable<number>
+  async numberUserType(idUser: number|string, idSubject: number|string): Promise<number>
   {
     const checkUrl: string=`${baseURL}/subject/${idSubject}/user/${idUser}`
 
-    return this.http.get<number>(checkUrl);
+    return this.http.get<number>(checkUrl).toPromise();
   }
 
-  getAttemptsofUser(idLevel: number)
+  getAttemptsofUser(idSubject: number, idLevel: number)
   {
-    const getAttemptsUrl: string=`${baseURL}/student/${localStorage.getItem('userId')}/level/${idLevel}/attempt`;
+    const getAttemptsUrl: string=`${baseURL}/student/${localStorage.getItem('userId')}/subject/${idSubject}/level/${idLevel}/attempt`;
 
     return this.http.get<number>(getAttemptsUrl);
+  }
+
+  setUsedBoosterOnLevel(idLevel: number|string, idStudent: number)
+  {
+    const patchUsedBooster: string=`${baseURL}/level/${idLevel}/student/${idStudent}/usedbooster`;
+
+    return this.http.patch(patchUsedBooster, {});
+  }
+
+  getStudentCoins(idSubject: number, idStudent: number)
+  {
+    const getUserCoinsUrl: string=`${baseURL}/subject/${idSubject}/users/${idStudent}/coins`;
+
+    return this.http.get(getUserCoinsUrl);
+  }
+
+  setCountCoins(idSubject: number, idStudent: number, coins: number){
+    const patchUserCoinsUrl: string=`${baseURL}/subject/${idSubject}/users/${idStudent}/coins`;
+
+    return this.http.patch(patchUserCoinsUrl, coins);
+  }
+
+  canDoTeacherTask(idUser: number)
+  {
+    const getUrl: string=`${baseURL}/user/${idUser}/task`;
+
+    return this.http.get(getUrl);
   }
 }

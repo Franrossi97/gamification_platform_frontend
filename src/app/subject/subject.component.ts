@@ -14,17 +14,13 @@ import { Level } from '../shared/Level';
 export class SubjectComponent implements OnInit
 {
   userType:number=0;
-  subject: SubjectClass;
+  subject: SubjectClass=null;
   levels:Level[];
   constructor(private subjectService:SubjectService, private levelService:LevelService, private userService: UserService,
   private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
-    this.subject=new SubjectClass();
-    this.subject.nombre="Prueba";
-    this.receiveData();
-
     this.getUserType();
     this.route.params.subscribe(params =>
     {
@@ -32,50 +28,47 @@ export class SubjectComponent implements OnInit
     })
   }
 
-  getUserType()
+  async getUserType()
   {
+    this.userType=await this.userService.numberUserType(localStorage.getItem('userId'), this.route.snapshot.params.id);
+    /*
     this.userService.numberUserType(localStorage.getItem('userId'), this.route.snapshot.params.id).subscribe((userType: number) =>
     {
       console.log('tomo tipo de usuario');
       console.log(userType);
       this.userType=userType;
-    })
+    });*/
   }
 
-  receiveData()
+  getLevels(idSubject: number)
   {
-    this.subjectService.sendData().subscribe(subject =>
+    this.subjectService.getLevels(idSubject).subscribe(levels =>
     {
-      this.subject=subject;
-      console.log('hola');
+      this.levels=levels;
 
-      console.log(this.subject);
-      this.subjectService.getLevels(this.subject.id_materia).subscribe(levels =>
+      this.levels.forEach((level:Level) =>
       {
-        this.levels=levels;
-
-        this.levels.forEach((level:Level) =>
+        this.levelService.getUnits(level.id_nivel).subscribe(units =>
         {
-          this.levelService.getUnits(level.id_nivel).subscribe(units =>
-          {
-            level.unitList=units;
-          });
+          level.unitList=units;
         });
-        console.log(`Cantidad: ${this.subject.studentsCount}`);
       });
+      console.log(`Cantidad: ${this.subject.studentsCount}`);
     });
   }
 
-  getWholeSubjectData(id: number)
+  getWholeSubjectData(idSubject: number)
   {
 
-    this.subjectService.getOneSubject(id).subscribe(res =>
+    this.subjectService.getOneSubject(idSubject).subscribe(res =>
     {
       console.log(res);
 
-      this.subject=res[0];
+      this.subject=res;
 
       console.log(this.subject);
+
+      this.getLevels(res.id_materia)
     })
   }
 }

@@ -6,4 +6,6 @@ export class SubjectClass
   anio: number;
   carrera: string;
   studentsCount: number;
+  disponible: boolean;
+  image;
 }

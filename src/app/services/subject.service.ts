@@ -1,10 +1,10 @@
 import { UnitService } from './unit.service';
 import { LevelService } from './level.service';
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {baseURL} from '../shared/baseUrl';
 import {SubjectClass} from '../shared/Subject';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Level } from '../shared/Level';
 
 @Injectable({
@@ -13,9 +13,8 @@ import { Level } from '../shared/Level';
 export class SubjectService
 {
 
-  private sentSubjectSource=new Subject<SubjectClass>();
+  private sentSubjectSource: SubjectClass;
 
-  sentSubject$=this.sentSubjectSource.asObservable();
   constructor(private http: HttpClient, private levelService:LevelService, private unitService:UnitService){ }
 
   createSubject(newSubject: SubjectClass, idTeacher: number|string)
@@ -45,15 +44,16 @@ export class SubjectService
     return this.http.get<SubjectClass>(getUrl);
   }
 
-  sendRequestData(subject: SubjectClass)
+  sendRequestData(): Observable<SubjectClass>
   {
-    this.sentSubjectSource.next(subject);
-    //this.requestData(subject.id);
+    const subjectToSend: BehaviorSubject<SubjectClass>=new BehaviorSubject<SubjectClass>(this.sentSubjectSource);
+
+    return subjectToSend.asObservable();
   }
 
-  sendData(): Observable<SubjectClass>
+  sendData(subject: SubjectClass)
   {
-    return this.sentSubject$;
+    this.sentSubjectSource=subject;
   }
 
   requestData(idSubject:number)
@@ -71,5 +71,51 @@ export class SubjectService
   {
     const deleteUrl=`${baseURL}/subject/${id}`;
     return this.http.delete(deleteUrl);
+  }
+
+  restoreSubject(idSubject: number)
+  {
+    const patchUrl: string=`${baseURL}/subject/${idSubject}`;
+
+    return this.http.patch(patchUrl, {});
+  }
+
+  getSubjectBySearch(searchWord: string): Observable<Array<SubjectClass>>
+  {
+    const getSearchUrl: string=`${baseURL}/subject/search/${searchWord}`
+
+    return this.http.get<Array<SubjectClass>>(getSearchUrl);
+  }
+
+  getSubjectBySearchWithOutLimit(searchWord: string, quarter: number, year: number): Observable<Array<SubjectClass>>
+  {
+    const getSearchUrl: string=`${baseURL}/subject/search/${searchWord}/${quarter}/${year}`;
+
+    return this.http.get<Array<SubjectClass>>(getSearchUrl);
+  }
+
+  copyLevels(idSubject: number, idSubjectCopy: number)
+  {
+    const postUrl: string= `${baseURL}/subject/${idSubject}/copy/${idSubjectCopy}`;
+
+    return this.http.post(postUrl, {});
+  }
+
+  uploadCoverImage(name: string, img)
+  {
+    let header: HttpHeaders=new HttpHeaders();
+
+    header=header.append('Access-Control-Allow-Origin', 'http://localhost:4200');
+    header=header.append('Access-Control-Allow-Headers', 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range');
+    header=header.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    header=header.append('Access-Control-Allow-Credentials', 'true');
+
+    const postImgUrl: string=`${baseURL}/subject/picture/${name}`;
+
+    return this.http.post(postImgUrl, img,
+    {
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 }

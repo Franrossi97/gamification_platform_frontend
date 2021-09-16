@@ -8,6 +8,7 @@ $secondary-bg-color: rgb(63, 63, 63);
 
 .question-container
 {
+  border-radius: 7px;
   background-color: $primary-bg-color;
   width: 100%;
   height: 100%;
@@ -30,8 +31,15 @@ $secondary-bg-color: rgb(63, 63, 63);
 
       h3
       {
-        margin-left: 43%;
+        margin-left: 40%;
         padding: 1rem 0 1rem 0;
+      }
+
+      .coins
+      {
+        color: rgb(99, 99, 99);
+        margin: -11% 0 0 82%;
+        padding-bottom: 5%;
       }
     }
 
@@ -118,6 +126,8 @@ $secondary-bg-color: rgb(63, 63, 63);
 
   .boosters
   {
+    overflow: hidden;
+    position: relative;
     margin-bottom: 0;
     text-align: center;
     align-content: center;
@@ -125,18 +135,34 @@ $secondary-bg-color: rgb(63, 63, 63);
 
     .booster-item
     {
-      width: 33.33%;
+      width: 25%;
       height: 100%;
       border-right: 2px solid $primary-bg-color;
       padding-top: 1rem;
       padding-bottom: 1rem;
       float: left;
-      position: relative;
+
+      &:hover
+      {
+        cursor: pointer;
+      }
 
       &:last-child
       {
         border-right: 0;
       }
+
+      .booster-price
+      {
+        font-weight: bold;
+        margin: -14% 0 5% 48%;
+        color: rgb(99, 99, 99);
+      }
+    }
+
+    .more-time
+    {
+      background-color: rgb(46, 46, 170);
     }
 
     .double-chance
@@ -157,13 +183,80 @@ $secondary-bg-color: rgb(63, 63, 63);
 
 }
 
+.alert-container
+{
+  font-weight: bold;
+  color: rgb(145, 145, 145);
+  background: rgb(255,237,67);
+  background: linear-gradient(90deg, rgba(255,237,67,1) 39%, rgba(254,255,33,1) 85%);
+  top: 38%;
+  left: 37%;
+  padding: 4%;
+  border-radius: 10px;
+  position: absolute;
+  border: 7px solid rgb(179, 179, 79);
 
-@media screen and (max-width: 600px)
+  .content-container
+  {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    h3
+    {
+      margin-left: auto;
+      margin-right: auto;
+      width: 85%;
+      font-size: 2.2rem;
+    }
+
+    h5
+    {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      font-size: 1.9rem;
+    }
+
+    .img-container
+    {
+      margin-left: auto;
+      margin-right: auto;
+      width: 42%;
+    }
+
+    p
+    {
+      margin-left: auto;
+      margin-right: auto;
+      width: 55%;
+    }
+  }
+}
+
+
+@media screen and (max-width: 700px)
 {
   .question-container
   {
     padding-left: 0;
     padding-right: 0;
+
+    .question
+    {
+      .timer-number
+      {
+        margin-left: 47%;
+      }
+
+      .question-title
+      {
+        h3
+        {
+          margin-left: 42%;
+        }
+      }
+    }
 
     .question-text
     {
@@ -187,4 +280,9 @@ $secondary-bg-color: rgb(63, 63, 63);
 .right
 {
   background-color: rgb(128, 255, 0) !important;
+}
+
+.option-disable
+{
+  filter: brightness(30%) !important;
 }

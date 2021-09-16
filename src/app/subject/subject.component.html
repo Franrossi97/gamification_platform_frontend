@@ -2,18 +2,20 @@
 border-radius: 10px;">
   <div class="row" style="padding-right: 7px;">
     <div class="col-md-1" style="z-index: 2;">
-      <app-navegation [subjectName]="subject.nombre"></app-navegation>
+      <app-navegation [subjectName]="subject.nombre" *ngIf="subject!=null"></app-navegation><!--
+      <app-navegation></app-navegation>-->
     </div>
 
     <div class="col-md-11" style="padding-top: 8px;">
       <div class="row">
-        <div class="col" *ngIf="userType==1">
+        <div class="col" >
           <app-options></app-options>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
-          <app-level [cantStudents]='subject.studentsCount' [userType]='userType'></app-level>
+        <div class="col-md-12" *ngIf="subject!=null">
+          <app-level [cantStudents]='subject.studentsCount' [userType]='userType'></app-level><!--
+          <app-level [userType]='userType'></app-level>-->
         </div>
         <!--
         <div class="col-md">

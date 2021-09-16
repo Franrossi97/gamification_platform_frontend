@@ -1,62 +1,87 @@
+<!--
 <div class="question-container">
   <div class="question">
     <div class="question-title">
-      <h3>Nivel 1</h3>
+      <h3>{{LEVEL_NAME}}</h3>
+
+      <div class="coins">
+        <fa-icon [icon]="coinsIcon"></fa-icon> {{availableCoins}}
+      </div>
     </div>
     <div>
       <div class="timer-number">
         {{floorTimer(actualTime).toString()}}
       </div>
-      <!--<progress max="{{maxTime}}" value="{{actualTime.toString()}}"></progress>-->
-      <progress max="{{maxTime}}" value="{{actualTime}}"></progress>
-      <!--<div class="progress-bar" style="width: {{actualTime/maxTime}}%;"></div>-->
+      <progress max="{{this.questions[this.actualQuestion].tiempo}}" value="{{actualTime}}"></progress>
     </div>
-    <div class="question-text-option">
+    <div class="question-text-option" *ngIf="this.actualQuestion!=-1">
       &nbsp;
 
       <div class="question-text">
         {{this.questions[this.actualQuestion].texto}}
       </div>
-<!--
-      <div class="question-text">
-        ¿Qué es un bit?
-      </div>
--->
-      <div class="question-option" *ngFor="let option of this.questions[this.actualQuestion].opciones; let i=index" (click)='onSelectAnswer(i)' [ngClass]="{'wrong': selectionWrong[i], 'right': selectionRight[i] }">
+
+      <div class="question-option" *ngFor="let option of this.questions[this.actualQuestion].opciones; let i=index" (click)='optionDisabled[i] && onSelectAnswer(i)'
+      [ngClass]="{'wrong': selection[0][i], 'right': selection[1][i], 'option-disable': optionDisableColor[i] }">
         {{option.texto}}
       </div>
       &nbsp;
-<!--
-      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
-        Unidad mínima de información
-      </div>
 
-      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
-        Unidad máxima de información
-      </div>
-
-      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
-        Unidad de información
-      </div>
-
-      <div class="question-option" [ngClass]="{'wrong': selectionWrong[0], 'right': selectionRight[0] }">
-        Unidad mínima de almacenamiento.
-      </div>
-      &nbsp;
--->
     </div>
 
     <div class="boosters">
-      <div class="booster-item double-chance">
-        Doble chance
+      <div class="booster-item more-time" [ngClass]="{'option-disable': disableBoosters}">
+        <div class="booster-price">
+          <fa-icon [icon]="coinsIcon"></fa-icon> {{BOOSTER_PRICES[0]}}
+        </div>
+
+        <img src="../../assets/img/boosters/clock.png" height="40vh" width="60vw"
+        (click)="!disableBoosters && useBooster(0, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
       </div>
-      <div class="booster-item delete">
-        Eliminar dos opciones
+      <div class="booster-item double-chance" [ngClass]="{'option-disable': disableBoosters}">
+        <div class="booster-price">
+          <fa-icon [icon]="coinsIcon"></fa-icon> {{BOOSTER_PRICES[1]}}
+        </div>
+
+        <img src="../../assets/img/boosters/doble_chance.png" height="40vh" width="70vw"
+        (click)="!disableBoosters && useBooster(1, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
       </div>
-      <div class="booster-item other">
-        Otra pregunta
+      <div class="booster-item delete" [ngClass]="{'option-disable': disableBoosters}">
+        <div class="booster-price">
+          <fa-icon [icon]="coinsIcon"></fa-icon> {{BOOSTER_PRICES[2]}}
+        </div>
+
+        <img src="../../assets/img/boosters/delete.png" height="40vh" width="40vw"
+        (click)="!disableBoosters && useBooster(2, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
+      </div>
+      <div class="booster-item other" [ngClass]="{'option-disable': disableBoosters}">
+        <div class="booster-price">
+          <fa-icon [icon]="coinsIcon"></fa-icon> {{BOOSTER_PRICES[3]}}
+        </div>
+
+        <img src="../../assets/img/boosters/skip.png" height="40vh" width="100vw"
+        (click)="!disableBoosters && useBooster(3, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, this.lastDateAttempt)">
       </div>
     </div>
 
   </div>
+</div>
+-->
+<div class="alert-container" *ngIf="showWonAlert">
+
+  <div class="content-container">
+    <h3>¡Felicitaciones!</h3>
+
+    <h5>Ganaste una insignia</h5>
+
+    <div class="img-container"><!--
+      <img [src]="getBadgePic(wonBadgeIndex)">-->
+      <img src="../../../assets/img/badges/question_badge.png" height="120px">
+    </div>
+<!--
+    <p>{{getBadgeDetails(wonBadgeIndex)}}</p>-->
+    <p>Insignia de pregunta</p>
+
+  </div>
+
 </div>

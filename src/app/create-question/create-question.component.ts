@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { QuestionService } from './../services/question.service';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray, AbstractControl } from '@angular/forms';
@@ -20,7 +20,7 @@ export class CreateQuestionComponent implements OnInit
   questionType:number;
   selectedOption:boolean;
   checkboxControl: boolean[]=[false, false, false, false];
-  constructor(private fb: FormBuilder, private questionService: QuestionService, private route: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private questionService: QuestionService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -37,7 +37,9 @@ export class CreateQuestionComponent implements OnInit
     {
       question: new FormControl(null, [Validators.required]),
       difficult: new FormControl(false),
-      score: new FormControl(null, [Validators.required]),
+      time: new FormControl(30, [Validators.required, Validators.min(0)]),
+      coins: new FormControl(0, [Validators.required, Validators.min(0)]),
+      //score: new FormControl(null, [Validators.required]),
     })
   }
 
@@ -143,8 +145,9 @@ export class CreateQuestionComponent implements OnInit
 
     this.questionService.createQuestion(this.route.snapshot.params.id, newQuestion).subscribe(res =>
     {
-      console.log(res);
-
+      this.newQuestionForm.reset();
+      this.newOptionsForm.reset();
+      this.router.navigate(['level', this.route.snapshot.params.id, 'question', 'create', 'select']);
     },error =>
     {
       console.log(error);
@@ -156,8 +159,9 @@ export class CreateQuestionComponent implements OnInit
     localStorage.getItem('userId')
     let options=this.createOptions();
     let question=new Question(null, this.newQuestionForm.get('question').value,
-    this.newQuestionForm.get('difficult').value, this.questionType,
-    this.newQuestionForm.get('score').value, null, this.route.snapshot.params.id, options);
+    this.newQuestionForm.get('difficult').value, this.questionType,/*
+    this.newQuestionForm.get('score').value,*/ localStorage.getItem('userId'),
+    this.newOptionsForm.get('time').value, this.newOptionsForm.get('coins').value, this.route.snapshot.params.id, options);
     return question;
   }
 

@@ -46,7 +46,6 @@ export class OptionsComponent implements OnInit {
     const idSubject=this.route.snapshot.params.id;
     this.subjectService.deleteSubject(idSubject).subscribe(res =>
     {
-      console.log(res);
       this.router.navigate(['home']);
     });
   }

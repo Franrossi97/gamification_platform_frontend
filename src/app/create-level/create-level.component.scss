@@ -53,7 +53,7 @@
     {
       width: 100%;
       padding: 10px 15px;
-      margin: 8px 0;
+      margin: 8px 10% 0 0;
       display: inline-block;
       border-top: 0;
       border-right: 0;
@@ -75,7 +75,7 @@
     {
       width: 100%;
       padding: 10px 15px;
-      margin: 8px 0;
+      margin: 8px 10% 0 0;
       background-color: rgb(125, 172, 167);
       border:0;
       transition: border-color 0.5s ease-in-out;
@@ -88,6 +88,69 @@
         border-radius: 4px;
       }
     }
+
+    .checkbox-wrapper
+    {
+      margin-top: 2rem;
+      margin-left: 0.2rem;
+
+      .checkmark
+      {
+        margin-right: 1rem;
+        display: block;
+        width: 2rem;
+        height: 2rem;
+        background-color: #ddd;
+        border-radius: 10px;
+        position: relative;
+        transition: background-color 0.4s;
+
+        &::after
+        {
+          content: "";
+          position: absolute;
+          width: 0.8rem;
+          height: 1.8rem;
+          border-right: 5px solid #fff;
+          border-bottom: 5px solid #fff;
+          top: 40%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(40deg) scale(10);
+          opacity: 0;
+          transition: all .4s;
+        }
+      }
+
+      #check:checked ~ .checkmark
+      {
+        background-color: #08bb68;
+
+        &::after
+        {
+          opacity: 1;
+          transform: translate(-50%, -50%) rotate(40deg) scale(1);
+        }
+      }
+
+      #check_question:checked ~ .checkmark
+      {
+        background-color: #08bb68;
+
+        &::after
+        {
+          opacity: 1;
+          transform: translate(-50%, -50%) rotate(40deg) scale(1);
+        }
+      }
+
+      .check-title
+      {
+        width: 80%;
+        font-size: 1.3rem;
+      }
+
+    }
+
   }
 
   .input-title
@@ -97,10 +160,84 @@
     font-size: 1.3rem;
   }
 
+  .input-subtitle
+  {
+    margin-top: 1rem;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .bold-subtitle
+  {
+    font-weight: bold;
+  }
+
   button
   {
     margin-top: 2rem;
     margin-left: 45%;
+  }
+
+  .badges-container
+  {
+    float: left;
+    display: inline;
+    //margin-top: 2rem;
+    margin-right: 10%;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 7px;
+    padding: 1rem;
+    //height: 13rem;
+
+    .badge
+    {
+      width: 25%;
+      margin-left: 1%;
+      transition: all 0.4s ease;
+
+      .text-badge
+      {
+        margin-top: 0.3rem;
+        font-size: 0.6rem;
+        visibility: hidden;
+        display: block;
+        overflow: unset;
+      }
+
+      img
+      {
+        width: 100%;
+        filter: brightness(0.5);
+      }
+
+      .change-brightness
+      {
+        filter: brightness(1);
+      }
+
+      &:first-child
+      {
+        margin-left: -1%;
+      }
+
+      &:last-child
+      {
+        margin-right: -2.5%;
+      }
+
+      &:hover
+      {
+        transform: translateY(-15px);
+
+        .text-badge
+        {
+          display: block;
+          visibility: visible;
+        }
+      }
+
+
+    }
   }
 
 }
@@ -114,6 +251,20 @@
     {
       margin-left: 2rem;
       margin-right: 0rem;
+    }
+  }
+
+  .form
+  {
+    .badges-container
+    {
+      .badge
+      {
+        .text-badge
+        {
+          font-size: 0.5rem;
+        }
+      }
     }
   }
 }

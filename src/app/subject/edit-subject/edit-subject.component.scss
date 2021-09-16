@@ -7,3 +7,12 @@ a
     filter: brightness(1) invert(1.2);
   }
 }
+
+.list-group-item
+{
+
+  &:hover
+  {
+    cursor: pointer;
+  }
+}

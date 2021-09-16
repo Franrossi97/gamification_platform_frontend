@@ -5,6 +5,7 @@ export class NewUser
   matricula: string;
   mail: string;
   password: string;
+  externo: boolean;
   //tipo_usuario: number;
 
   constructor(nombre, apellido, matricula, mail, password)//, tipo_usuario)

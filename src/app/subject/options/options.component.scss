@@ -15,7 +15,7 @@
   }
 }
 
-@media screen and (max-width: 600px)
+@media screen and (max-width: 632px)
 {
   .space-button-bottom
   {
@@ -25,5 +25,10 @@
   .center-button-space
   {
     margin-bottom: 0.5rem;
+  }
+
+  .btn
+  {
+    width: 100%;
   }
 }
