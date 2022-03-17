@@ -27,20 +27,21 @@ export class SubjectService
   getSubjectsForTeacher(id:string|number): Observable<SubjectClass[]>
   {
     const getUrl=`${baseURL}/teacher/subjects/${id}`;
-    console.log(getUrl);
+
     return this.http.get<SubjectClass[]>(getUrl);
   }
 
   getSubjectsForStudent(id:string|number): Observable<SubjectClass[]>
   {
     const getUrl=`${baseURL}/student/subjects/${id}`;
-    console.log(getUrl);
+
     return this.http.get<SubjectClass[]>(getUrl);
   }
 
   getOneSubject(id: number|string)
   {
     const getUrl=`${baseURL}/subjects/${id}`;
+
     return this.http.get<SubjectClass>(getUrl);
   }
 
@@ -73,6 +74,20 @@ export class SubjectService
     return this.http.delete(deleteUrl);
   }
 
+  showSubject(id: number)
+  {
+    const patchUrl: string=`${baseURL}/subject/${id}/show`;
+
+    return this.http.patch(patchUrl, {});
+  }
+
+  hideSubject(id: number)
+  {
+    const patchUrl: string=`${baseURL}/subject/${id}/hide`;
+
+    return this.http.patch(patchUrl, {});
+  }
+
   restoreSubject(idSubject: number)
   {
     const patchUrl: string=`${baseURL}/subject/${idSubject}`;
@@ -80,9 +95,11 @@ export class SubjectService
     return this.http.patch(patchUrl, {});
   }
 
-  getSubjectBySearch(searchWord: string): Observable<Array<SubjectClass>>
+  getSubjectBySearch(searchWord: string, idStudent: number): Observable<Array<SubjectClass>>
   {
-    const getSearchUrl: string=`${baseURL}/subject/search/${searchWord}`
+    const getSearchUrl: string=`${baseURL}/subject/search/${searchWord}/user/${idStudent}`
+
+    console.log(getSearchUrl);
 
     return this.http.get<Array<SubjectClass>>(getSearchUrl);
   }

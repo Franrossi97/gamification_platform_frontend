@@ -25,10 +25,21 @@ export class AuthGuard implements CanActivate
       res=false;
     });*/
 
-/*
+    let jwtToken: string;
+    console.log(route.url);
+    if(route.url[0].path=="activation")
+    {
+      jwtToken=route.paramMap.get('jwt');
+      //jwtToken=localStorage.getItem('token');
+    }
+    else
+    {
+      jwtToken=localStorage.getItem('token');
+    }
+
     try
     {
-      promiseStructure=await this.authService.isAuthenticated();
+      promiseStructure=await this.authService.isAuthenticated(jwtToken);
       console.log(promiseStructure);
     }
     catch(err)
@@ -44,16 +55,26 @@ export class AuthGuard implements CanActivate
       }
       else
       {
-        this.router.navigate(['login']);
+        //this.router.navigate(['login']);
+        this.notAuthenticated();
       }
     }
     else
     {
-      this.router.navigate(['login']);
-    }*/
+      //this.router.navigate(['login']);
+      this.notAuthenticated();
+    }
 
     return res;
 
+  }
+
+  notAuthenticated()
+  {
+    this.router.navigate(['login']);
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userId');
   }
 
 }

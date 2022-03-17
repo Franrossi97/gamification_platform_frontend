@@ -22,12 +22,14 @@ export class LevelService
   countLevels: number;
   countQuestionsLevel: BehaviorSubject<number>;
   idSubject: BehaviorSubject<number>;
+  PLAYING_LEVEL_ID: number=undefined;
   constructor(private http: HttpClient, private unitService:UnitService) { }
 
   getLevels(id_subject:number|string): Observable<Level[]>
   {
-    const url:string=baseURL;
-    return this.http.get<Level[]>(`${url}/subject/${id_subject}/levels`);
+    const url:string=`${baseURL}/subject/${id_subject}/levels`;
+
+    return this.http.get<Level[]>(url);
   }
 
   getOneLevel(idLevel: number)
@@ -48,6 +50,13 @@ export class LevelService
     console.log(newLevel);
 
     return this.http.post(postUrl, newLevel);
+  }
+
+  deleteLevel(idLevel: number)
+  {
+    const deleteUrl: string=`${baseURL}/level/${idLevel}`;
+
+    return this.http.delete(deleteUrl);
   }
 
   getAttempts(idLevel: number|string, idSubject: number): Observable<number>
@@ -172,5 +181,15 @@ export class LevelService
     const patchBadgeUrl: string=`${baseURL}/badge/${badge.id_insignia}`;
 
     return this.http.patch(patchBadgeUrl, badge);
+  }
+
+  recieveLevelId(levelId: number)
+  {
+    this.PLAYING_LEVEL_ID=levelId;
+  }
+
+  sendLevelId()
+  {
+    return new BehaviorSubject(this.PLAYING_LEVEL_ID);
   }
 }

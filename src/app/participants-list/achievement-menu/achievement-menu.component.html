@@ -1,0 +1,145 @@
+<div class="menu-container">
+  <div class="menu-title">
+    Asignar un logro al estudiante seleccionado
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 menu-subtitle">
+      Estudiante: {{studentName}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 achievements-list-title">
+      Logros ganados:
+    </div>
+
+    <div class="achievements-list">
+      <div class="row" *ngFor="let userAchievement of userAchievements">
+          {{userAchievement.titulo}} ({{userAchievement.incremento}} %)
+
+          <fa-icon [icon]='minusIcon' class="fa-icon" style="margin-left: 12%;"
+          (click)="onUnassignAchievement(userAchievement.id_logro)" id="deleteAchievement"></fa-icon>
+      </div>
+
+      <div class="row" *ngIf="userAchievements && userAchievements.length==0">
+        Aún no ha obtenido ningún logro
+      </div>
+      <!--
+      <div class="row">
+        Logro de asistencia
+      </div>
+      <div class="row">
+        Logro de participación
+      </div>-->
+    </div>
+
+
+    <div class="row">
+      <form class="form" [formGroup]="newAchievementForm" #fform="ngForm" *ngIf="showNewAchievementForm" (ngSubmit)='onCreateAchievement()' id="newAchievementForm">
+        <div class="form-element">
+
+          <label class="input-title">Titulo:</label>
+          <div class="row">
+            <input type="text" class="form-input" placeholder="Asistencia a clase" formControlName='title'>
+          </div>
+
+          <label class="input-title">Descripcion:</label>
+          <div class="row">
+            <textarea class="form-input" formControlName="description" maxlength="200" rows="5"></textarea>
+          </div>
+
+          <label class="input-title">Puntaje extra (%):</label>
+          <div class="row">
+            <input type="number" formControlName="increment" class="form-input" placeholder="15" min='0'>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-light btn-sm" type="submit" [disabled]='newAchievementForm.invalid' id='createAchievementButton'>
+            Crear
+          </button>
+
+          <span *ngIf="newAchievementForm.get('title').touched && newAchievementForm.get('title').invalid ||
+          newAchievementForm.get('description').touched && newAchievementForm.get('description').invalid||
+          newAchievementForm.get('increment').touched && newAchievementForm.get('increment').invalid"
+          style="color: red; margin-top: 0.8rem;">
+            Ingrese valores válidos.
+          </span>
+
+          <span *ngIf="errorMessageOnCreate" style="color: red;">
+            Ocurrió un error.
+          </span>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 achievements-list-title">
+      Logros disponibles:
+    </div>
+
+    <div class="achievements-list">
+      <div class="row"
+      *ngFor="let subjectAchievement of subjectAchievements"
+      (click)="onSelectAchievement(subjectAchievement.id_logro)" id="selectAchievement">
+
+        <a class="list-value">
+          {{subjectAchievement.titulo}} ({{subjectAchievement.incremento}} %)
+        </a>
+
+        <span class="selected-alert" id="selection"
+        *ngIf="selectedAchievements.indexOf(subjectAchievement.id_logro)!=-1">
+          SELECCIONADO
+        </span>
+
+        <fa-icon [icon]='minusIcon' class="fa-icon" style="margin-left: 12%;"
+        *ngIf="selectedAchievements.indexOf(subjectAchievement.id_logro)==-1"
+        (click)="onDeleteAchievement(subjectAchievement.id_logro)" id="deleteSystemAchievement"></fa-icon>
+
+      </div><!--
+      <div class="row">
+        <a class="list-value">
+          Logro de asistencia
+        </a>
+
+        <span class="selected-alert" id="selection">
+          SELECCIONADO
+        </span>
+
+      </div>
+      <div class="row">
+        <a class="list-value">
+          Logro de participación
+        </a>
+
+        <span class="selected-alert" id="selection">SELECCIONADO</span>
+      </div>-->
+    </div>
+
+    <div class="row" style="margin-left: 33%;">
+      <div class="col-md-12">
+        <button class="btn btn-info btn-sm" style="margin-bottom: 1rem;" (click)="onCreateAchievementForm()" id="createAchievement">
+          Crear un logro nuevo
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row buttons-options">
+    <div class="col-md-12">
+      <button class="btn btn-success btn-sm" (click)="onAssignAchievement()" [disabled]="selectedAchievements.length==0" id="assignAchievents">
+        Asignar el/los logro/s seleccionado
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <span style="color: red;" *ngIf="errorMessageOnAssignation">
+      Ocurrió un error al asignar los logros
+    </span>
+  </div>
+</div>

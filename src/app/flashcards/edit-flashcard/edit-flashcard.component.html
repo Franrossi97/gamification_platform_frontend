@@ -1,0 +1,80 @@
+<div class="edit-container">
+  <div class="row">
+    <div class="flashcard-title" *ngIf="!showFlashcardForm && flashcard!=undefined">
+      {{flashcard.titulo}}
+
+      <button class="btn btn-success btn-sm"
+      style="width: 30%; margin-top: 10px; margin-left: 25%;" (click)="onShowFlashcardForm(flashcard.titulo)" id="titleFormButton">Editar</button>
+    </div>
+
+    <div style="margin-left: 6%; margin-bottom: 2%;">
+      <form [formGroup]="editFlashcardForm" (ngSubmit)="onEditFlashcardTitle()" *ngIf="showFlashcardForm" id="editTitleForm">
+        <label class="form-title">Edite el titulo:</label>
+
+        <textarea type="text" formControlName="title" class="edit-content"></textarea>
+
+        <span class="error-message"
+        *ngIf="this.editFlashcardForm.get('title').touched && this.editFlashcardForm.get('title').invalid">
+          Ingrese un valor válido
+        </span><br>
+
+        <button type="submit" class="btn btn-success btn-sm" id="editTitle">Editar</button>
+
+        <a (click)="onCancelEditFlashcard()" class="cancel-content" id="cancelEditTitle">Cancelar</a><br>
+
+        <span class="error-message" *ngIf="updateTitleError">Ocurrió un error al actualizar la Flashcard</span>
+      </form>
+    </div>
+
+    <div class="icon-trash flashcard-delete" (click)="onDeleteFlashcard()" id="deleteFlashcard">
+      <fa-icon [icon]="trashIcon"></fa-icon>
+    </div>
+
+  </div>
+  <div class="bottom-border"></div>
+
+  <div class="row" *ngIf="flashcard!=undefined">
+    <div class="col-3" *ngFor="let item of flashcard.items; index as i" style="margin-bottom: 3%;">
+      <div class="flashcard-card">
+        <div class="title-card">
+          Flashcard item Nº{{i+1}}:
+        </div>
+        <div class="bottom-border"></div>
+        <div class="content-card" *ngIf="showFlashcardItemForm!=item.id_item">
+          <div style="width: 100%;">
+            {{item.contenido}}
+          </div>
+
+          <div class="row">
+            <div class="col-md-10">
+              <button class="btn btn-light btn-sm"
+              style="width: 80%; margin-top: 10px; margin-left: 1%;" (click)="onShowFlashcardItemForm(item.id_item, item.contenido)" id="editItemFlashcard">Editar</button>
+            </div>
+
+            <div class="col-md-2 icon-trash" (click)="onDeleteFlashcardItem(item.id_item, i)" id="deleteItem">
+              <fa-icon [icon]="trashIcon"></fa-icon>
+            </div>
+          </div>
+
+        </div>
+
+        <form [formGroup]="editFlashcardItemForm" (ngSubmit)="onEditFlashcardItem(item.id_item)" *ngIf="showFlashcardItemForm==item.id_item" id="editItemFlashcardForm">
+          <label>Edite el contenido del flashcard:</label>
+
+          <textarea type="text" formControlName="content" class="edit-content"></textarea>
+
+          <span class="error-message"
+          *ngIf="this.editFlashcardItemForm.get('content').touched && this.editFlashcardItemForm.get('content').invalid">
+            Ingrese un valor válido
+          </span>
+
+          <button type="submit" class="btn btn-success btn-sm" id="editItem">Editar</button>
+
+          <a (click)="onCancelEditItem()" class="cancel-content" id="cancelEdit">Cancelar</a><br>
+
+          <span class="error-message" *ngIf="updateItemError">Ocurrió un error al actualizar la Flashcard</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

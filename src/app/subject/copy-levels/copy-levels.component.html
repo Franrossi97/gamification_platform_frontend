@@ -1,0 +1,60 @@
+<div class="copy-container">
+  <div class="row title">
+    <h1>Seleccione una materia para copiar sus niveles:</h1>
+  </div>
+
+  <div class="row filter-select">
+    <div class="col-md">
+      <form [formGroup]="subjectFilterForm" id="searchForm">
+        <label for="quarter">Cuatrimestre:</label>
+
+        <select name="quarter" id="quarter" class="select-filter" formControlName='quarter'>
+          <option value="1">Primer Cuatrimestre</option>
+          <option value="2">Segundo Cuatrimestre</option>
+        </select>
+
+        <label for="year">Año:</label>
+
+        <select name="year" id="year" class="select-filter" formControlName='year'>
+          <option value="{{year}}" *ngFor="let year of years">{{year}}</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
+  <div class="row options-container" *ngIf="!showErrorGetScreen">
+    <div class="col-md-3 col-sm-1" *ngFor="let subject of relatedSubjects">
+      <div class="card-subject">
+        <div class="row card-title">
+          <h5>{{subject.nombre}}</h5>
+        </div>
+
+        <div class="row card-content">
+          <p *ngIf="subject.cuatrimestre==1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
+          <p *ngIf="subject.cuatrimestre==2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
+        </div>
+
+        <div class="row level-count">
+          Cantidad de niveles: {{subject.count_level}}
+        </div>
+
+        <div class="row card-button">
+          <button class="btn btn-success" (click)="onCopyLevels(subject.id_materia)" id="copyButton">Copiar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row options-container error" *ngIf="showErrorGetScreen">
+    <h2>Error al encontrar los niveles</h2>
+
+    <h4>Intente de nuevo o cambie los parámetros de búsqueda</h4>
+  </div>
+</div>
+
+<div class="error-alert-message" *ngIf="showErrorCopyScreen">
+  Ocurrió un error al copiar los niveles. Inténtolo de nuevo.
+
+  <fa-icon class="icon-close" [icon]="xIcon" (click)="showErrorCopyScreen=false"></fa-icon>
+</div>

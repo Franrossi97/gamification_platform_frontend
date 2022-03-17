@@ -16,17 +16,13 @@ export class HomeComponent implements OnInit {
   subjectsTeacher: SubjectClass[]=new Array();
   subjectsStudent: SubjectClass[]=new Array();
   searchResultSubject: Array<SubjectClass>;
-  selectedSubject: SubjectClass=null;
-  searchForm: FormGroup;
 
   magnifying=faSearch;
-  constructor(private router: Router, private subjectService:SubjectService, private fb: FormBuilder,
-    private userService: UserService) { }
+  constructor(private router: Router, private subjectService:SubjectService) { }
 
   ngOnInit(): void
   {
     this.getSubjects();
-    this.createSearchForm();
   }
 
   onNewSubject()
@@ -38,60 +34,31 @@ export class HomeComponent implements OnInit {
   {
     this.subjectService.getSubjectsForTeacher(localStorage.getItem('userId')).subscribe(subjects =>
     {
-      console.log(subjects);
+      //console.log(subjects);
       this.subjectsTeacher=subjects;
     },(err) => console.log(err));
 
     this.subjectService.getSubjectsForStudent(localStorage.getItem('userId')).subscribe(subjects =>
-      {
-        console.log(subjects);
-        this.subjectsStudent=subjects;
-      },(err) => console.log(err));
+    {
+      //console.log(subjects);
+      this.subjectsStudent=subjects;
+    },(err) => console.log(err));
   }
 
   sendRequestData(requestedSubject: SubjectClass)
   {
-    console.log(requestedSubject);
+    //console.log(requestedSubject);
 
     this.subjectService.sendData(requestedSubject);
 
     this.router.navigate(['subject', requestedSubject.id_materia]);
   }
 
-  createSearchForm()
-  {
-    this.searchForm=this.fb.group(
-    {
-      search: new FormControl('', [Validators.required]),
-    });
-  }
-
-  onSearchSubject()
-  {
-    this.subjectService.getSubjectBySearch(this.searchForm.get('search').value).subscribe(res =>
-    {
-      this.searchResultSubject=res;
-    });
-  }
-
-  onSelectSubject(index: number)
-  {
-    this.selectedSubject=this.searchResultSubject[index];
-  }
-
-  onSingUpSubject(idSubject: number)
-  {
-    this.userService.linkUsertoSubject(2, +localStorage.getItem('userId'), idSubject).subscribe(res =>
-    {
-      this.router.navigate(['subject', idSubject]);
-    });
-  }
-
   disableSubject(idSubject: number)
   {
-    this.subjectService.deleteSubject(idSubject).subscribe(res =>
+    this.subjectService.hideSubject(idSubject).subscribe(res =>
     {
-      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].disponible=false;
+      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].show_menu=false;
     }, err =>
     {
       console.log(err);
@@ -100,9 +67,9 @@ export class HomeComponent implements OnInit {
 
   enableSubject(idSubject: number)
   {
-    this.subjectService.restoreSubject(idSubject).subscribe(res =>
+    this.subjectService.showSubject(idSubject).subscribe(res =>
     {
-      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].disponible=true;
+      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].show_menu=true;
     }, err =>
     {
       console.log(err);
@@ -120,8 +87,7 @@ export class HomeComponent implements OnInit {
         res=i;
       }
     }
-
-    console.log(res);
+    //console.log(res);
     return res;
   }
 

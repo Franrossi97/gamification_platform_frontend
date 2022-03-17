@@ -1,0 +1,183 @@
+.flashcard-list-container
+{
+  background-color: whitesmoke;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+
+  .flashcard-title
+  {
+    color: rgb(61, 93, 141);
+    font-weight: bold;
+    font-size: 3rem;
+    padding: 20px 10px 20px 10px;
+    margin-left: 4%;
+  }
+
+  .filters
+  {
+    border-radius: 10px;
+    padding: 2%;
+    background-color: rgb(201, 201, 201);
+    padding-bottom: 160%;
+
+    .filter-title
+    {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: dimgrey;
+    }
+
+    .filter
+    {
+      margin-left: 17%;
+      margin-top: 6%;
+      color: rgb(255, 255, 255);
+      font-size: 1.3rem;
+      padding: 5px;
+      transition: all 0.2s ease-in;
+
+      &:hover
+      {
+        background-color: rgb(43, 43, 43);
+        cursor: pointer;
+      }
+
+      &:focus
+      {
+        background-color: rgb(0, 0, 0);
+      }
+    }
+
+    .search-box
+    {
+      margin-left: 3%;
+      margin-top: 6%;
+      margin-bottom: 8%;
+      width: 100%;
+      float: left;
+      display: flex;
+      height: 100%;
+
+      input
+      {
+        color: dimgrey;
+        width: 80%;
+        height: 40px;
+        outline: none;
+        border-radius: 3px;
+        border: 1px oldlace solid;
+        transition: all 0.2s ease;
+
+        &:hover
+        {
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+      }
+
+      .search-icon
+      {
+        margin-left: 1%;
+        margin-top: 1%;
+      }
+
+    }
+  }
+
+  .flashcard-card
+  {
+    border: 1px rgb(151, 151, 151) solid;
+    border-radius: 8px;
+    margin: 3%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    transition: all 0.2s ease;
+    background: rgb(208,208,208);
+    background: linear-gradient(0deg, rgba(208,208,208,1) 4%, rgba(195,195,195,1) 100%);
+
+    &:hover
+    {
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+      transform: scale(1.01);
+    }
+
+    .flashcard-card-title
+    {
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 9px;
+    }
+
+    p
+    {
+      font-size: 1.1rem;
+      padding: 12px;
+    }
+
+    .flashcard-icon
+    {
+      //background-color: rgba(105, 105, 105, 0.541);
+      font-size: 2rem;
+      color: dodgerblue;
+      margin-left: 41%;
+      margin-right: 41%;
+    }
+
+    .create
+    {
+      width: 20%;
+      margin-top: 10%;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .options-buttons
+    {
+      display: flex;
+
+      .see-flashcard
+      {
+        margin-bottom: 6%;
+        font-weight: bold;
+      }
+
+      .edit-option
+      {
+        margin-top: 1%;
+      }
+
+      .see-option
+      {
+        margin-top: 1%;
+      }
+
+      a
+      {
+        color: forestgreen;
+        font-weight: bold;
+
+        &:hover
+        {
+          filter: brightness(1.2);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .all-hover
+  {
+    &:hover
+    {
+      cursor: pointer;
+    }
+  }
+
+  .error-message-empty
+  {
+    color: dimgrey;
+    font-weight: bold;
+    margin-top: 2%;
+    font-size: 1.5rem;
+  }
+}

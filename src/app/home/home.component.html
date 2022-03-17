@@ -40,10 +40,9 @@
                 <h5 class="card-title">{{subject.nombre}}</h5>
                 <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
                 <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
-                <button class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</button><!--
-                <a routerLink="/subject/{{subject.id_materia}}" class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</a>-->
-                <a (click)='disableSubject(subject.id_materia)' *ngIf="subject.disponible" class="disable-link">Deshabilitar</a>
-                <a (click)='enableSubject(subject.id_materia)' *ngIf="!subject.disponible" class="disable-link">Habilitar</a>
+                <button class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</button>
+                <a (click)='disableSubject(subject.id_materia)' *ngIf="subject.show_menu" class="disable-link" id="disableSubject">Deshabilitar</a>
+                <a (click)='enableSubject(subject.id_materia)' *ngIf="!subject.show_menu" class="disable-link" id="enableSubject">Habilitar</a>
               </div>
             </div>
           </div>
@@ -71,7 +70,7 @@
             No tienes materias.
             Puedes buscarlas a continuación
           </div>
-        </div>
+        </div><!--
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -108,8 +107,21 @@
 
             <button class="btn btn-info" type="button">Inscribirse</button>
           </div>
-        </div>
+        </div>-->
+
+        <app-search-box></app-search-box>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="footer-search">
+  <div class="title-container">
+    <h4>No encontras tu materia</h4>
+    <h1>Buscala acá:</h1>
+  </div>
+
+  <div class="search-box">
+    <app-search-box></app-search-box>
   </div>
 </div>

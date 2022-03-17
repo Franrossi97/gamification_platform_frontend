@@ -8,7 +8,7 @@
 
       <div class="col-md-8">
         <div class="form-element">
-          <form class="form-question" [formGroup]="newQuestionForm" #fform="ngForm">
+          <form class="form-question" [formGroup]="newQuestionForm" #fform="ngForm" id="questionForm">
               <div class="row">
 
                 <div class="col-md-5">
@@ -67,7 +67,7 @@
         </div>
 
         <div class="row form-element" style="margin-top: -0.7rem;">
-          <form class="form-question" [formGroup]="newOptionsForm" (ngSubmit)="onSubmitQuestion()">
+          <form class="form-question" [formGroup]="newOptionsForm" (ngSubmit)="onSubmitQuestion()" id="optionForm">
             <div class="title" style="margin-top: -1.6rem;">
               Opciones:
             </div>
@@ -140,7 +140,7 @@
                 </span>
             </div>
 
-            <button class="btn btn-primary" style="margin-top: 2.6rem;" [disabled]='newQuestionForm.invalid || newOptionsForm.invalid'>
+            <button class="btn btn-primary" style="margin-top: 2.6rem;" [disabled]='newQuestionForm.invalid || newOptionsForm.invalid' id="createquestion">
               Crear pregunta
             </button>
           </form>

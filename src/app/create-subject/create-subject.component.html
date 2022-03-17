@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-md-9">
-      <form class="form-horizontal" [formGroup]="newSubjectForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <form class="form-horizontal" [formGroup]="newSubjectForm" #fform="ngForm" (ngSubmit)="onSubmit()" id="subjectform">
         <div class="form-group">
 						<label class="col-lg-4 control-label">Nombre</label>
 						<div class="col-md-8">
@@ -19,7 +19,7 @@
             </div>
             <label class="col-lg-4 control-label">Cuatrimestre</label>
 						<div class="col-md-8">
-							<select class="form-select" aria-label="Default select example" formControlName="quarter">
+							<select class="form-select" aria-label="Default select example" formControlName="quarter" id="selectquarter">
                 <option value="1">Primer cuatrimestre</option>
                 <option value="2">Segundo cuatrimestre</option>
               </select>
@@ -42,7 +42,7 @@
             <label class="col-lg-4 control-label">Imagen de portada</label>
             <input type="file" class="form-control-file" style="margin-left: 2%;" formControlName="image" (change)="onFileChanged($event)">
         </div>
-          <button class="btn btn-primary mb-3" type="submit" [disabled]="newSubjectForm.invalid">Change</button>
+          <button class="btn btn-primary mb-3" type="submit" [disabled]="newSubjectForm.invalid">Crear</button>
       </form>
     </div>
 

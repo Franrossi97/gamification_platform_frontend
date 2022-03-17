@@ -1,0 +1,449 @@
+.show-flashcard-container
+{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(60, 116, 172);
+  border-radius: 6px;
+  padding-top: 3%;
+  padding-bottom: 2%;
+
+  .title-flashcard
+  {
+    color: floralwhite;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    background-color: rgb(26, 50, 75);
+    width: 100%;
+    margin-top: -1%;
+    margin-bottom: 4%;
+    font-weight: bold;
+    font-size: 1.6rem;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 2.5%;
+  }
+
+  .content-flashcard
+  {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(20, 73, 94);
+    border-radius: 10px;
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 9%;
+    padding-left: 12% !important;
+    color: gainsboro;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    word-wrap: break-word;
+  }
+
+  .options-result-flashcard
+  {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 6% !important;
+    display: flex;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+
+    .option
+    {
+      text-decoration: none;
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: floralwhite;
+      padding: 10px 10px 10px;
+      width: 33%;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: rgb(102, 255, 72);
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+
+      &:hover
+      {
+        cursor: pointer;
+      }
+
+      .arrow-position
+      {
+        font-size: 5rem;
+        margin-top: -18%;
+      }
+    }
+
+    .left-center
+    {
+      padding-left: 13%;
+    }
+
+    .center-center
+    {
+      padding-left: 6%;
+    }
+
+    .right-center
+    {
+      padding-left: 11%;
+    }
+  }
+}
+
+.options-flashcards
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 87%;
+  margin-bottom: 10px;
+
+  button
+  {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: rgb(60, 116, 172);
+    color: rgb(224, 224, 224);
+    border-radius: 10px;
+    border: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    transition: all 0.2s ease;
+
+    &:hover
+    {
+      filter: brightness(1.2);
+    }
+  }
+}
+
+@media screen and (max-width: 280px)
+{
+  .show-flashcard-container
+  {
+    width: 100%;
+
+    .content-flashcard
+    {
+      width: 90%;
+      font-size: 1.75rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 35%;
+
+      .option
+      {
+        font-size: 0.8rem;
+      }
+
+      .left-center
+      {
+        padding-top: 7%;
+        padding-left: 10%;
+      }
+
+      .center-center
+      {
+        padding-left: 2%;
+        font-size: 0.7rem;
+      }
+
+      .right-center
+      {
+        padding-top: 8%;
+        padding-left: 7%;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 281px) and (max-width: 320px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 90%;
+      font-size: 1.8rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 35%;
+
+      .option
+      {
+        font-size: 0.8rem;
+      }
+
+      .left-center
+      {
+        padding-top: 7%;
+        padding-left: 10%;
+      }
+
+      .center-center
+      {
+        padding-left: 2%;
+        font-size: 0.7rem;
+      }
+
+      .right-center
+      {
+        padding-top: 8%;
+        padding-left: 7%;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 400px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 90%;
+      font-size: 1.8rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 35%;
+
+      .option
+      {
+        font-size: 0.8rem;
+      }
+
+      .left-center
+      {
+        padding-top: 6%;
+        padding-left: 11%;
+      }
+
+      .center-center
+      {
+        padding-left: 4%;
+        font-size: 0.7rem;
+      }
+
+      .right-center
+      {
+        padding-top: 7%;
+        padding-left: 8%;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 411px)and (max-width: 600px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 90%;
+      font-size: 1.8rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 35%;
+
+      .option
+      {
+        font-size: 0.8rem;
+      }
+
+      .left-center
+      {
+        padding-top: 5%;
+        padding-left: 12%;
+      }
+
+      .center-center
+      {
+        padding-left: 5%;
+        font-size: 0.78rem;
+      }
+
+      .right-center
+      {
+        padding-top: 6%;
+        padding-left: 9%;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 601px)and (max-width: 800px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 79%;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 25%;
+
+      .option
+      {
+        font-size: 1.4rem;
+      }
+
+      .left-center
+      {
+        padding-top: 4.5%;
+        padding-left: 12%;
+      }
+
+      .center-center
+      {
+        padding-left: 5%;
+      }
+
+      .right-center
+      {
+        padding-top: 4.5%;
+        padding-left: 9%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 801px)and (max-width: 1050px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 79%;
+      font-size: 4rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 25%;
+
+      .option
+      {
+        font-size: 2rem;
+      }
+
+      .left-center
+      {
+        padding-top: 4.5%;
+        padding-left: 12%;
+      }
+
+      .center-center
+      {
+        padding-left: 4.5%;
+      }
+
+      .right-center
+      {
+        padding-top: 4.5%;
+        padding-left: 9%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1051px) and (max-width: 1440px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 79%;
+      font-size: 4.5rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 22%;
+
+      .option
+      {
+        font-size: 2rem;
+      }
+/*
+      .left-center
+      {
+        padding-top: 4.5%;
+        padding-left: 12%;
+      }*/
+
+      .center-center
+      {
+        padding-left: 3.9%;
+      }
+/*
+      .right-center
+      {
+        padding-top: 4.5%;
+        padding-left: 9%;
+      }*/
+    }
+  }
+}
+
+@media screen and (min-width: 1441px)
+{
+  .show-flashcard-container
+  {
+    .content-flashcard
+    {
+      width: 79%;
+      font-size: 3.5rem;
+    }
+
+    .options-result-flashcard
+    {
+      width: 90%;
+      margin-top: 12%;
+
+      .option
+      {
+        font-size: 2rem;
+      }
+/*
+      .left-center
+      {
+        padding-top: 4.5%;
+        padding-left: 12%;
+      }*/
+
+      .center-center
+      {
+        padding-left: 6.2%;
+      }
+/*
+      .right-center
+      {
+        padding-top: 4.5%;
+        padding-left: 9%;
+      }*/
+    }
+  }
+}

@@ -16,7 +16,7 @@ export class CreateSubjectComponent implements OnInit {
   uploadPic;
   @ViewChild('fform') newSubjectFormDirective;
 
-  constructor(private fb: FormBuilder, private SubjectService: SubjectService, private router: Router) { }
+  constructor(private fb: FormBuilder, private subjectService: SubjectService, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -44,12 +44,11 @@ export class CreateSubjectComponent implements OnInit {
 
   onSubmit()
   {
-    const uploadImageData = new FormData();
+    //const uploadImageData = new FormData();
     this.subject=new SubjectClass();
 
-    uploadImageData.append('imgFile', this.uploadPic, this.uploadPic.name);
-    console.log(this.uploadPic);
-    const reader= new FileReader();
+    //uploadImageData.append('imgFile', this.uploadPic, this.uploadPic.name);
+    //const reader= new FileReader();
 
     /*reader.readAsDataURL(this.uploadPic);
     reader.onload=() =>
@@ -67,18 +66,17 @@ export class CreateSubjectComponent implements OnInit {
     //console.log(this.subject);
 
     //llamar a servicio
-    /*
-    this.SubjectService.createSubject(this.subject, localStorage.getItem('userId')).subscribe(res =>
+    this.subjectService.createSubject(this.subject, localStorage.getItem('userId')).subscribe(res =>
     {
       this.newSubjectForm.reset();
-      this.router.navigate([`/subject/${res[0].id_materia}`]);
-    });*/
-
+      this.router.navigate([`/subject/${res}`]);
+    });
+    /*
     console.log(uploadImageData);
 
     this.SubjectService.uploadCoverImage(this.subject.nombre+this.subject.anio, uploadImageData).subscribe(res =>
     {
       console.log('van las cosas bien');
-    });
+    });*/
   }
 }

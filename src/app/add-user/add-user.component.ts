@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit
   onSubmitUser() //Primero busco el usuario y si lo encuentro lo registro en la tabla de cursa, si no se notifica.
   {
     const userEmail:string=this.searchUserForm.get('email').value;
-    this.userService.searchUser(userEmail).subscribe((user: User) =>
+    this.userService.searchUser(userEmail).subscribe((user: Array<User>) =>
     {
       console.log(user);
       this.message=`El usuario con correo electrónico ${userEmail} se encuentra registrado. Agregando el usuario...`;

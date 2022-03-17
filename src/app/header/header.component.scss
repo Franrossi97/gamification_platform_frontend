@@ -1,12 +1,39 @@
 .btn-inside
-{
+{/*
   width: 30%;
-  margin-top: 1%;
+  margin-top: 1%;*/
   margin-left: 65%;
 
   .session-btn
   {
+    display: inline-block;
+    vertical-align: middle;
     padding: 2rem 0 0 0;
+  }
+}
+
+.user-profile
+{
+  border-radius: 50%;
+  border: 2.2px solid white;
+  margin: -4.5% auto 0 82%;
+  padding: 1% 1% 1% 2%;
+  width: 6%;
+  height: 6%;
+  background-color: rgb(130, 165, 197);
+  color: rgb(110, 110, 110);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+  &:hover
+  {
+    cursor: pointer;
+  }
+
+  .icon-container
+  {
+    width: 56%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -93,6 +120,7 @@
     &:hover
     {
       filter: brightness(1.25);
+      cursor: pointer;
     }
   }
 
@@ -147,24 +175,24 @@
     }
   }
 }
-/*
-@media screen and (max-width: 813px)
-{
-  .navbar-items
-  {
-    visibility: hidden;
-  }
 
-  .right-hamburger
+.access-admin-menu
+{
+  padding: 1%;
+  color: azure;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 3%;
+  left: -6%;
+  transition: all 0.4s ease-in;
+
+  &:hover
   {
-    span
-    {
-      width: 100px;
-      height: 100px;
-      background-color: black;
-    }
+    left: 0;
+    cursor: pointer;
   }
-}*/
+}
 
 @media screen and (max-width: 299px)
 {
@@ -199,33 +227,8 @@
   {
     display: none;
   }
-}
 
-@media screen and (max-width: 299px)
-{
-  .topnavbar
-  {
-    height: 8rem;
-    .navbar-items
-    {
-      visibility: hidden;
-    }
-
-    .right-hamburger
-    {
-      margin-top: 2rem;
-      margin-left: 35%;
-      margin-right: 35%;
-    }
-
-    .right
-    {
-      margin-left: 62%;
-      margin-top: -22%;
-    }
-  }
-
-  .btn-inside
+  .user-profile
   {
     display: none;
   }
@@ -260,6 +263,11 @@
     display: none;
   }
 
+  .user-profile
+  {
+    display: none;
+  }
+
 }
 
 @media screen and (min-width: 501px) and (max-width: 800px)
@@ -290,9 +298,14 @@
   {
     display: none;
   }
+
+  .user-profile
+  {
+    display: none;
+  }
 }
 
-@media screen and (min-width: 801px) and (max-width: 900px)
+@media screen and (min-width: 801px) and (max-width: 939px)
 {
   .topnavbar
   {
@@ -320,9 +333,39 @@
   {
     display: none;
   }
+
+  .user-profile
+  {
+    display: none;
+  }
+
 }
 
-@media screen and (max-width: 1100px) and (min-width: 901px)
+@media screen and (min-width: 940px) and (max-width: 949px)
+{
+  .btn-inside
+  {
+    margin-top: 6%;
+    margin-left: -33%;
+  }
+
+  .user-profile
+  {
+    margin-top: 28%;
+    margin-left: 42%;
+    padding-top: 1.3vw;
+    //padding-left: 11.5%;
+    width: 5.5vw;
+    height: 5.5vw;
+
+    .icon-container
+    {
+      width: 34%;
+    }
+  }
+}
+
+@media screen and (max-width: 999px) and (min-width: 950px)
 {
   .right-hamburger
   {
@@ -336,35 +379,52 @@
 
   .btn-inside
   {
-    margin-top: -25%;
-    margin-left: -50%;
+    margin-top: 6%;
+    margin-left: -23%;
   }
-}
 
-@media screen and (max-width: 949px) and (min-width: 900px)
-{
-  .btn-inside
+  .user-profile
   {
-    margin-top: -17%;
-    margin-left: -33%;
-  }
-}
-
-@media screen and (max-width: 999px) and (min-width: 950px)
-{
-  .btn-inside
-  {
-    margin-top: -10%;
-    margin-left: 4%;
+    margin-top: 32%;
+    margin-left: 40%;
+    padding-top: 6%;
+    padding-left: 11.5%;
+    width: 40%;
+    height: 50%;
   }
 }
 
 @media screen and (max-width: 1049px) and (min-width: 1000px)
 {
+  .right-hamburger
+  {
+    display: none;
+  }
+
+  .right
+  {
+    display: none;
+  }
+
   .btn-inside
   {
-    margin-top: -7%;
-    margin-left: 16%;
+    margin-top: 5%;
+    margin-left: 8%;
+  }
+
+  .user-profile
+  {
+    margin-top: -24%;
+    margin-left: 55%;
+    padding-top: 6%;
+    //padding-left: 10%;
+    width: 30%;
+    height: 50px;
+
+    .icon-container
+    {
+      width: 34%;
+    }
   }
 }
 
@@ -372,8 +432,23 @@
 {
   .btn-inside
   {
-    margin-top: -7%;
-    margin-left: 30%;
+    margin-top: 5%;
+    margin-left: 10%;
+  }
+
+  .user-profile
+  {
+    margin-top: -22%;
+    margin-left: 55%;
+    padding-top: 6%;
+    //padding-left: 10.5%;
+    width: 30%;
+    height: 5vw !important;
+
+    .icon-container
+    {
+      width: 26%;
+    }
   }
 }
 
@@ -391,7 +466,19 @@
 
   .btn-inside
   {
-    margin-left: 10%;
+    margin-left: 20%;
+    margin-top: 3%;
+  }
+
+  .user-profile
+  {
+    margin-top: -4.8vw;
+    margin-left: 55%;
+    padding-top: 0.8vw;
+    //padding-left: 1.9vw;
+    width: 6.5vw;
+    height: 6.5vw;
+    font-size: 2.5rem;
   }
 }
 
@@ -409,6 +496,22 @@
 
   .btn-inside
   {
-    margin-left: 60%;
+    margin-left: 45%;
+  }
+
+  .user-profile
+  {
+    margin-top: -3.5vw;
+    margin-left: 65%;
+    padding-top: 0.7vw;
+    //padding-left: 1.5vw;
+    width: 5.5vw;
+    height: 5.5vw;
+    font-size: 2.5rem;
+
+    .icon-container
+    {
+      width: 55%;
+    }
   }
 }

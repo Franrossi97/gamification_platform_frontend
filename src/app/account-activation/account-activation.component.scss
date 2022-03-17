@@ -1,0 +1,38 @@
+.activation-container
+{
+  border-radius: 12px;
+  background-color: rgb(228, 253, 253);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+
+  .title
+  {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(156, 156, 156);
+    padding: 2%;
+    font-weight: bold;
+
+    h3
+    {
+      font-size: 2.4rem;
+    }
+  }
+
+  .content
+  {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 2% 4% 40% 4%;
+    color: rgb(39, 39, 39);
+
+    .button-container
+    {
+      margin-top: 5%;
+      width: 15%;
+      margin-left: 80%;
+    }
+  }
+}

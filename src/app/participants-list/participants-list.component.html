@@ -1,0 +1,74 @@
+<ng-template #contentNewAchievement let-modal>
+  <app-achievement-menu [idStudent]="selectedUserId" [studentName]="selectedUserName"></app-achievement-menu>
+</ng-template>
+
+<div class="list-container">
+  <div class="list-title">
+    Listado de estudiantes
+  </div>
+
+  <div class="filter-list">
+    <button class="filter" (click)="this.availableFilters[0] && applyFilter(0)"><fa-icon [icon]='noOrder'></fa-icon> Defecto</button>
+    <button class="filter" (click)="this.availableFilters[1] && applyFilter(1)"><fa-icon [icon]='alphabeticalOrder'></fa-icon> Alfabético</button>
+    <button class="filter" (click)="this.availableFilters[2] && applyFilter(2)"><fa-icon [icon]='numericalOrder'></fa-icon> Puntaje</button>
+    <button class="filter" (click)="this.availableFilters[3] && applyFilter(3)"><fa-icon [icon]='achievementOrder'></fa-icon> Nº de logros</button>
+  </div>
+
+  <table class="table-list">
+    <thead class="head-list">
+      <tr>
+        <td>#</td>
+        <td>Nombre y apellido</td>
+        <td>Mail</td>
+        <td>Resultados</td>
+        <td>Puntaje promedio</td>
+        <td>Puntaje total</td><!--
+        <td><a (click)="openAchievementMenu(contentNewAchievement)"> <fa-icon [icon]='plusIcon'></fa-icon> logros </a></td>-->
+        <td> <fa-icon [icon]='plusIcon'></fa-icon> logros</td>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let student of students, let i=index">
+        <td>{{i+1}}</td>
+        <td>{{student.nombre+' '+student.apellido}}</td>
+        <td>{{student.mail}}</td>
+        <td>
+
+          <a (click)="setMoreInfo(i)" id="showMoreInfo">Desplegar información</a>
+          <table *ngIf="showMoreInfo==i" class="head-list-little">
+            <thead>
+              <tr>
+                <td>Nivel</td>
+                <td>Intentos</td>
+                <td>¿Uso booster?</td>
+                <td>Insignias ganadas</td>
+                <td>Puntaje obtenido</td>
+                <td>Puntaje máximo</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let result of student.levelResult">
+                <td>{{result.descripcion}}</td>
+                <td>{{result.intentos}} intentos</td>
+                <td>{{result.uso_booster? "Si":"No"}}</td>
+                <td>{{getBadgeName(result.uso_insignias)}}</td>
+                <td>{{result.puntaje_final}}</td>
+                <td>{{result.puntaje_maximo}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>{{student.puntaje_prom}}</td>
+        <td>{{student.puntaje_tot}}</td>
+        <td class="icon-field">
+          <fa-icon [icon]='plusIcon' class="fa-icon"
+          (click)="assignAchieveToUser(contentNewAchievement, student.id_usuario, student.nombre+' '+student.apellido)"></fa-icon>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

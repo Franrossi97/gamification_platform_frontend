@@ -1,3 +1,6 @@
+import { Badge } from 'src/app/shared/Badge';
+import { BadgeFactory } from './../../shared/BadgeFactory';
+import { PermissionService } from './../../services/permission.service';
 import { badgeInfo } from '../../shared/BadgeInformation';
 import { Unit } from './../../shared/Unit';
 import { UserService } from './../../services/user.service';
@@ -16,7 +19,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, Form } from '@angular/
 })
 export class LevelComponent implements OnInit
 {
-
+  SUBJECT_ID: number;
   editOpened=false;
   levels: Level[];
   actualDate: Date=new Date();
@@ -25,8 +28,9 @@ export class LevelComponent implements OnInit
   plusIcon=faPlus;
   trashIcon=faTrashAlt;
   @Input() cantStudents:number;
-  @Input() userType:number;
+  //@Input() userType:number;
   @Output() newItemEvent=new EventEmitter<number>();
+  canEdit: boolean=false;
   editNameForm: FormGroup;
   editUnitNameForm: FormGroup;
   newMaxScoreForm: FormGroup;
@@ -38,10 +42,12 @@ export class LevelComponent implements OnInit
   showNewScore: number=0;
   showNewCountQuestions: number=0;
   showAttemptError: number=0;
+  showDeletePopUpId: number=-1;
+  badgesDescriptions: Map<number, string>=new Map<number, string>();
   //badgesInfo: Map<number, string[]>;
 
   constructor(private router:Router, private route: ActivatedRoute, private location: Location, private levelService: LevelService,
-  private userService: UserService, private fb: FormBuilder) { }
+  private userService: UserService, private fb: FormBuilder, private permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
@@ -50,8 +56,13 @@ export class LevelComponent implements OnInit
 
     this.route.paramMap.subscribe(params =>
     {
-      this.getLevels(params.get('id'));
-      //this.initializeBadgeInfo();
+      this.SUBJECT_ID=+params.get('id');
+      this.getLevels(this.SUBJECT_ID);
+
+      this.permissionService.canEdit('nivel').then(res =>
+      {
+        this.canEdit=res;
+      });
     });
   }
 
@@ -59,7 +70,7 @@ export class LevelComponent implements OnInit
   {
     if(this.editOpened)
     {
-      this.router.navigate([`subject/${this.route.snapshot.params.id}`]);
+      this.router.navigate([`subject/${this.SUBJECT_ID}`]);
       this.editingLevelId=0;
       //this.location.back();
     }
@@ -67,12 +78,7 @@ export class LevelComponent implements OnInit
     {
       this.editingLevelId=id;
     }
-    /*
-    else
-    {
-      this.router.navigate(['level/1'],{relativeTo: this.route})
-    }
-    */
+
     this.editOpened=!this.editOpened;
 
   }
@@ -81,6 +87,7 @@ export class LevelComponent implements OnInit
   {
     this.levelService.getLevels(idSubject).subscribe(levels =>
     {
+      /*
       levels.forEach(level =>
       {
         this.levelService.getUnits(level.id_nivel).subscribe(res =>
@@ -96,15 +103,25 @@ export class LevelComponent implements OnInit
         this.levelService.getBadges(level.id_nivel).subscribe(allBadges =>
         {
           level.badges=allBadges;
+          this.getAllBadgesDetails(allBadges);
         })
-      })
+      })*/
       this.levels=levels;
+
+      this.levels.forEach(level =>
+      {
+        if(level.badges==undefined){
+          level.badges= new Array<Badge>();
+        }
+
+        if(level.unitList==undefined){
+          level.unitList= new Array<Unit>();
+        }
+      });
+
       console.log(this.levels);
     });
   }
-
-
-
 
   calculateDateDifference(creationDate: string): number
   {
@@ -114,18 +131,12 @@ export class LevelComponent implements OnInit
 
   onChangeAvailability(indexLevel: number, idSubject: number, idLevel: number, status: boolean)
   {
-
     this.levelService.changeAvailability(idSubject, idLevel, status).subscribe(res =>
     {
-
       this.levels[indexLevel].cuestionario_disponible=!this.levels[indexLevel].cuestionario_disponible;
-      console.log(this.levels);
-
-
     }, error =>
     {
       console.log(error);
-
     })
   }
 
@@ -147,21 +158,7 @@ export class LevelComponent implements OnInit
   }
 
   onPlay(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number, retries: boolean)
-  {/*
-    let allowAttemptValue: boolean=(this.showAttemptError!=idLevel && this.allowAttempt(retries, idLevel));
-
-    if(retries || (allowAttemptValue))
-    {
-      this.userService.getAttemptsofUser(idLevel).subscribe(numberAttempts =>
-      {
-        this.startGame(numberAttempts, penalizacion, maxScore, countQuestions, idLevel);
-      });
-    }
-    else
-    {
-      this.showAttemptError=idLevel;
-    }*/
-
+  {
     if(retries)
     {
       this.userService.getAttemptsofUser(idSubject, idLevel).subscribe(numberAttempts =>
@@ -172,7 +169,6 @@ export class LevelComponent implements OnInit
     else
     {
       this.allowAttempt(idLevel, idSubject, penalizacion, maxScore, countQuestions);
-      //let allowAttemptValue: boolean=(this.showAttemptError!=idLevel && this.allowAttempt(retries, idLevel));
     }
   }
 
@@ -180,8 +176,6 @@ export class LevelComponent implements OnInit
   {
     if(numberAttempts>0)
     {
-      console.log(maxScore);
-
       maxScore=maxScore*(penalizacion/100);
     }
 
@@ -352,7 +346,6 @@ export class LevelComponent implements OnInit
     },err =>
     {
       console.log(err);
-
     });
   }
 
@@ -390,43 +383,58 @@ export class LevelComponent implements OnInit
   getPictureLinkForBadge(badgeType: number): string
   {
     return badgeInfo.get(badgeType)[0];
-    //return this.badgesInfo.get(badgeType)[0];
-
-    if(badgeType==0)
-    {
-      return '../../../assets/img/badges/question_badge.png';
-    }
-    else
-    if(badgeType==1)
-    {
-      return '../../../assets/img/badges/timer_badge.png';
-    }
-    else
-    if(badgeType==2)
-    {
-      return '../../../assets/img/badges/date_badge.png';
-    }
-    else
-    if(badgeType==3)
-    {
-      return '../../../assets/img/badges/attempts_badge.png';
-    }
   }
 
   getBadgeTitle(badgeType: number): string
   {
     return badgeInfo.get(badgeType)[1];
-    //return this.badgesInfo.get(badgeType)[1];
   }
-/*
-  initializeBadgeInfo()
-  {
-    this.badgesInfo=new Map<number, string[]>();
 
-    this.badgesInfo.set(0, ['../../../assets/img/badges/question_badge.png', 'Insignia de pregunta']);
-    this.badgesInfo.set(1, ['../../../assets/img/badges/timer_badge.png', 'Insignia de tiempo']);
-    this.badgesInfo.set(2, ['../../../assets/img/badges/date_badge.png', 'Insignia límite de fecha']);
-    this.badgesInfo.set(3, ['../../../assets/img/badges/attempts_badge.png', 'Insignia de intentos']);
-  }*/
+  getBadgeCondition(idBadge: number)
+  {
+    return this.badgesDescriptions.get(idBadge);
+  }
+
+  getSpecifyBadgeInfo(idBadge: number, badgeType: number)
+  {
+    this.levelService.getBadgeSpecify(idBadge, badgeType).subscribe(res =>
+    {
+      this.badgesDescriptions.set(res.id_insignia, BadgeFactory.getBadge(res).getDescription());
+    });
+  }
+
+  getAllBadgesDetails(allBadges: Array<any>)
+  {
+    allBadges.forEach(badge =>
+    {
+      this.getSpecifyBadgeInfo(badge.id_insignia, badge.tipo_insignia);
+    });
+  }
+
+  showDeleteLevelMenu(idLevel: number)
+  {
+    this.showDeletePopUpId=idLevel;
+  }
+
+  deleteLevel(idLevel: number)
+  {
+    const indexDelete=this.levels.findIndex(item =>
+    {
+      item.id_nivel==idLevel;
+    });
+
+    this.levelService.deleteLevel(idLevel).subscribe(res =>
+    {
+      this.levels.splice(indexDelete);
+    }, err =>
+    {
+
+    });
+  }
+
+  cancelDeleteLevel()
+  {
+    this.showDeletePopUpId=-1;
+  }
 
 }

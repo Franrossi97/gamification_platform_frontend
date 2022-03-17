@@ -97,7 +97,7 @@ export class MultipleChoiceComponent implements OnInit {
     let question=new Question(null, this.newQuestionForm.get('question').value,
     this.newQuestionForm.get('difficult').value, this.questionType/*,
     this.newQuestionForm.get('score').value*/, localStorage.getItem('userId'),
-    this.newOptionsForm.get('time').value, this.newOptionsForm.get('coins').value, this.route.snapshot.params.id, options);
+    this.newQuestionForm.get('time').value, this.newQuestionForm.get('coins').value, this.route.snapshot.params.id, options);
     return question;
   }
 

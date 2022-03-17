@@ -1,8 +1,9 @@
+import { PermissionService } from './../services/permission.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectService } from './../services/subject.service';
 import { Component, OnInit } from '@angular/core';
 import { SubjectClass } from '../shared/Subject';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -12,17 +13,23 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 export class HeaderComponent implements OnInit
 {
   caretDown=faCaretDown;
+  graduatedIcon=faUserGraduate;
   subjects: SubjectClass[];
   showRight: boolean;
   show:boolean;
-  constructor(private subjectService:SubjectService, private route:ActivatedRoute) { }
+  canView: boolean=false;
+
+  constructor(private subjectService:SubjectService, private permissionService: PermissionService, private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
-    this.getSubjects();
-    //this.isShow=false;
-    this.show=false;
-    this.showRight=false;
+    this.route.paramMap.subscribe(param =>
+    {
+      this.getSubjects();
+      this.show=false;
+      this.showRight=false;
+      this.getPermissionForAdmin();
+    });
   }
 
   showDropdown()
@@ -35,7 +42,6 @@ export class HeaderComponent implements OnInit
   {
     this.subjectService.getSubjectsForStudent(localStorage.getItem('userId')).subscribe(subjects =>
     {
-      console.log('tomo datos');
       this.subjects=subjects;
       if(this.subjects.length>4)
         this.subjects.length=4
@@ -49,7 +55,9 @@ export class HeaderComponent implements OnInit
 
   logOut()
   {
-    localStorage.removeItem('currentUser')
+    localStorage.removeItem('userId');
+    localStorage.removeItem('currentUser');
+    this.canView=false;
   }
 
   onShow()
@@ -60,5 +68,18 @@ export class HeaderComponent implements OnInit
   onShowRight()
   {
     this.showRight=!this.showRight;
+  }
+
+  getPermissionForAdmin()
+  {/*
+    this.permissionService.canView('usuario').then(res =>
+    {
+      this.canView=!!res;
+    });*/
+
+    this.permissionService.canView('usuario').then(res =>
+    {
+      this.canView=!!res;
+    });
   }
 }

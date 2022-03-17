@@ -1,0 +1,121 @@
+.list-container
+{
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  .list-title
+  {
+    color: cornsilk;
+    font-size: 2.2rem;
+    font-weight: bold;
+    padding: 20px;
+    padding-left: 4%;
+    background-color: blueviolet;
+    border-radius: 10px;
+  }
+
+  .table-list
+  {
+    width: 100%;
+    .head-list
+    {
+      font-size: 1.1rem;
+      color: blanchedalmond;
+      font-weight: bold;
+      border-radius: 10px;
+
+      tr
+      {
+        background: rgb(2,0,36);
+        background: linear-gradient(143deg, rgba(2,0,36,1) 0%, rgba(27,81,119,1) 23%, rgba(67,188,213,1) 62%);
+        border-radius: 10px;
+
+        td
+        {
+          padding: 20px;
+          //border-right: 1px black solid;
+        }
+
+        &:hover
+        {
+          filter: brightness(1);
+        }
+      }
+    }
+
+    .head-list-little
+    {
+      thead
+      {
+        font-size: 0.9rem;
+        font-weight: normal;
+      }
+
+      tr
+      {
+        font-size: 0.7rem;
+        color: blanchedalmond;
+        border-bottom: 3px rgb(211, 211, 211) solid;
+        font-weight: normal;
+        background-color: rgb(3, 126, 126);
+
+        td
+        {
+          padding: 10px;
+        }
+      }
+    }
+
+    tr
+    {
+      color: blanchedalmond;
+      border-bottom: 3px rgb(211, 211, 211) solid;
+      font-weight: bold;
+      background-color: rgb(3, 126, 126);
+
+      td
+      {
+        padding: 20px 10px 20px 10px;
+
+        a
+        {
+          &:hover
+          {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .icon-field
+      {
+        color: rgb(51, 230, 16);
+        //padding-left: 3%;
+        padding: 0 0 0 2.6%;
+        font-size: 30px;
+        transition: all 0.5s ease;
+
+        .fa-icon
+        {
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+          &:hover
+          {
+            cursor: pointer;
+          }
+        }
+
+        &:active
+        {
+          transform: translateY(0.3rem);
+        }
+      }
+
+      &:hover
+      {
+        filter: brightness(1.2);
+      }
+    }
+
+  }
+}

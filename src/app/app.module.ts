@@ -2,7 +2,7 @@ import { RouterModule } from '@angular/router';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 
@@ -45,6 +45,12 @@ import { LevelEditComponent } from './subject/level/level-edit/level-edit.compon
 import { BadgeMenuComponent } from './subject/edit-subject/badge-menu/badge-menu.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { SearchBoxComponent } from './search-box/search-box.component';
+import { UserProfileComponent } from './header/user-profile/user-profile.component';
+import { AdminMenuComponent } from './admin-menu/admin-menu.component';
+import { AdminAddUserComponent } from './admin-menu/admin-add-user/admin-add-user.component';
+import { UserListComponent } from './admin-menu/user-list/user-list.component';
+import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
 
 
 @NgModule({
@@ -82,6 +88,12 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
     LevelEditComponent,
     BadgeMenuComponent,
     AccountActivationComponent,
+    SearchBoxComponent,
+    UserProfileComponent,
+    AdminMenuComponent,
+    UserListComponent,
+    AdminAddUserComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,6 +111,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
   ],
   providers:
   [
+    HttpClientModule,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -108,6 +121,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, So
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               '151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
+              //'574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
             )
           },
           {

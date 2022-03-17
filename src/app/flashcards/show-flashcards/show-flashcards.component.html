@@ -1,0 +1,56 @@
+<div class="options-flashcards">
+  <div class="row">
+    <button type="button" routerLink="/flashcards/list">
+      <fa-icon [icon]="arrowLeftIcon"></fa-icon>
+      Volver
+    </button>
+  </div>
+</div>
+
+<div class="show-flashcard-container">
+  <div class="title-flashcard">
+    Flashcard Nº{{flashcardCount+1}}
+  </div>
+<!--
+  <div class="content-flashcard">
+    La programación permite hacer cosas.
+  </div>-->
+
+  <div class="content-flashcard" *ngIf="showFlashcardItem!=undefined">
+    {{showFlashcardItem.contenido}}
+  </div>
+
+  <div class="options-result-flashcard" *ngIf="!blockButtons">
+    <a class="option left-center" (click)="onSelectAnswer(showFlashcardItem.id_item, 2)" id="losebutton">
+      <div>
+        Lo sé
+      </div>
+    </a>
+
+    <a class="option center-center" (click)="onSelectAnswer(showFlashcardItem.id_item, 1)">
+      <div>
+        Lo sé parcialmente
+      </div>
+    </a>
+
+    <a class="option right-center" (click)="onSelectAnswer(showFlashcardItem.id_item, 0)">
+      <div>
+        No lo sé
+      </div>
+    </a>
+  </div>
+
+  <div class="options-result-flashcard" *ngIf="blockButtons">
+    <a class="option left-center" (click)="selectFlashcard(0)" id="flashcardleft">
+      <div class="arrow-position">
+        <fa-icon [icon]="arrowLeftIcon"></fa-icon>
+      </div>
+    </a>
+
+    <a class="option right-center" (click)="selectFlashcard(1)" id="flashcardright">
+      <div class="arrow-position" style="margin-left: 12%;">
+        <fa-icon [icon]="arrowRightIcon"></fa-icon>
+      </div>
+    </a>
+  </div>
+</div>

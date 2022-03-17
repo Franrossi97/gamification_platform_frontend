@@ -7,14 +7,14 @@ border-radius: 10px;">
     </div>
 
     <div class="col-md-11" style="padding-top: 8px;">
-      <div class="row">
+      <div class="row" *ngIf="canEditSubject">
         <div class="col" >
           <app-options></app-options>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12" *ngIf="subject!=null">
-          <app-level [cantStudents]='subject.studentsCount' [userType]='userType'></app-level><!--
+          <app-level [cantStudents]='subject.studentsCount'></app-level><!--
           <app-level [userType]='userType'></app-level>-->
         </div>
         <!--

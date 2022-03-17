@@ -1,0 +1,128 @@
+<div class="edit-container">
+
+  <div class="row level-title" *ngIf="editingLevel">
+    <div class="col-md-8">
+      {{editingLevel.descripcion}}
+    </div>
+
+    <div class="col-md-4 date">
+      Fecha recomendada: {{formatDate()}}
+    </div>
+
+  </div>
+
+  <div class="row level-list-container">
+  <!--
+    <div class="col-md-3 col-sm-1 card-question">
+      <div class="row question-title">
+        Pregunta 1
+      </div>
+
+      <div class="row card-title">
+        ¿Qué es la programación?
+      </div>
+
+      <div class="row buttons-container">
+        <button (click)="onSelectEditQuestion(1, 1)">Editar</button>
+
+        <a>Borrar</a>
+      </div>
+    </div>-->
+
+    <div class="col-md-3 col-sm-1 card-question"
+    *ngFor="let question of questions; let i = index" [ngClass]="{'bigger-card': editedLevelIndex == i}">
+      <div class="row question-title">
+        Pregunta {{i+1}}
+      </div>
+
+      <div class="row card-title">
+        {{question.texto}}
+      </div>
+
+      <div class="row buttons-container">
+        <button (click)="onSelectEditQuestion(question.id_pregunta, i)" id="editQuestion">Editar</button>
+
+        <a (click)="onDeleteQuestion(question.id_pregunta, i)" id="deleteQuestion">Borrar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row editing-container" *ngIf="editingQuestion">
+
+    <div class="row answer-container">
+      <div class="answer-title">
+        <h3>Opciones:</h3>
+      </div>
+
+      <div class="row option option-card-red" *ngFor="let option of editingQuestion.opciones; let i=index"
+      [ngClass]="{'option-card-green': option.porcentaje_puntaje >0 }">
+        {{option.texto}}
+        &nbsp;
+        <fa-icon [icon]="plusIcon" class="icon" id="optionEdit"
+        (click)="!disableAddButtons[i] && onSelectOption(option.id_opcion, i)"></fa-icon>
+      </div>
+
+    </div>
+
+    <div class="row form-container" *ngIf="editingOption">
+
+      <div class="col-md-6">
+        <form [formGroup]="editQuestionForm" (ngSubmit)='odEditAnswer()' id="editQuestionForm">
+          <input type="text" formControlName="answer">
+
+          <button type="submit" class="btn btn-primary" id="loadEditAnswer"
+          [disabled]='disableButtonLoadChange'>Cargar cambio</button>
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row answer-list" *ngFor="let answer of editedAnswer">
+          {{answer.texto}}
+        </div>
+        <div class="row edit-answer" *ngIf="editQuestionForm.get('answer').value!=''">
+          {{editQuestionForm.get('answer').value}}
+        </div>
+
+        <div class="row buttons-container">
+          <button class="btn btn-success" (click)="onLoadAll()" id="loadAll"
+          [disabled]='editedAnswer.length==0'>Cargar todo</button>
+
+          <a (click)="resetAll()">Reset</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row extra-edit-container">
+      <div class="extra-title">
+        <h3>Otras características:</h3>
+      </div>
+
+      <div class="col-md-12 extra-edit-form" *ngIf="editFeaturesForm">
+        <form [formGroup]="editFeaturesForm" (ngSubmit)='onEditFeatures()' id="featuresForm">
+
+          <div class="extra-input">
+            <label>Tiempo (seg):</label>
+            <input type="number" formControlName="time">
+          </div>
+
+          <div class="extra-input">
+            <label>Recompensa (monedas):</label>
+            <input type="number" formControlName="coins">
+          </div>
+
+          <button type="submit" class="btn btn-info" id="editFeature">Editar</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="error-message" *ngIf="showErrorMessage">
+  ERROR
+  {{errorMessage}}
+
+  <fa-icon [icon]='XIcon' class="icon" (click)="closeErrorMessage()"></fa-icon>
+</div>

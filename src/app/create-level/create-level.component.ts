@@ -48,8 +48,9 @@ export class CreateLevelComponent implements OnInit
     {
       description: new FormControl(null, [Validators.minLength(0), Validators.maxLength(200)]),
       recommended_date: new FormControl(null, Validators.required),
-      max_score: new FormControl(0, [Validators.required, Validators.min(0)]),
-      count_questions: new FormControl(0, [Validators.required, Validators.min(0)]),
+      max_score: new FormControl(0, [Validators.required, Validators.min(1)]),
+      count_questions: new FormControl(0, [Validators.required, Validators.min(1)]),
+      allowAttempts: new FormControl(false),
       penalization: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
       badges_checkbox: this.fb.group(
       {
@@ -91,7 +92,6 @@ export class CreateLevelComponent implements OnInit
           valor_bonus: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(100)]),
         }),
       }),
-      allowAttempts: new FormControl(false),
       nUnits: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]),
     });
   }
@@ -151,36 +151,37 @@ export class CreateLevelComponent implements OnInit
     {
       console.log(res);
       this.router.navigate([`subject/${this.route.snapshot.params.id}`]);
+      window.location.reload();
     },
     err =>
     {
       console.log(err);
     })
 
-    console.log(this.newLevel);
-
+    //console.log(this.newLevel);
   }
 
   onNumberUnitsChange()
   {
     this.newLevelForm.get('nUnits').valueChanges.subscribe(changes =>
     {
-      console.log(changes);
+      //console.log(changes);
       (changes == 0) ? this.allUnitsCreated=true : this.allUnitsCreated=false;
     });
   }
 
-  onSubmitUnit()
+  async onSubmitUnit()
   {
     this.units.set(this.actualPage, this.newUnitForm.get('unitName').value); //Incluyo nuevo nombre de unidad
-    this.allUnitsCreated=this.allUnitsSet();
+    this.allUnitsCreated=await this.allUnitsSet();
     this.newUnitForm.reset();
   }
 
-  allUnitsSet(): boolean //Chequeo que esten todas las unidades seteadas
+  async allUnitsSet(): Promise<boolean> //Chequeo que esten todas las unidades seteadas
   {
     let cont:boolean=true;
     let i=1;
+
     while(i<=this.numberUnits && cont)
     {
       if(!this.units.has(i))
@@ -213,7 +214,7 @@ export class CreateLevelComponent implements OnInit
       newUnit.nombre=value;
       this.newLevel.unitList.push(newUnit);
     });
-    console.log(this.newLevel);
+    //console.log(this.newLevel);
   }
 
   loadBadges()
@@ -284,22 +285,8 @@ export class CreateLevelComponent implements OnInit
 
     if(this.newLevelForm.get('badges_checkbox.checkAttempt_uso').value)
     {
-      resLeft=resLeft && this.newLevelForm.get('badges.checkDate.max_attempts').valid && this.newLevelForm.get('badges.checkDate.valor_bonus').valid;
+      resLeft=resLeft && this.newLevelForm.get('badges.checkAttempt.max_attempts').valid && this.newLevelForm.get('badges.checkAttempt.valor_bonus').valid;
     }
-
-    /*
-    let res: boolean=(((this.newLevelForm.get('badges_checkbox.checkQuestion_uso').value &&
-    this.newLevelForm.get('badges.checkQuestion.preguntas_seguidas').valid && this.newLevelForm.get('badges.checkQuestion.valor_bonus').valid) ||
-
-    (this.newLevelForm.get('badges_checkbox.checkTimer_uso').value &&
-    (this.newLevelForm.get('badges.checkTimer.max_time').valid && this.newLevelForm.get('badges.checkTimer.por_pregunta').valid &&
-    this.newLevelForm.get('badges.checkTimer.valor_bonus').valid)) ||
-
-    (this.newLevelForm.get('badges_checkbox.checkDate_uso').value &&
-    this.newLevelForm.get('badges.checkDate.recommended_date').valid && this.newLevelForm.get('badges.checkDate.valor_bonus').valid) ||
-
-    (this.newLevelForm.get('badges_checkbox.checkAttempt_uso').value &&
-    this.newLevelForm.get('badges.checkDate.max_attempts').valid && this.newLevelForm.get('badges.checkDate.valor_bonus').valid)) &&*/
 
     res=resLeft &&
 
@@ -307,7 +294,7 @@ export class CreateLevelComponent implements OnInit
     this.newLevelForm.get('count_questions').valid && this.newLevelForm.get('penalization').valid && this.newLevelForm.get('allowAttempts').valid &&
     this.newLevelForm.get('nUnits').valid);
 
-    console.log(!res);
+    //console.log(!res);
 
     return res;
   }

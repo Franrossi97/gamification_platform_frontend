@@ -1,3 +1,4 @@
+import { PermissionService } from './../services/permission.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../services/user.service';
 import { LevelService } from './../services/level.service';
@@ -13,33 +14,31 @@ import { Level } from '../shared/Level';
 })
 export class SubjectComponent implements OnInit
 {
-  userType:number=0;
+  //userType:number=0;
   subject: SubjectClass=null;
   levels:Level[];
+  canEditSubject: boolean=false;
   constructor(private subjectService:SubjectService, private levelService:LevelService, private userService: UserService,
-  private route: ActivatedRoute) { }
+  private route: ActivatedRoute, private permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
-    this.getUserType();
     this.route.params.subscribe(params =>
     {
+      //this.getUserType(params['id']);
+      this.getUserType();
       this.getWholeSubjectData(params['id']);
     })
   }
 
   async getUserType()
   {
-    this.userType=await this.userService.numberUserType(localStorage.getItem('userId'), this.route.snapshot.params.id);
-    /*
-    this.userService.numberUserType(localStorage.getItem('userId'), this.route.snapshot.params.id).subscribe((userType: number) =>
+    this.permissionService.canEdit('materia').then(res =>
     {
-      console.log('tomo tipo de usuario');
-      console.log(userType);
-      this.userType=userType;
-    });*/
+      this.canEditSubject=res;
+    });
   }
-
+/*
   getLevels(idSubject: number)
   {
     this.subjectService.getLevels(idSubject).subscribe(levels =>
@@ -53,22 +52,16 @@ export class SubjectComponent implements OnInit
           level.unitList=units;
         });
       });
-      console.log(`Cantidad: ${this.subject.studentsCount}`);
     });
-  }
+  }*/
 
   getWholeSubjectData(idSubject: number)
   {
-
     this.subjectService.getOneSubject(idSubject).subscribe(res =>
     {
-      console.log(res);
-
       this.subject=res;
 
-      console.log(this.subject);
-
-      this.getLevels(res.id_materia)
+      //this.getLevels(res.id_materia)
     })
   }
 }

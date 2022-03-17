@@ -11,9 +11,10 @@ export class UnitService {
 
   constructor(private http:HttpClient) { }
 
-  getUnits(id_level:number|string): Observable<Unit[]>
+  getUnits(id_level:number|string): Observable<Array<Unit>>
   {
     let url:string=`${baseURL}/level/${id_level}/units`;
-    return this.http.get<Unit[]>(url);
+
+    return this.http.get<Array<Unit>>(url);
   }
 }

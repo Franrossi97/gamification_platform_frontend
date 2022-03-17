@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
+import {Location} from '@angular/common';
 import { QuestionService } from './../services/question.service';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -16,11 +16,12 @@ export class CreateQuestionComponent implements OnInit
 
   newQuestionForm: FormGroup;
   newOptionsForm: FormGroup;
-  valid:boolean=true;
+  //valid:boolean=true;
   questionType:number;
   selectedOption:boolean;
   checkboxControl: boolean[]=[false, false, false, false];
-  constructor(private fb: FormBuilder, private questionService: QuestionService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private fb: FormBuilder, private questionService: QuestionService,
+    private route: ActivatedRoute, private router: Router, private location: Location) { }
 
   ngOnInit(): void
   {
@@ -29,6 +30,8 @@ export class CreateQuestionComponent implements OnInit
     this.createFormOptions();
     this.onChangeOptions();
     this.questionType=1
+    //console.log(this.route);
+
   }
 
   createFormQuestion()
@@ -74,7 +77,6 @@ export class CreateQuestionComponent implements OnInit
   {
     this.newOptionsForm.valueChanges.subscribe(changes =>
     {
-      console.log(changes);
       if(this.questionType==1)
       {
         //this.newOptionsForm.get('checks.option1');
@@ -128,13 +130,15 @@ export class CreateQuestionComponent implements OnInit
   }
 
   enableCheckbox()
-  {
+  {/*
     const N=4;
     let i=0;
     for(i;i<N;i++)
     {
       this.checkboxControl[i]=false;
-    }
+    }*/
+
+    this.checkboxControl.fill(false);
   }
 
   onSubmitQuestion()
@@ -147,7 +151,8 @@ export class CreateQuestionComponent implements OnInit
     {
       this.newQuestionForm.reset();
       this.newOptionsForm.reset();
-      this.router.navigate(['level', this.route.snapshot.params.id, 'question', 'create', 'select']);
+      //this.router.navigate([this.route.routeConfig.path.slice(0, this.route.routeConfig.path.length-1)]);
+      this.location.back();
     },error =>
     {
       console.log(error);
@@ -156,12 +161,11 @@ export class CreateQuestionComponent implements OnInit
 
   createQuestion(): Question
   {
-    localStorage.getItem('userId')
     let options=this.createOptions();
     let question=new Question(null, this.newQuestionForm.get('question').value,
     this.newQuestionForm.get('difficult').value, this.questionType,/*
     this.newQuestionForm.get('score').value,*/ localStorage.getItem('userId'),
-    this.newOptionsForm.get('time').value, this.newOptionsForm.get('coins').value, this.route.snapshot.params.id, options);
+    this.newQuestionForm.get('time').value, this.newQuestionForm.get('coins').value, this.route.snapshot.params.id, options);
     return question;
   }
 

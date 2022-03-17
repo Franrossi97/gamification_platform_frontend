@@ -1,0 +1,38 @@
+<div class="add-user-container">
+
+  <h3 *ngIf="user">Editando datos del usuario {{user.mail}}</h3>
+  <form [formGroup]="editUserForm" (submit)="onSubmitUserInformation()" *ngIf="editUserForm" id="userEditForm">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Nombre" formControlName="name">
+      <span class="error" *ngIf="editUserForm.get('name').touched && editUserForm.get('name').invalid">El valor ingresado es inválido</span>
+      <label>Apellido:</label>
+      <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Apellido" formControlName="lastname">
+      <span class="error" *ngIf="editUserForm.get('lastname').touched && editUserForm.get('lastname').invalid">El valor ingresado es inválido</span>
+    </div>
+
+    <div class="form-group">
+      <label>Matricula:</label>
+      <input type="number" class="form-control" aria-describedby="emailHelp" placeholder="11792" formControlName="enrollment">
+      <span class="error" *ngIf="editUserForm.get('enrollment').touched && editUserForm.get('enrollment').invalid">El valor ingresado es inválido</span>
+      <label>Email:</label>
+      <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email" formControlName="email">
+      <span class="error" *ngIf="editUserForm.get('email').touched && editUserForm.get('email').invalid">El valor ingresado es inválido</span>
+    </div>
+
+    <div class="form-group">
+      <label>Perfil:</label>
+      <select class="form-select" formControlName='profile' id="profileInfo">
+        <option *ngFor="let permission of permissionsName" value="{{permission.id_perfil}}" [selected]="permission.id_perfil==user.perfil">{{permission.nombre}}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid" id="submitUser">Cargar usuario</button>
+  </form>
+
+</div>
+
+
+<div class="error-message" *ngIf="error">
+  <h4>No se pudo editar el usuario. Intente nuevamente.</h4>
+</div>

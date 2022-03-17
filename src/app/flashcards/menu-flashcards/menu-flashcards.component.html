@@ -1,0 +1,107 @@
+<div class="flashcard-list-container">
+  <div class="row">
+    <div class="flashcard-title">
+      Flashcards
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="filters">
+        <div class="filter-title">
+          Filtrar:
+        </div>
+
+        <div class="filter" (click)="getSubjectFromCursa()" id="cursaSubject">
+          Mis materias
+        </div>
+
+        <div class="filter" (click)="getSubjectFromEnsenia()" id="enseniaSubject">
+          Materias que puedo editar
+        </div>
+
+        <div class="search-box">
+          <form [formGroup]='searchForm' id="searchForm">
+            <input type="text" formControlName="search" placeholder="Buscar...">
+          </form>
+
+          <div class="search-icon">
+            <button class="btn btn-primary btn-sm"  (click)="getSearchSubject()" id="searchButton">
+              <fa-icon [icon]="magnifyingIcon"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="button" class="btn btn-danger" (click)="clearFilters()"
+          style="margin-left: 8%;" id="clearFilters">
+            <fa-icon [icon]="xSymbolIcon"></fa-icon>&nbsp;
+            Limpiar filtros
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9" *ngIf="this.flashcards.length!=0">
+      <div class="row">
+        <div class="col" routerLink='/flashcards/create' *ngIf="allowCreation">
+          <div class="flashcard-card all-hover">
+            <div class="flashcard-card-title">
+              Crear una nueva Flashcard
+            </div>
+
+            <div class="flashcard-icon create" style="font-size: 3rem;">
+              <fa-icon [icon]="plusIcon"></fa-icon>
+            </div><br>
+
+          </div>
+        </div>
+
+        <div class="col" *ngFor="let flashcard of flashcards">
+          <div class="flashcard-card">
+            <div class="flashcard-card-title">
+              {{flashcard.titulo}}
+            </div>
+
+            <p>Correspondiente a {{flashcard.nivel}} de {{flashcard.materia}}</p>
+
+            <div class="flashcard-icon">
+              {{flashcard.cantidad_items}}
+              <fa-icon [icon]="flashcardIcon"></fa-icon>
+            </div><br>
+
+            <div class="row options-buttons">
+                <div class="col see-flashcard" style="margin-left: 1%;">
+                  <button class="btn btn-info" routerLink="/flashcards/{{flashcard.id_flashcard}}/show" [disabled]="flashcard.cantidad_items==0">
+                    Ver flashcards
+                  </button>
+                </div>
+
+                <div class="col edit-option" *ngIf="flashcard.edita">
+                  <a (click)="onEditFlashcard(flashcard.id_flashcard, flashcard.titulo)">
+                    Editar
+                  </a>
+                </div>
+
+                <div class="col see-option" *ngIf="flashcard.edita">
+                  <a (click)="onCheckResultFlashcard(flashcard.id_flashcard, flashcard.titulo)">
+                    Ver Resultados
+                  </a>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-9" *ngIf="this.flashcards.length==0">
+      <div class="error-message-empty">
+        No existen Flashcards según su criterio de búsqueda
+      </div>
+    </div>
+  </div>
+
+</div>

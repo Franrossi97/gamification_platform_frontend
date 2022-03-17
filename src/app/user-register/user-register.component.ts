@@ -35,13 +35,15 @@ export class UserRegisterComponent implements OnInit
 
   onSubmit()
   {
-    let newUser=new NewUser (this.newUserForm.get('name').value, this.newUserForm.get('lastname').value,this.newUserForm.get('enrollment').value, this.newUserForm.get('mail').value,
-    this.newUserForm.get('password').value);
-    console.log(newUser.nombre);console.log(newUser.apellido);console.log(newUser.matricula);console.log(newUser.mail);
+    let newUser=new NewUser (this.newUserForm.get('name').value, this.newUserForm.get('lastname').value,
+    this.newUserForm.get('enrollment').value, this.newUserForm.get('mail').value,
+    this.newUserForm.get('password').value, 2);
+
+    //console.log(newUser.nombre);console.log(newUser.apellido);console.log(newUser.matricula);console.log(newUser.mail);
     this.userService.registerUser(newUser).subscribe(data =>
     {
-      console.log(data);
-      console.log('User succesfully added');
+      //console.log(data);
+      //console.log('User succesfully added');
       this.router.navigate(['login']);
     },
     error =>

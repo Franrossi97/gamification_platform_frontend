@@ -1,0 +1,185 @@
+$primary-bg-color: rgb(81, 179, 114);
+
+.menu-container
+{
+  color: beige !important;
+  background-color: $primary-bg-color;
+  border-radius: 6px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+
+  .menu-title
+  {
+    padding-top: 10px;
+    padding-bottom: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: rgb(172, 172, 172) 2px solid;
+  }
+
+  .menu-subtitle
+  {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: 4%;
+    margin-top: 1.5rem;
+  }
+
+  .achievements-list-title
+  {
+    font-weight: bold;
+    margin-left: 6%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .achievements-list
+  {
+    margin: 0 8% 1rem 8%;
+    border: oldlace 2px solid;
+    border-radius: 10px;
+    width: 100%;
+
+    .row
+    {
+      padding: 4px;
+      margin-left: 5%;
+      margin-right: 5%;
+      border-bottom: oldlace 2px solid;
+
+      .selected-alert
+      {
+        display: block;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 0.3rem;
+        font-size: 0.8rem;
+        margin-left: 10%;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .list-value
+      {
+        z-index: 1;
+        text-decoration: none;
+        color: beige;
+        &::before
+        {
+          transform: scaleX(0);
+          transform-origin: bottom right;
+        }
+
+        &:hover::before
+        {
+          transform: scale(1);
+          transform-origin: bottom left;
+        }
+
+        &::before
+        {
+          padding: 4px;
+          width: 78%;
+          height: 4%;
+          content: " ";
+          display: block;
+          position: absolute;
+          //top: 0; right: 0; bottom: 0; left: 0;
+          //inset: 0 0 0 0;
+          background: rgb(31, 85, 31);
+          border-radius: 6px;
+          z-index: -1;
+          transition: transform .3s ease;
+        }
+      }
+
+      &:last-child
+      {
+        border-bottom: 0;
+      }
+    }
+
+    .fa-icon
+    {
+      padding-left: 4px;
+      padding-right: 4px;
+      color: rgb(131, 27, 27);
+      background-color: rgb(151, 109, 109);
+      border-radius: 6px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+  }
+
+  .buttons-options
+  {
+    margin-left: 25%;
+    padding-bottom: 1rem;
+    width: 100%;
+
+    .btn
+    {
+      width: 45%;
+      margin-right: 5%;
+    }
+  }
+
+  .form
+  {
+    width: 100%;
+    margin-left: 40%;
+
+    .form-element
+    {
+      width:400%;
+
+      .form-input
+      {
+        width: 100%;
+        padding: 10px 15px;
+        margin: 8px 10% 0 0;
+        display: inline-block;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 2px solid #ccc;
+        box-sizing: border-box;
+        background-color: $primary-bg-color;
+        transition: border-color 0.5s ease-in-out;
+
+        &:focus
+        {
+          border-color: chartreuse;
+          outline: chartreuse;
+          //border-bottom: 3px solid chartreuse;
+        }
+      }
+
+    }
+
+    .input-title
+    {
+      margin-top: 2rem;
+      width: 100%;
+      font-size: 1.3rem;
+    }
+
+    .input-subtitle
+    {
+      margin-top: 1rem;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .bold-subtitle
+    {
+      font-weight: bold;
+    }
+
+    button
+    {
+      margin-top: 2rem;
+      margin-left: 45%;
+    }
+
+  }
+}

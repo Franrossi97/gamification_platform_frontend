@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col">
+    <div class="form-group">
+      <form (ngSubmit)="onSearchSubject()" [formGroup]="searchForm" id="search-box">
+        <div class="input-container">
+          <input type="text" class="form-control center-form" formControlName="search">
+
+          <div class="subject-list" *ngIf="searchResultSubject!=null">
+            <div class="subject-item" *ngFor="let subject of searchResultSubject; index as i" (click)="onSelectSubject(i)">
+              {{subject.nombre}}
+            </div>
+            <div class="subject-item" *ngIf="searchResultSubject.length==0">
+              No hay resultados
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-center" type="submit" [disabled]="searchForm.invalid">
+          <fa-icon [icon]='magnifying'></fa-icon>&nbsp;
+          Buscar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row selected-subject-container" *ngIf="selectedSubject!=null">
+
+  <div class="selected-subject-title">
+    {{selectedSubject.nombre}}
+  </div>
+  <div class="border-bottom-line">&nbsp;</div>
+
+  <div class="selected-subject-content">
+    <p *ngIf="selectedSubject.cuatrimestre==1">Materia del primer cuatrimestre del año {{selectedSubject.anio}} de la carrera de {{selectedSubject.carrera}}</p>
+    <p *ngIf="selectedSubject.cuatrimestre==2">Materia del segundo cuatrimestre del año {{selectedSubject.anio}} de la carrera de {{selectedSubject.carrera}}</p>
+
+    <button class="btn btn-info" type="button" (click)="onSingUpSubject(selectedSubject.id_materia)">Inscribirse</button>
+  </div>
+</div>

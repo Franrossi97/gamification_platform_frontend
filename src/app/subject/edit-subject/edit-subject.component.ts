@@ -23,7 +23,6 @@ export class EditSubjectComponent implements OnInit
     });
   }
 
-
   onAddQuestion()
   {
     //this.router.navigate([`level/${this.editingLevelId}/question/create`])

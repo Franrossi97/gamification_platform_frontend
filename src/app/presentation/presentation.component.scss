@@ -1,0 +1,467 @@
+.presentation-container
+{
+  background-color: rgb(214, 214, 214);
+  width: 	100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  padding: 5px;
+
+  .carousel-wrap
+  {
+    border-radius: 8px;
+    border: 10px rgb(74, 148, 123) solid;
+  }
+
+  .card-container
+  {
+    margin-top: -1%;
+    padding-top: 3%;
+    background-color: rgb(112, 112, 112);
+    width: 100%;
+    height: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0 0 8px 8px;
+    padding-bottom: 2%;
+
+    .card
+    {
+      color: rgb(255, 178, 61);
+      //height: 50px;
+      width: 100%;
+      margin-left: 6.3%;
+      //padding: 6.8%;
+      padding-top: 6%;
+      padding-bottom: 6%;
+      font-weight: bold;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+      .border-title
+      {
+        content: " ";
+        border: 2px rgb(34, 92, 168) solid;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .card-text
+      {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .card-text-little
+      {
+        text-align: center;
+        font-size: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+
+        p
+        {
+          text-align: center;
+        }
+      }
+    }
+
+  }
+
+  .description-container
+  {
+    padding-top: 2%;
+    padding-left: 1.5%;
+
+    h2
+    {
+      color: rgb(53, 53, 53);
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-bottom: 1%;
+    }
+
+    p
+    {
+      color: rgb(102, 102, 102);
+      font-size: 1.5rem;
+      padding: 2% 0 2% 0.5%;
+    }
+  }
+
+  .footer-container
+  {
+    background-color: rgb(77, 77, 77);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0 0 8px 8px;
+    padding: 2%;
+
+    .options
+    {
+      margin-left: 2%;
+      width: 100%;
+
+      .option
+      {
+        background-color: rgba(129, 129, 129, 0.178);
+        padding: 5px 0px 5px 0px;
+        margin-left: 6.5%;
+        transition: all 0.2s ease;
+
+        h5
+        {
+          //width: 85%;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 3%;
+          text-align: center;
+        }
+
+        &:hover
+        {
+          color: blanchedalmond;
+          cursor: pointer;
+          filter: brightness(1.25);
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 319px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 5%;
+        margin-bottom: 2%;
+        width: 90%;
+      }
+    }
+
+    .description-container
+    {
+      padding-left: 6%;
+      clear: both;
+
+      h2
+      {
+        width: 95%;
+        margin-bottom: 8%;
+      }
+
+      p
+      {
+        width: 95%;
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: -3%;
+
+        .option
+        {
+          margin-bottom: 3%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 5%;
+        margin-bottom: 2%;
+        width: 90%;
+      }
+    }
+
+    .description-container
+    {
+      padding-left: 6%;
+      clear: both;
+
+      h2
+      {
+        width: 95%;
+        margin-bottom: 8%;
+      }
+
+      p
+      {
+        width: 95%;
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: -3%;
+
+        .option
+        {
+          margin-bottom: 3%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 5%;
+        margin-bottom: 2%;
+        width: 90%;
+      }
+    }
+
+    .description-container
+    {
+      width: 100%;
+      padding-left: 6%;
+
+      h2
+      {
+        margin-bottom: 8%;
+      }
+
+      p
+      {
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: -3%;
+
+        .option
+        {
+          margin-bottom: 3%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 769px)and (max-width: 1024px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 7%;
+        margin-bottom: 2%;
+        width: 100%;
+
+        .card-text
+        {
+          font-size: 2.2vw;
+        }
+
+        .card-text-little
+        {
+          font-size: 2.1vw;
+        }
+      }
+    }
+
+    .description-container
+    {
+      padding-left: 6%;
+      clear: both;
+
+      h2
+      {
+        width: 95%;
+        margin-bottom: 8%;
+      }
+
+      p
+      {
+        width: 95%;
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: 1%;
+
+        .option
+        {
+          h5
+          {
+            font-size: 1.3vw;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1025px)and (max-width: 1200px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 7%;
+        margin-bottom: 2%;
+        height: 20%;
+        width: 100%;
+
+        .card-text
+        {
+          font-size: 1.5rem;
+        }
+
+        .card-text-little
+        {
+          font-size: 1.4rem;
+        }
+      }
+    }
+
+    .description-container
+    {
+      padding-left: 6%;
+      clear: both;
+
+      h2
+      {
+        width: 95%;
+        margin-bottom: 5%;
+      }
+
+      p
+      {
+        width: 95%;
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: 1%;
+
+        .option
+        {
+          h5
+          {
+            font-size: 1.3vw;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1201px)
+{
+  .presentation-container
+  {
+    .card-container
+    {
+      .card
+      {
+        margin-left: 6.8%;
+        margin-bottom: 2%;
+        height: 20%;
+        width: 100%;
+
+        .card-text
+        {
+          font-size: 2vw;
+        }
+
+        .card-text-little
+        {
+          font-size: 2vw;
+        }
+      }
+    }
+
+    .description-container
+    {
+      padding-left: 6%;
+      clear: both;
+
+      h2
+      {
+        width: 95%;
+        margin-bottom: 5%;
+      }
+
+      p
+      {
+        width: 95%;
+        padding-right: 4%;
+        padding-bottom: 5%;
+        clear: both;
+      }
+    }
+
+    .footer-container
+    {
+      .options
+      {
+        margin-left: 1.6%;
+
+        .option
+        {
+          h5
+          {
+            font-size: 1.3vw;
+          }
+        }
+      }
+    }
+  }
+}

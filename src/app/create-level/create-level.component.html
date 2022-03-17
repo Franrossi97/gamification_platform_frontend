@@ -2,12 +2,12 @@
   <div class="row">
 
     <span class="title">Ingrese los datos del nuevo nivel:</span>
-    <form class="form" [formGroup]="newLevelForm" #fform="ngForm" *ngIf="mostrarPrimero">
+    <form class="form" [formGroup]="newLevelForm" #fform="ngForm" (ngSubmit)="onSubmitLevel()" *ngIf="mostrarPrimero" id="levelcreateform">
       <div class="form-element">
 
         <label class="input-title">Descripcion:</label>
         <div class="row">
-          <textarea class="form-input" formControlName="description" placeholder="Nivel introductorio" maxlength="200" rows="5"></textarea>
+          <input class="form-input" formControlName="description" placeholder="Nivel introductorio" maxlength="200" rows="5">
         </div>
 
         <label class="input-title">Fecha recomendada de realización:</label>
@@ -17,7 +17,7 @@
 
         <label class="input-title">Puntaje máximo:</label>
         <div class="row">
-          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='0' max="100">
+          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='1' max="100">
           <span *ngIf="newLevelForm.get('max_score').touched && newLevelForm.get('max_score').invalid" style="color: red;">
             Ingrese un valor válido.
           </span>
@@ -25,7 +25,7 @@
 
         <label class="input-title">Cantidad de preguntas a responder:</label>
         <div class="row">
-          <input type="number" formControlName="count_questions" class="form-input" placeholder="15" min='0'>
+          <input type="number" formControlName="count_questions" class="form-input" placeholder="15" min='1'>
           <span *ngIf="newLevelForm.get('count_questions').touched && newLevelForm.get('count_questions').invalid" style="color: red;">
             Ingrese un valor válido.
           </span>
@@ -209,10 +209,10 @@
         </div>
 
       </div>
-      <button class="btn btn-secondary mb-3" type="submit" [disabled]="!enableCreation() || !allUnitsCreated" (click)="onSubmitLevel()">Crear nivel</button>
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="!enableCreation() || !allUnitsCreated">Crear nivel</button>
     </form>
 
-    <form class="form" [formGroup]="newUnitForm" *ngIf="!mostrarPrimero">
+    <form class="form" [formGroup]="newUnitForm" (ngSubmit)="onSubmitUnit()" *ngIf="!mostrarPrimero" id="unitname">
       <div class="form-element">
 
         <label class="input-title">Título de la unidad número {{actualPage}}</label>
@@ -221,18 +221,18 @@
         </div>
       </div>
 
-      <button class="btn btn-secondary mb-3" type="submit" [disabled]="" (click)="onSubmitUnit()">Cargar</button>
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="!newUnitForm.valid" id="submitunit">Cargar</button>
     </form>
 
   </div>
 
   <div class="row" *ngIf="numberUnits>0">
 
-    <a (click)="onLeft()">
+    <a (click)="onLeft()" id="clickLeft">
       <fa-icon [icon]="doubleLeft" class="arrow left"></fa-icon>
     </a>
 
-    <a (click)="onRight()">
+    <a (click)="onRight()" id="clickRight">
       <fa-icon [icon]="doubleRight" class="arrow right"></fa-icon>
     </a>
 

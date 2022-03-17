@@ -1,0 +1,11 @@
+<div class="admin-container">
+  <div class="menu-container">
+    <button routerLink="user-list">Listado de usuarios</button>
+    <button routerLink="add-user" *ngIf="canEdit">Agregar nuevo usuario</button>
+    <button *ngIf="showEdit">Editar usuario</button>
+  </div>
+
+  <div class="selection-container">
+    <router-outlet (activate)="changeViewReceiver($event)"></router-outlet>
+  </div>
+</div>

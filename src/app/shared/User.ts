@@ -5,15 +5,17 @@ export class User
   apellido: string;
   matricula: string;
   mail: string;
-  tipo_usuario: number;
+  validado: boolean;
+  externo: boolean;
+  perfil: number;
 
-  constructor(id ,nombre, apellido, matricula, mail, password, tipo_usuario)
+  constructor(id: number, nombre: string, apellido: string, matricula: string, mail: string, password: string, perfil: number)
   {
     this.id_usuario=id;
     this.nombre=nombre;
     this.apellido=apellido;
     this.matricula=matricula;
     this.mail=mail;
-    this.tipo_usuario=tipo_usuario;
+    this.perfil=perfil;
   }
 }

@@ -76,3 +76,83 @@
 {
   float: left;
 }
+
+.delete-pop-up
+{
+  margin-top: -25%;
+  padding: 1rem;
+  z-index: 3;
+  position: absolute;
+  border: 1.6px solid rgb(0, 95, 173);
+  border-radius: 12px;
+  background-color: steelblue;
+
+  h2
+  {
+    color: rgb(59, 59, 59);
+  }
+
+  .button-container
+  {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    .btn
+    {
+      padding-left: 10%;
+      padding-right: 10%;
+      margin-left: 18%;
+    }
+  }
+}
+
+.delete-menu
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.8s ease;
+  position: relative;
+  background-color: brown;
+  //margin: 0 40px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  padding: 0.8rem;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 100%;
+    height: 100%;
+  }
+
+  h4
+  {
+    color: whitesmoke;
+  }
+
+  &:hover
+  {
+    cursor: pointer;
+  }
+}
+
+.delete-menu
+{
+  overflow: hidden;
+}
+
+.delete-menu:after {
+  left: -100%;
+  clip-path: polygon(10% 0, 70% 0, 90% 100%, 30% 100%);
+  background-color: rgba(255, 255, 255, 0.6);
+  transition: all 0.5s ease;
+}
+
+.delete-menu:hover::after {
+  left: 100%;
+}

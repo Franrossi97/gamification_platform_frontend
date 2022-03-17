@@ -1,0 +1,74 @@
+.center-form
+  {
+    width: 80%;
+    margin-top: 3rem;
+    margin-left: 10%;
+  }
+
+  .input-container
+  {
+    margin-bottom: 2%;
+
+    .subject-list
+    {
+      font-size: 1.2rem;
+      color: gray;
+      margin-left: 10%;
+      width: 80%;
+      border: 2px rgb(136, 136, 136) solid;
+      background-color: rgb(205, 253, 255);
+      border-radius: 0 0 8px 8px;
+
+      .subject-item
+      {
+        padding: 2px;
+        background-color: rgb(205, 253, 255);
+        border-radius: 8px;
+
+        &:hover
+        {
+          filter: brightness(0.7);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .btn-center
+  {
+    margin-left: 44%;
+  }
+
+  .selected-subject-container
+  {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(104, 123, 158);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 4%;
+
+    .selected-subject-title
+    {
+      width: 100%;
+      margin-left: 2.5%;
+    }
+
+    .selected-subject-content
+    {
+      padding: 10px;
+
+      p
+      {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .border-bottom-line
+  {
+    margin-top: -8%;
+    width: 100%;
+    border-bottom: 2px rgb(102, 102, 102) solid;
+  }

@@ -1,20 +1,25 @@
 <div style="align-items: center;">
   <br>
   <div class="row" *ngFor="let level of levels; let i=index" style="margin-top: 2rem">
-    <div [class.col-md-8]='userType==1' [class.col-md-12]='userType!=1'>
+
+    <div [class.col-md-8]='canEdit' [class.col-md-12]='!canEdit'>
       <div class="card text-center">
         <div class="card-header" *ngIf="showEditName!=level.id_nivel">
           <div class="card-header-title left" style="float: left;">
             {{level.descripcion}}
-            <button class="btn btn-info btn-sm" (click)='onEditName(level.id_nivel)' *ngIf="userType==1" style="font-size: 0.8rem;">
+            <button class="btn btn-info btn-sm" (click)='onEditName(level.id_nivel)' *ngIf="canEdit" style="font-size: 0.8rem;">
               <fa-icon [icon]='editIcon'></fa-icon>
             </button>
           </div>
 
           <div class="card-header-badges left" *ngFor="let badge of level.badges">
             <img src={{getPictureLinkForBadge(badge.tipo_insignia)}}>
-            <div class="badge-title">{{ getBadgeTitle(badge.tipo_insignia) }}</div>
-            <!--<img src="../../../assets/img/badges/attempts_badge.png">-->
+            <div class="badge-title">
+              {{ getBadgeTitle(badge.tipo_insignia) }}<br>
+
+
+              {{getBadgeCondition(badge.id_insignia)}}
+            </div>
           </div>
         </div>
         <div class="card-header" *ngIf="showEditName==level.id_nivel">
@@ -45,8 +50,8 @@
           <ul class="list-cover" *ngFor="let unit of level.unitList">
             <li class="unit-level" *ngIf="showEditUnit!=unit.id_unidad">
               {{unit.nombre}}
-              <button class="btn btn-info btn-sm" (click)='onEditNameUnit(unit.id_unidad)' *ngIf="userType==1"><fa-icon [icon]='editIcon'></fa-icon></button>&nbsp;
-              <button class="btn btn-danger btn-sm" (click)='onDeleteUnit(unit.id_unidad, i)' *ngIf="userType==1"><fa-icon [icon]='trashIcon'></fa-icon></button>
+              <button class="btn btn-info btn-sm" (click)='onEditNameUnit(unit.id_unidad)' *ngIf="canEdit"><fa-icon [icon]='editIcon'></fa-icon></button>&nbsp;
+              <button class="btn btn-danger btn-sm" (click)='onDeleteUnit(unit.id_unidad, i)' *ngIf="canEdit"><fa-icon [icon]='trashIcon'></fa-icon></button>
             </li>
 
             <li class="unit-level" *ngIf="showEditUnit==unit.id_unidad">
@@ -90,21 +95,26 @@
               </div>
             </div>
           </form>
-          <button class="btn btn-info" (click)='onAddNewUnit(level.id_nivel)' *ngIf="userType==1 && showNewUnit!=level.id_nivel" style="font-size: 0.8rem;">
+          <button class="btn btn-info" (click)='onAddNewUnit(level.id_nivel)' *ngIf="canEdit && showNewUnit!=level.id_nivel" style="font-size: 0.8rem;">
             <fa-icon [icon]='plusIcon'></fa-icon> Agregar nueva unidad
           </button><br><br>
 
           <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-          <a class="btn btn-primary" (click)="onEdit(level.id_nivel)" routerLink='level/{{level.id_nivel}}' *ngIf="userType==1">Editar</a>
-          <button class="btn btn-primary" *ngIf="userType==2" [disabled]='!level.cuestionario_disponible'
+          <a class="btn btn-primary" (click)="onEdit(level.id_nivel)" routerLink='level/{{level.id_nivel}}'
+          *ngIf="canEdit" id="editMenu">Editar</a>
+          <button class="btn btn-primary" *ngIf="!canEdit" [disabled]='!level.cuestionario_disponible'
           (click)="onPlay(level.id_nivel, level.id_materia, level.penalizacion, level.puntaje_maximo, level.cantidad_preguntas, level.reintentos)">
             Jugar
           </button><br> <span class="error-input" *ngIf="showAttemptError==level.id_nivel">No se permiten más intentos para este nivel</span> <br>
 
-          <div *ngIf="userType==1">
-            <button class="btn btn-success btn-sm" *ngIf="!level.cuestionario_disponible" (click)='onChangeAvailability(i, level.id_materia, level.id_nivel, level.cuestionario_disponible)' style="margin-right: 1rem;">
+          <div *ngIf="canEdit">
+            <button class="btn btn-success btn-sm" *ngIf="!level.cuestionario_disponible" id="changeAvailability"
+            (click)='onChangeAvailability(i, level.id_materia, level.id_nivel, level.cuestionario_disponible)'
+            style="margin-right: 1rem;">
               Habilitar cuestionario</button>
-            <button class="btn btn-secondary btn-sm" *ngIf="level.cuestionario_disponible" (click)='onChangeAvailability(i, level.id_materia, level.id_nivel, level.cuestionario_disponible)' style="margin-right: 1rem;">
+            <button class="btn btn-secondary btn-sm" *ngIf="level.cuestionario_disponible" id="changeAvailability"
+            (click)='onChangeAvailability(i, level.id_materia, level.id_nivel, level.cuestionario_disponible)'
+            style="margin-right: 1rem;">
               Deshabilitar cuestionario</button>
 
             <button class="btn btn-success btn-sm" *ngIf="!level.reintentos" (click)='onChangeretries(i, level.id_nivel, level.reintentos)'>
@@ -114,7 +124,7 @@
           </div>
 
           <br>
-          <div *ngIf="userType==1 && showNewScore!=level.id_nivel">
+          <div *ngIf="canEdit && showNewScore!=level.id_nivel">
             Puntaje máximo: {{level.puntaje_maximo}}
 
             <button class="btn btn-info btn-sm" (click)='onEditScore(level.id_nivel)' style="font-size: 0.8rem;"><fa-icon [icon]='editIcon'></fa-icon></button>
@@ -139,7 +149,7 @@
             </div>
           </form>
 
-          <div *ngIf="userType==1 && showNewCountQuestions!=level.id_nivel" style="margin-top: 1rem;">
+          <div *ngIf="canEdit && showNewCountQuestions!=level.id_nivel" style="margin-top: 1rem;">
             Preguntas a reponder: {{level.cantidad_preguntas}}
 
             <button class="btn btn-info btn-sm" (click)='onEditCountQuestions(level.id_nivel)' style="font-size: 0.8rem;"><fa-icon [icon]='editIcon'></fa-icon></button>
@@ -177,6 +187,22 @@
               Recommended date: {{getFormattedRecommendedDate(level.fecha_recomendada_realizacion)}}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="delete-menu" (click)="showDeleteLevelMenu(level.id_nivel)" *ngIf="canEdit">
+        <h4>
+          Eliminar nivel
+        </h4>
+      </div>
+
+      <div class="delete-pop-up" *ngIf="showDeletePopUpId==level.id_nivel">
+        <h2>¿Seguro que deseas borrar el nivel?</h2>
+
+        <div class="button-container">
+          <button class="btn btn-danger" (click)="deleteLevel(level.id_nivel)">Sí</button>
+
+          <button class="btn btn-primary" (click)="cancelDeleteLevel()">No</button>
         </div>
       </div>
     </div>

@@ -1,0 +1,54 @@
+<div class="menu-container">
+  <div class="close-option">
+    <fa-icon [icon]='XIcon' (click)="onCloseWindow()"></fa-icon>
+  </div>
+  <div class="row badges-container">
+
+    <div class="row badge" *ngFor="let badge of badges; let i=index"
+    (click)="onSelectBadge(badge.tipo_insignia, i, badge.id_insignia)" id="badgePic">
+      <div class="col-md-4 badge-information">
+        <div class="row">
+          <img [src]="getBadgePic(badge.tipo_insignia)">
+        </div>
+
+        <div class="row title">
+          {{ getBadgeName(badge.tipo_insignia) }}
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div class="row form-container" style="width: 100%;" *ngIf="selectedBadgeType!=-1">
+      <form [formGroup]='editBadgeForm' (ngSubmit)="onUpdateBadge()" id="editBadgeForm">
+
+        <div class="input-form">
+          <label>Puntaje extra:</label>
+          <input type="number" formControlName='extra'>
+        </div>
+
+        <div class="input-form" *ngIf="selectedBadgeType!=2">
+          <label>{{ getParameterName(selectedBadgeType) }}:</label>
+          <input type="number" formControlName='parameter'>
+        </div>
+
+        <div class="input-form" *ngIf="selectedBadgeType==2">
+          <label>{{ getParameterName(selectedBadgeType) }}:</label>
+          <input type="date" formControlName='date'>
+        </div>
+
+        <div class="input-form" *ngIf="selectedBadgeType==1">
+          <label>Por pregunta:</label>
+          <input type="checkbox" formControlName='perQuestion'>
+        </div>
+
+        <!--
+        <button class="btn btn-primary">Cargar cambios</button>-->
+
+        <button class="btn btn-primary" [disabled]='getFormValidation()' id='uploadBadgeChanges'>Cargar cambios</button>
+      </form>
+    </div>
+
+  </div>
+</div>

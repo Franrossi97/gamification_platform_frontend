@@ -1,3 +1,4 @@
+import { PermissionService } from './../services/permission.service';
 import { NewUser } from './../shared/NewUser';
 import { UserService } from './../services/user.service';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
@@ -6,6 +7,7 @@ import { Component, ComponentRef, OnDestroy, OnInit, ViewChild, ViewContainerRef
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import {LoginUser} from '../shared/LoginUser';
 import {Router} from '@angular/router'
+import { providerId } from '../shared/GoogleProviderId';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy
 
   @ViewChild('fform') newSubjectFormDirective;
   constructor(private fb: FormBuilder, private authService:AuthService, private router:Router,
-  private socialAuthService: SocialAuthService, private userService: UserService) { }
+  private socialAuthService: SocialAuthService, private userService: UserService, private permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
@@ -81,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy
       //this.isLoggedin = (user != null);
       console.log(this.socialUser);
 
-      this.newExternalUser=new NewUser(user.firstName, user.lastName, '', user.email, null);
+      this.newExternalUser=new NewUser(user.firstName, user.lastName, '', user.email, null, 2);
 
       this.authService.authenticating(new LoginUser(this.newExternalUser.mail, this.newExternalUser.password)).subscribe(res =>
       {
@@ -138,6 +140,7 @@ export class LoginComponent implements OnInit, OnDestroy
     localStorage.setItem('userId', user.id_usuario.toString());
     localStorage.setItem('token', user.jwt)
     this.invalidLogin=false;
+    this.permissionService.getUserPermissions(user.id_usuario.toString());
     this.router.navigate(['home']);
   }
 

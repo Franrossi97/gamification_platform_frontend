@@ -1,0 +1,55 @@
+<div class="result-container">
+  <div class="stars">
+    <img class="stars-img" src={{getLinkforStars()}} *ngIf="countStars>0">
+  </div>
+
+  <!--
+  <div class="stars">
+    <img class="stars-img" src="../../../assets/img/result_background/stars3.png">
+  </div>-->
+
+
+  <div class="result-alert" *ngIf="countStars>0" [ngClass]="{'wrong-alert': (countStars==1), 'good-alert': (countStars==2), 'excellent-alert': (countStars==3) }">
+    {{getMessage()}}
+  </div>
+
+  <!--
+  <div style="text-align: center; width: 100%;">
+  <div class="result-alert excellent-alert">
+    EXCELENTE
+  </div>
+
+  <div class="result-alert good-alert">
+    MUY BIEN
+  </div>
+
+  <div class="result-alert wrong-alert">
+    MAL
+  </div>
+  </div>-->
+
+  <div class="final-score" *ngIf="finalScore!=undefined">
+    {{finalScore}} puntos
+  </div>
+
+  <!--
+  <div class="final-score">
+    10334 puntos
+  </div>-->
+
+
+  <div class="button-continer row">
+
+      <button class="button-options next" (click)="false" routerLink='/subject/{{SUBJECT_ID}}'>
+        Continuar
+      </button>
+
+      <button class="button-options again" (click)="false" routerLink='/level/{{LEVEL_ID}}/questions' [disabled]="RETRIES">
+        Volver a jugar
+      </button>
+
+  </div>
+</div>
+
+
+

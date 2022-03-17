@@ -1,8 +1,10 @@
-<!--
 <div class="question-container">
+
   <div class="question">
     <div class="question-title">
-      <h3>{{LEVEL_NAME}}</h3>
+      <div class="title">
+        <h3>{{LEVEL_NAME}}</h3>
+      </div>
 
       <div class="coins">
         <fa-icon [icon]="coinsIcon"></fa-icon> {{availableCoins}}
@@ -12,9 +14,10 @@
       <div class="timer-number">
         {{floorTimer(actualTime).toString()}}
       </div>
-      <progress max="{{this.questions[this.actualQuestion].tiempo}}" value="{{actualTime}}"></progress>
+      <progress max="{{this.questions[this.actualQuestion].tiempo}}" value="{{actualTime}}" *ngIf="this.actualQuestion!=-1"></progress>
+      <progress max="0" *ngIf="this.actualQuestion==-1"></progress>
     </div>
-    <div class="question-text-option" *ngIf="this.actualQuestion!=-1">
+    <div class="question-text-option" *ngIf="this.actualQuestion!=-1" id="option-questions">
       &nbsp;
 
       <div class="question-text">
@@ -22,7 +25,7 @@
       </div>
 
       <div class="question-option" *ngFor="let option of this.questions[this.actualQuestion].opciones; let i=index" (click)='optionDisabled[i] && onSelectAnswer(i)'
-      [ngClass]="{'wrong': selection[0][i], 'right': selection[1][i], 'option-disable': optionDisableColor[i] }">
+      [ngClass]="{'wrong': selection[0][i], 'right': selection[1][i], 'option-disable': optionDisableColor[i] }" id="option">
         {{option.texto}}
       </div>
       &nbsp;
@@ -36,7 +39,7 @@
         </div>
 
         <img src="../../assets/img/boosters/clock.png" height="40vh" width="60vw"
-        (click)="!disableBoosters && useBooster(0, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
+        (click)="!disableBoosters && useBooster(0, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)" id="booster-time">
       </div>
       <div class="booster-item double-chance" [ngClass]="{'option-disable': disableBoosters}">
         <div class="booster-price">
@@ -44,7 +47,7 @@
         </div>
 
         <img src="../../assets/img/boosters/doble_chance.png" height="40vh" width="70vw"
-        (click)="!disableBoosters && useBooster(1, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
+        (click)="!disableBoosters && useBooster(1, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)" id="booster-chance">
       </div>
       <div class="booster-item delete" [ngClass]="{'option-disable': disableBoosters}">
         <div class="booster-price">
@@ -52,7 +55,7 @@
         </div>
 
         <img src="../../assets/img/boosters/delete.png" height="40vh" width="40vw"
-        (click)="!disableBoosters && useBooster(2, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)">
+        (click)="!disableBoosters && useBooster(2, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, null)" id="booster-delete">
       </div>
       <div class="booster-item other" [ngClass]="{'option-disable': disableBoosters}">
         <div class="booster-price">
@@ -60,28 +63,39 @@
         </div>
 
         <img src="../../assets/img/boosters/skip.png" height="40vh" width="100vw"
-        (click)="!disableBoosters && useBooster(3, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, this.lastDateAttempt)">
+        (click)="!disableBoosters && useBooster(3, this.questions[this.actualQuestion].id_nivel, this.questions[this.actualQuestion].id_pregunta, this.lastDateAttempt)" id="booster-skip">
       </div>
     </div>
-
   </div>
 </div>
--->
-<div class="alert-container" *ngIf="showWonAlert">
+
+<div class="alert-container badge-alert" *ngIf="showWonAlert">
 
   <div class="content-container">
     <h3>¡Felicitaciones!</h3>
 
     <h5>Ganaste una insignia</h5>
 
-    <div class="img-container"><!--
-      <img [src]="getBadgePic(wonBadgeIndex)">-->
-      <img src="../../../assets/img/badges/question_badge.png" height="120px">
+    <div class="img-container">
+      <img [src]="getBadgePic(wonBadgeIndex)"><!--
+      <img src="../../../assets/img/badges/question_badge.png" height="120px">-->
     </div>
-<!--
-    <p>{{getBadgeDetails(wonBadgeIndex)}}</p>-->
-    <p>Insignia de pregunta</p>
+
+    <p>{{getBadgeDetails(wonBadgeIndex)}}</p><!--
+    <p>Insignia de pregunta</p>-->
 
   </div>
 
+</div>
+
+<div class="alert-container message-correct" *ngIf="showCorrect">
+  <div class="content-container">
+    CORRECTO
+  </div>
+</div>
+
+<div class="alert-container message-incorrect" *ngIf="showIncorrect">
+  <div class="content-container">
+    INCORRECTO
+  </div>
 </div>

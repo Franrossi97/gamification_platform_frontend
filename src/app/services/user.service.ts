@@ -23,13 +23,29 @@ export class UserService {
   {
     const postUrl=`${baseURL}/users/external`;
 
+    console.log(newUser);
+
     return this.http.post<any>(postUrl, newUser);
   }
 
-  searchUser(identifier:number|string): Observable<User>
+  searchUser(identifier:number|string): Observable<User[]>
   {
     const getUrl=`${baseURL}/users/${identifier}`
-    return this.http.get<User>(getUrl);
+    return this.http.get<User[]>(getUrl);
+  }
+
+  getAllUsers()
+  {
+    const getUrl=`${baseURL}/users`;
+
+    return this.http.get(getUrl);
+  }
+
+  editUser(userId, userInfo)
+  {
+    const patchUrl=`${baseURL}/users/${userId}`;
+
+    return this.http.patch(patchUrl, userInfo);
   }
 
   linkUsertoSubject(userType:number, idUser:number, idSubject: number|string): Observable<any>
@@ -83,6 +99,43 @@ export class UserService {
   {
     const getUrl: string=`${baseURL}/user/${idUser}/task`;
 
-    return this.http.get(getUrl);
+    return this.http.get(getUrl).toPromise();
+  }
+
+  changePassword(idUser: number, actualPassword: string, newPassword: string)
+  {
+    const passwordUrl: string=`${baseURL}/users/password/${idUser}`;
+
+    return this.http.patch(passwordUrl, {actualPassword, newPassword});
+  }
+
+  activateUser(userId: number)
+  {
+    const activationUrl: string=`${baseURL}/activate/user/${userId}`;
+
+    console.log(userId);
+
+    return this.http.patch(activationUrl, {});
+  }
+
+  inactivateUser(userId: number)
+  {
+    const inactivationUrl: string=`${baseURL}/inactivate/user/${userId}`;
+
+    return this.http.patch(inactivationUrl, {});
+  }
+
+  getUserPermissions(userId: number)
+  {
+    const getPermissionsUrl: string=`${baseURL}/user/${userId}/permissions`;
+
+    return this.http.get<Array<any>>(getPermissionsUrl);
+  }
+
+  removeUser(userId: number)
+  {
+    const deleteUrl: string=`${baseURL}/users/${userId}`;
+
+    return this.http.delete(deleteUrl);
   }
 }

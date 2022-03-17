@@ -10,20 +10,20 @@
       <a routerLink='flashcards/list' class="navbar-item vert">Flashcards</a>
       <a href="" class="navbar-item vert">About</a>
       <div class="dropdown">
-        <a class="navbar-item" (click)="onShow()">
-          Mis clases
+        <a class="navbar-item" (click)="onShow()" id="onShow">
+          Mis materias
           <fa-icon [icon]="caretDown"></fa-icon>
         </a>
         <div class="dropdown-content" *ngIf="show">
           <a routerLink='subject/subject.id_materia' class="dropdown-item list-item" *ngFor="let subject of subjects">{{subject.nombre}}</a>
-          <a class="dropdown-item list-item">....................</a>
-          <a class="dropdown-item last-item" routerLink='create-subject'>Crear una nueva clase</a>
+          <a class="dropdown-item list-item" *ngIf="subjects.length > 0">....................</a>
+          <a class="dropdown-item last-item" routerLink='create-subject'>Crear una nueva materia</a>
         </div>
       </div>
     </div>
 
     <div>
-      <div class="right-hamburger" (click)="onShowRight()">
+      <div class="right-hamburger" (click)="onShowRight()" id="onShowRight">
         <div class="hamburger">&nbsp;</div>
         <div class="hamburger">&nbsp;</div>
         <div class="hamburger">&nbsp;</div>
@@ -40,7 +40,9 @@
           <a routerLink='subjects' class="dropdown-item list-item">Materias</a>
           <a routerLink='flashcards/list' class="dropdown-item list-item">Flashcards</a>
           <a href="" class="dropdown-item list-item">About</a>
-          <a (click)="logOut()" class="dropdown-item list-item">Salir</a>
+          <a (click)="logOut()" class="dropdown-item list-item" *ngIf="this.isAuthenticated()" id="logOutList">Salir</a>
+          <a routerLink='login' class="dropdown-item list-item" *ngIf="!this.isAuthenticated()">Ingresar</a>
+          <a routerLink='register' class="dropdown-item list-item" *ngIf="!this.isAuthenticated()">Registrarse</a>
         </div>
       </div>
 
@@ -53,14 +55,25 @@
             </div>
 
             <div class="session-btn" *ngIf="this.isAuthenticated()">
-              <button type="button" class="btn btn-primary btn-sm" routerLink='login' (click)="logOut()">Salir</button>
+              <button type="button" class="btn btn-primary btn-sm" routerLink='login' (click)="logOut()" id="logOut">Salir</button>
             </div>
           </div>
         </div>
-      </div>
 
+
+
+        <div class="user-profile" routerLink="profile" *ngIf="this.isAuthenticated()">
+          <div class="icon-container">
+            <fa-icon [icon]="graduatedIcon"></fa-icon>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+
+<div class="access-admin-menu" *ngIf="canView" routerLink="admin-menu">
+  Admin menu
 </div>
 
 <!--

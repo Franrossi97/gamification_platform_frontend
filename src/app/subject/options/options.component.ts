@@ -13,6 +13,8 @@ export class OptionsComponent implements OnInit {
   showNewLevel:boolean;
   userType:number;
   closeResult='';
+  showDeleteMenu: boolean=false;
+
   constructor(private modalService:NgbModal, private subjectService: SubjectService,
   private route: ActivatedRoute, private router: Router) { }
 
@@ -43,11 +45,21 @@ export class OptionsComponent implements OnInit {
 
   onClickDelete()
   {
+    this.showDeleteMenu=true;
+  }
+
+  subjectDeleteConfirmation()
+  {
     const idSubject=this.route.snapshot.params.id;
     this.subjectService.deleteSubject(idSubject).subscribe(res =>
     {
       this.router.navigate(['home']);
     });
+  }
+
+  subjectDeleteRejection()
+  {
+    this.showDeleteMenu=false;
   }
 
 }

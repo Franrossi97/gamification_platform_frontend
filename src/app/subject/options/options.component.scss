@@ -1,3 +1,64 @@
+.option-container
+{
+  background-color: rgb(16, 73, 119);
+  margin-left: -1%;
+  width: 100%;
+  display: flex;
+  //flex-flow: row wrap;
+  border: 2px solid rgb(136, 164, 196);
+  border-radius: 12px;
+
+  .option-item
+  {
+    padding: 1% 1% 0 1%;
+    font-weight: bold;
+    color: seashell;
+    text-align: center;
+    margin-left: 3%;
+    margin-right: 3%;
+    transition: all 0.2s ease-in;
+
+    &:hover
+    {
+      background-color: rgb(94, 103, 110);
+      cursor: pointer;
+    }
+  }
+
+  .delete-menu
+  {
+    font-size: 1.2rem;
+    color: azure;
+    font-weight: bold;
+    border: 3px solid brown;
+    background-color: rgb(153, 81, 81);
+    border-radius: 12px;
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    top: 30%;
+
+    .text-alert
+    {
+      padding: 2%;
+      width: 92%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .button-container
+    {
+      margin-bottom: 5%;
+
+      .btn
+      {
+        margin-left: 16%;
+        width: 25%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 900px)
 {
   .center-button-space
@@ -12,6 +73,20 @@
   .center-button-space
   {
     margin-top: 0;
+  }
+
+  .option-container
+  {
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-flow: row wrap;
+
+    .option-item
+    {
+      padding-top: 2%;
+    }
   }
 }
 
@@ -31,4 +106,27 @@
   {
     width: 100%;
   }
+
+  .option-container
+  {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+}
+
+@media screen and (max-width: 480px)
+{
+  .option-container
+  {
+    display: flex;
+    flex-flow: row wrap;
+
+    .option-item
+    {
+      width: 100%;
+      margin-top: 2%;
+    }
+  }
+
 }

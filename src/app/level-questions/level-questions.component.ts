@@ -28,8 +28,6 @@ export class LevelQuestionsComponent implements OnInit
   coinsIcon=faCoins;
   LEVEL_NAME: string='';
   SUBJECT_ID: number;
-  //COINS_PER_QUESTION: number=50;
-  //MAX_TIME: number=30; //Tiempo máximo de cada pregunta
   LEVEL_ID: number;
   maxScore: number=0; //El valor se obtiene del componente nivel
   actualTime: number=0;
@@ -57,11 +55,15 @@ export class LevelQuestionsComponent implements OnInit
   availableBadges: any[]=new Array<any>(MAX_BADGES);
   wonBadgeIndex: number;
   showWonAlert: boolean=false;
-  //percentageBadges: number[];
   winBadges: number=0; //Binario
   extraBadgesScore: number=0;
   countTimer: number=0;
   availableCoins=0;
+  updateCoins: boolean=false;
+  PENALIZATAION: number=0;
+  addPenalization: boolean=false;
+  showCorrect: boolean=false;
+  showIncorrect: boolean=false;
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
     private levelService: LevelService, private router: Router,
@@ -69,26 +71,28 @@ export class LevelQuestionsComponent implements OnInit
     private constantService: ConstantService) { }
 
   ngOnInit(): void
-  {/*
+  {
     this.route.params.subscribe(params =>
     {
       this.LEVEL_ID=params['id'];
+      this.availableBadges.fill(null);
       this.getLevelName(this.LEVEL_ID);
       this.retrieveCountQuestions();
       this.retrieveMaxScore();
       this.retrieveSubjectId();
       this.getQuestions(this.LEVEL_ID); //Se cargan todas las preguntas junto con sus opciones
-      this.userService.getStudentCoins(this.SUBJECT_ID, +localStorage.getItem('userId'));
+      this.getBadges(this.LEVEL_ID);
+      this.getAvailableCoins();
       this.selection[0]=new Array(4);
       this.selection[1]=new Array(4);
-      //this.percentageBadges.fill(0);
+      this.initializeBoosterPrices();
       if(this.countQuestions==undefined)
       {
         this.router.navigate(['home']);
 
       }
       //this.porcentajesPregunta.fill(0);
-    });*/
+    });
 
   }
 
@@ -97,6 +101,23 @@ export class LevelQuestionsComponent implements OnInit
     this.levelService.getOneLevel(idLevel).subscribe(res =>
     {
       this.LEVEL_NAME=res.descripcion;
+      this.PENALIZATAION=res.penalizacion;
+      this.addPenalization=res.penalizacion>0;
+    });
+  }
+
+  getAvailableCoins()
+  {
+    this.userService.getStudentCoins(this.SUBJECT_ID, +localStorage.getItem('userId')).subscribe((res: {cant_monedas:number}) =>
+    {
+      console.log(res);
+
+      if(res)
+      {
+        this.availableCoins=res.cant_monedas;
+        console.log(this.availableCoins);
+
+      }
     });
   }
 
@@ -147,17 +168,15 @@ export class LevelQuestionsComponent implements OnInit
           item.opciones=options;
         })
       });
-
-      this.getBadges(idLevel);
     });
 
   }
 
-  getQuestiontoShow() //Con las preguntas cargadas se elige aleatoriamente la siguiente pregunta
+  async getQuestiontoShow() //Con las preguntas cargadas se elige aleatoriamente la siguiente pregunta
   {
     this.countTimer+=this.floorTimer(this.actualTime); //Se utilizaran independientemente de si la insignia de preguntas está activa o no
-    this.disableBoosters=false;
-    let auxQuestion: number;
+    //this.disableBoosters=false;
+    //let auxQuestion: number;
     //this.actualQuestion=null;
     this.countAnsweredQuestions++; //Se suma  1 al contador de preguntas respondidas
     this.anotherAttempt=false;
@@ -165,46 +184,19 @@ export class LevelQuestionsComponent implements OnInit
     if(this.countAnsweredQuestions<(this.countQuestions+1))
     {
       this.optionsToSelect=0; //Inicializo contador de opciones que deben ser seleccionadas
-      this.selection[0].fill(false);
-      this.selection[1].fill(false);
-      //this.selectionRight.fill(false);
-      //this.selectionWrong.fill(false);
+      this.selection[0].fill(false); //this.selectionRight.fill(false);
+      this.selection[1].fill(false); //this.selectionWrong.fill(false);
       this.optionDisabled.fill(true);
       this.optionDisableColor.fill(false);
       let questionIndex: number=Math.floor(this.getRandomArbitrary(0, this.questions.length-1)); //Tomo un valor aleatorio dentro de un rango
       console.log(questionIndex);
-      if(!this.answeredQuestions[questionIndex]) //Si la pregunta no se usó se muestra directamente
-      {
-        //auxQuestion=questionIndex;
-        this.actualQuestion=questionIndex;
-        this.answeredQuestions[questionIndex]=true;
-        console.log(this.answeredQuestions);
-        console.log(this.questions[this.actualQuestion]);
-      }
-      else //Si la pregunta seleccionada ya fue usada, se busca la primera que no lo haya sido
-      {
-        var i=0;
-        this.answeredQuestions.every(item =>
-        {
-          console.log(item);
 
-          if(!item)
-          {
-            console.log('entro');
+      await this.setQuestionToShow(questionIndex);
 
-            this.answeredQuestions[i]=true;
-            this.actualQuestion=i;
-            return false;
-          }
-
-          i++;
-        });
-      }
-
-      while(this.questions[this.actualQuestion].opciones==undefined)
+      /*while(this.questions[this.actualQuestion].opciones==undefined)
       {
         true;
-      }
+      }*/
 
       this.questions[this.actualQuestion].opciones.forEach(item => //Cuento la cantidad de opciones que se deberán marcar
       //this.questions[auxQuestion].opciones.forEach(item =>
@@ -230,22 +222,65 @@ export class LevelQuestionsComponent implements OnInit
     }
     else //No quedan más preguntas por responder
     {
+      clearInterval(this.settedInterval);
+      this.levelService.recieveLevelId(this.LEVEL_ID);
       this.registerBadgeTimer(); //Se utilizaran independientemente de si la insignia de preguntas está activa o no
       this.registerBadgeQuestions(); //Se utilizaran independientemente de si la insignia de preguntas está activa o no
-      this.finalScore= this.calculateFinalResult(); //Se entrega el puntaje total, luego se exhibe en un modal
-      this.questionService.setFinishedQuestionnaire(localStorage.getItem('userId'), this.SUBJECT_ID, this.route.snapshot.paramMap.get('id'), this.finalScore).subscribe(res =>
+      this.calculateFinalResult().then(score => //Se entrega el puntaje total, luego se exhibe en un modal
       {
-        console.log(res);
+        this.finalScore=score;
 
-        this.questionResultService.recieveFinalScore(this.finalScore);
-        this.router.navigate(['result'], {relativeTo: this.route});
+        this.questionService.setFinishedQuestionnaire(localStorage.getItem('userId'), this.SUBJECT_ID, this.LEVEL_ID, this.finalScore).subscribe(res =>
+        {
+          this.questionResultService.recieveFinalScore(this.finalScore);
+          this.router.navigate(['result'], {relativeTo: this.route});
 
-      }, err =>
-      {
-        console.log(err);
+        }, err =>
+        {
+          console.log(err);
+        });
       });
     }
 
+  }
+
+  async setQuestionToShow(questionIndex: number)
+  {
+    if(!this.answeredQuestions[questionIndex]) //Si la pregunta no se usó se muestra directamente
+    {
+      //auxQuestion=questionIndex;
+      this.actualQuestion=questionIndex;
+      this.answeredQuestions[questionIndex]=true;/*
+      console.log(this.answeredQuestions);
+      console.log(this.questions[this.actualQuestion]);*/
+    }
+    else //Si la pregunta seleccionada ya fue usada, se busca la primera que no lo haya sido
+    {
+      var i=0;
+      while(i < this.answeredQuestions.length && this.answeredQuestions[i])
+      {
+        i++;
+      }
+
+      this.answeredQuestions[i]=true;
+      this.actualQuestion=i;
+      /*
+      this.answeredQuestions.every(item =>
+      {
+        console.log(item);
+
+        if(!item)
+        {
+          console.log('entro');
+
+          this.answeredQuestions[i]=true;
+          this.actualQuestion=i;
+          return false;
+        }
+
+        i++;
+      });*/
+    }
   }
 
   getRandomArbitrary(min, max)
@@ -255,7 +290,6 @@ export class LevelQuestionsComponent implements OnInit
 
   onSelectAnswer(optionIndex: number) //Al seleccionar una de la opciones
   {
-
     if(this.questions[this.actualQuestion].tipo_pregunta==1) //Se chequea el tipo de pregunta
     {
       if(this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje>0) //Se verifica que la opción seleccionada sea correcta
@@ -264,7 +298,14 @@ export class LevelQuestionsComponent implements OnInit
         //this.selectionRight[optionIndex]=true;
         this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'), this.questions[this.actualQuestion].id_pregunta, 100, this.lastDateAttempt);
         this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 100);
-        this.followedAnsweredQuestions+=0; //Se utilizaran independientemente de si la insignia de preguntas está activa o no
+        this.followedAnsweredQuestions+=1; //Se utilizaran independientemente de si la insignia de preguntas está activa o no
+        this.showCorrect=true;
+        if(this.updateCoins)
+        {
+          this.availableCoins+=this.questions[this.actualQuestion].recompensa;
+          this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
+        }
+        this.selectNextQuestionWithDelay(2000);
       }
       else
       {
@@ -272,23 +313,20 @@ export class LevelQuestionsComponent implements OnInit
         {
           this.selection[0][optionIndex]=true;
           //this.selectionWrong[optionIndex]=true;
-          //this.availableCoins+=this.COINS_PER_QUESTION;
-          this.availableCoins+=this.questions[this.actualQuestion].recompensa;
-          this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
           this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'), this.questions[this.actualQuestion].id_pregunta, 0, this.lastDateAttempt);
           this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 0);
+          this.showIncorrect=true;
+          this.followedAnsweredQuestions=0;
+          this.selectNextQuestionWithDelay(2000);
         }
         else
         {
-          this.optionDisabled[optionIndex]=false;
           this.optionDisableColor[optionIndex]=true;
           this.anotherAttempt=false;
         }
-        this.followedAnsweredQuestions=0;
+        this.optionDisabled[optionIndex]=false;
       }
       this.anotherAttempt ? null : this.optionDisabled.fill(false);
-      //this.getQuestiontoShow(); //Se pasa a la siguiente pregunta
-      this.selectNextQuestionWithDelay(2000);
     }
     else
     {
@@ -314,13 +352,15 @@ export class LevelQuestionsComponent implements OnInit
           {
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
           }
-          if(this.optionsToSelect==0)
+          if(this.optionsToSelect<1)
           {
             this.followedAnsweredQuestions+=1;
-            //this.getQuestiontoShow();
-            //this.availableCoins+=this.COINS_PER_QUESTION;
-            this.availableCoins+=this.questions[this.actualQuestion].recompensa;
-            this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
+            if(this.updateCoins)
+            {
+              this.availableCoins+=this.questions[this.actualQuestion].recompensa;
+              this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
+            }
+            this.showCorrect=true;
             this.selectNextQuestionWithDelay(2000);
           }
         }
@@ -335,14 +375,15 @@ export class LevelQuestionsComponent implements OnInit
             //this.porcentajesPregunta[this.actualQuestion]=0;
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 0);
             //this.getQuestiontoShow();
+            this.showIncorrect=true;
             this.selectNextQuestionWithDelay(2000);
           }
           else
           {
             this.optionDisabled[optionIndex]=false;
             this.anotherAttempt=false;
-            this.followedAnsweredQuestions=0;
           }
+          this.followedAnsweredQuestions=0;
         }
       }
     }
@@ -369,10 +410,11 @@ export class LevelQuestionsComponent implements OnInit
   {
     //let auxBadges: BadgeQuestions=this.getBadgeOfType(0); //Timer badge
     let auxBadges: BadgeQuestions=this.availableBadges[0], extraAux: number;
+
     if(auxBadges!=null)
     {
       this.wonBadgeIndex=0;
-      extraAux=auxBadges.validBadge(this.countTimer);
+      extraAux=auxBadges.validBadge(this.followedAnsweredQuestions);
       this.extraBadgesScore+=extraAux;
       if(extraAux>0)
       {
@@ -392,33 +434,41 @@ export class LevelQuestionsComponent implements OnInit
     }
   }*/
 
-  calculateFinalResult() //Una vez que se ven todas la preguntas se calcula el puntaje final
+  calculateFinalResult(): Promise<number> //Una vez que se ven todas la preguntas se calcula el puntaje final
   {
-    var finalScore: number=0, scoreEachQuestion, i;
+    var finalScore: number=0, scoreEachQuestion;
     scoreEachQuestion=this.maxScore/this.countQuestions;
 
     this.porcentajesPregunta.forEach((value, key) =>
     {
-      console.log(`Pregunta:${key} || Porcentaje: ${value}`);
+      //console.log(`Pregunta:${key} || Porcentaje: ${value}`);
 
       finalScore+=(scoreEachQuestion*(value/100)); //Se suma cada uno de los porcentajes obtenidos de cada respuesta
-
-      //finalScore+=this.calculateFinalResultBadges();
     });
+
+    if(this.addPenalization)
+    {
+      finalScore*=(1-(this.PENALIZATAION/100));
+    }
 
     finalScore*=(1+(this.extraBadgesScore/100));
 
-    return finalScore;
+    //return this.PENALIZATAION<100 ? finalScore : 0;
+
+    return new Promise((resolve, reject) =>
+    {
+      resolve(this.PENALIZATAION<100 ? finalScore : 0);
+    });
   }
 
   registerAttempt(idLevel: number|string, idUser: number, intentos: number)
   {
     this.questionService.addNewAttempt(this.SUBJECT_ID, idLevel, idUser).subscribe(res =>
     {
-      console.log(res);
+      //console.log(res);
       this.getDateAttempt(idLevel, idUser);
 
-      this.badgeRegisterAndGetQuestions(intentos)
+      this.badgeRegisterAndGetQuestions(intentos);
     }, err =>
     {
       console.log(err);
@@ -431,7 +481,7 @@ export class LevelQuestionsComponent implements OnInit
     this.registerBadgeAttempts(intentos);
     this.registerBadgeDate();
 
-    console.log('registrado');
+    //console.log('registrado');
     this.getQuestiontoShow();
   }
 
@@ -439,10 +489,8 @@ export class LevelQuestionsComponent implements OnInit
   {
     this.questionService.getIndividualAttempts(idUser, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
     {
-      //this.lastDateAttempt=res.fecha_ultimo_intento;
       this.lastDateAttempt=new Date(res.fecha_ultimo_intento);
-      console.log(this.lastDateAttempt);
-
+      //console.log(this.lastDateAttempt);
     },err =>
     {
       console.log(err);
@@ -470,7 +518,7 @@ export class LevelQuestionsComponent implements OnInit
     this.levelService.getCountQuestions().subscribe(count =>
     {
       this.countQuestions=count;
-      console.log(count);
+      //console.log(count);
     });
   }
 
@@ -490,21 +538,33 @@ export class LevelQuestionsComponent implements OnInit
 
   pendingQuestions(idStudent: number, idLevel: number|string)
   {
-    console.log('preguntas pendientes');
+    //console.log('preguntas pendientes');
     this.questionService.getIndividualAttempts(idStudent, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
     {
       console.log(res);
 
       if(res== null || res.finalizado)
       {
-        (res == null)? this.registerAttempt(idLevel, idStudent, 0) : this.registerAttempt(idLevel, idStudent, res.intentos);
+        if(res==null)
+        {
+          this.registerAttempt(idLevel, idStudent, 0);
+          this.updateCoins=true;
+        }
+        else
+        {
+          this.PENALIZATAION*=res.intentos;
+          console.log('penalización', this.PENALIZATAION, res.intentos);
+          this.registerAttempt(idLevel, idStudent, res.intentos);
+          this.disableBoosters=res.uso_booster;
+        }
       }
       else
       {
+        console.log('entro acá');
         this.loadBadgesScore(this.stringPadLeft(res.uso_insignias));
         this.getPendingQuestions(idStudent, idLevel, res.fecha_ultimo_intento);
         this.lastDateAttempt= new Date(res.fecha_ultimo_intento);
-        console.log(this.lastDateAttempt);
+        //console.log(this.lastDateAttempt);
         this.disableBoosters=res.uso_booster;
       }
 
@@ -635,12 +695,14 @@ export class LevelQuestionsComponent implements OnInit
     setTimeout(() =>
     {
       this.getQuestiontoShow();
+      this.showCorrect=false;
+      this.showIncorrect=false;
     }, time);
   }
 
   addMoreTime()
   {
-    this.actualTime+=7;
+    this.actualTime-=7;
   }
 
   addAnotherAttempt()
@@ -650,26 +712,25 @@ export class LevelQuestionsComponent implements OnInit
 
   deleteTwoOptions()
   {
-    let loop:number=this.countCorrectOptions(this.questions[this.actualQuestion].opciones)>2 ? 1:2, optionIndex;
+    let loop:number=this.countCorrectOptions(this.questions[this.actualQuestion].opciones)>1 ? 1:2, optionIndex;
 
-    console.log(loop);
+    //console.log(loop);
 
     for(let repeat=0;repeat<loop;repeat++)
     {
       optionIndex=Math.floor(this.getRandomArbitrary(0, 3));
-      console.log(optionIndex);
 
       if(this.optionDisabled[optionIndex] && this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje==0)
       {
-        this.optionDisableColor[optionIndex]=true;
         this.optionDisabled[optionIndex]=false;
+        this.optionDisableColor[optionIndex]=true;
       }
       else
       {
         let i=0;
-        while(!this.optionDisabled[optionIndex] && this.questions[this.actualQuestion].opciones[i].porcentaje_puntaje!=0)
+        while(!this.optionDisabled[i] && this.questions[this.actualQuestion].opciones[i].porcentaje_puntaje!=0)
         {
-          console.log(i);
+          //console.log(i);
           i++
         }
 
@@ -708,8 +769,6 @@ export class LevelQuestionsComponent implements OnInit
 
       this.userService.setUsedBoosterOnLevel(idLevel, +localStorage.getItem('userId')).subscribe(res =>
       {
-        console.log('se registro el booster usado');
-
         if(idBooster==3)
         {
           this.skipQuestion(idLevel, idQuestion, dateToCompare);
@@ -762,7 +821,7 @@ export class LevelQuestionsComponent implements OnInit
       {
         this.levelService.getBadgeSpecify(badge.id_insignia, badge.tipo_insignia).subscribe(specify =>
         {
-          res(specify[0]);
+          res(specify);
         })
       })
     }
@@ -833,39 +892,40 @@ export class LevelQuestionsComponent implements OnInit
 
   async updateValueBadgeLevel(idLevel: number|string, newValue: number)
   {
-    console.log(newValue, newValue.toString(2));
+    //console.log(newValue, newValue.toString(2));
 
     //this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), (newValue >>> 0).toString(2)).subscribe(res =>
-    this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(res =>
+    await this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(async res =>
     {
-      console.log(res);
-      console.log("Se actualizó el valor de las insignias correctamente");
+      await this.showWonBadgeAlert();
     },err =>
     {
       console.log(err);
     });
-
-    await this.showWonBadgeAlert();
   }
 
   getBadgePic(indexBadge: number)
   {
-    return badgeInfo[indexBadge][1];
+    //return badgeInfo[indexBadge][0];
+    return badgeInfo.get(indexBadge)[0];
   }
 
   getBadgeDetails(indexBadge: number)
   {
-    return badgeInfo[indexBadge][2];
+    //return badgeInfo[indexBadge][1];
+    return badgeInfo.get(indexBadge)[1];
   }
 
   async showWonBadgeAlert()
   {
     this.showWonAlert=true;
+    clearInterval(this.settedInterval);
     await new Promise((resolve) => {
       setTimeout(() => {
           // Resolve the promise
           this.showWonAlert=false;
-          resolve(console.log('hello'));
+          //resolve(console.log('hello'));
+          this.setTimer();
       }, 3000);
   });
   }
@@ -875,17 +935,14 @@ export class LevelQuestionsComponent implements OnInit
     this.constantService.getBoosterPrices().subscribe(prices =>
     {
       let i=0;
-      console.log(prices);
+      //console.log(prices);
 
       prices.forEach(price =>
       {
-        this.BOOSTER_PRICES[i++]=price;
+        this.BOOSTER_PRICES[i++]=price.content;
       });
-    });/*
-    this.BOOSTER_PRICES[0]= 100;
-    this.BOOSTER_PRICES[1]= 500;
-    this.BOOSTER_PRICES[2]= 250;
-    this.BOOSTER_PRICES[3]= 1000;*/
+    });
+    //console.log(this.BOOSTER_PRICES);
   }
 
 }

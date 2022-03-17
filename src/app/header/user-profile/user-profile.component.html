@@ -1,0 +1,104 @@
+<div class="profile-container">
+  <div class="row title">
+    <div class="col-md-8" *ngIf="user!=undefined">
+      {{user.nombre}} {{user.apellido}}
+    </div>
+
+    <div class="col-md-4">
+      <div class="image">
+        <img src="../../../assets/img/empty_profile_pic.svg" height="70px" width="70px">
+      </div>
+    </div>
+  </div>
+
+  <div class="line">&nbsp;</div>
+
+  <div class="content" *ngIf="user!=undefined && !editing" id="information">
+    <div class="row">
+      <div class="col-md-6">Nombre: <span class="info">{{user.nombre}}</span></div>
+      <div class="col-md-6">Apellido: <span class="info">{{user.apellido}}</span></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">Mail: <span class="info">{{user.mail}}</span></div>
+      <div class="col-md-6">Matricula: <span class="info">{{user.matricula}}</span></div>
+    </div>
+
+    <div class="row button-container">
+      <button class="btn btn-primary" (click)="onEditInfo()" id="editInfo">Editar</button>
+    </div>
+  </div>
+
+  <div class="content" *ngIf="editing">
+    <form [formGroup]='userInfoForm' (submit)="onSaveInfo()" id="profileEditForm">
+      <div class="row">
+        <div class="col-md-6">Nombre: <span class="info"><input type="text" formControlName='nombre'></span></div>
+        <div class="col-md-6">Apellido: <span class="info"><input type="text" formControlName='apellido'></span></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">Mail: <span class="info"><input type="email" formControlName='mail'></span></div>
+        <div class="col-md-6">Matricula: <span class="info"><input type="text" formControlName='matricula'></span></div>
+      </div>
+
+      <div class="row button-container edit-button-container">
+        <button class="btn btn-info" type="submit" id="submitInfo">Guardar</button>
+        <span (click)="onCancel()" id="cancelEditInfo">Cancelar</span>
+      </div>
+    </form>
+  </div>
+
+  <div class="row change-password">
+    <div class="col-md-12">
+      <button class="btn btn-info" (click)="onEditPassword()">Cambiar contraseña</button>
+    </div>
+  </div>
+
+  <div class="row change-password-menu" *ngIf="editingPassword">
+    <div class="col-md-12">
+      <form [formGroup]='passwordForm' (submit)="changePassword()" id="passwordForm">
+        <div class="row">
+          <div class="col-md-6">Contraseña actual: <span class="info"><input type="password" formControlName='password'></span></div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">Nueva contraseña: <span class="info"><input type="password" formControlName='newpassword'></span></div>
+          <div class="col-md-6">Repetir nueva contraseña: <span class="info"><input type="password" formControlName='repeatnewpassword'></span></div>
+        </div>
+
+        <div class="row button-container edit-button-container">
+          <button class="btn btn-info" [disabled]="passwordForm.invalid" id="submitPassword">Cambiar</button>
+          <span (click)="onCancelPassword()" id="cancelPassword">Cancelar</span>
+        </div>
+
+        <div class="row error-container">
+          <span *ngIf="this.passwordForm.touched &&
+          this.passwordForm.getError('mustMatch')">
+            Las contraseña deben coincidir.
+          </span>
+
+          <span *ngIf="this.passwordForm.touched &&
+          this.passwordForm.get('newpassword').getError('containsNumber') && this.passwordForm.get('newpassword').getError('containsNumber').value!=null">
+            La contraseña debe contener números.
+          </span>
+
+          <span *ngIf="this.passwordForm.touched &&
+          this.passwordForm.get('newpassword').getError('specialCharacter') && this.passwordForm.get('newpassword').getError('specialCharacter').value!=null">
+            La contraseña debe contener caracteres especiales.
+          </span>
+
+          <span *ngIf="this.passwordForm.touched &&
+          this.passwordForm.get('newpassword').getError('upperCase') && this.passwordForm.get('newpassword').getError('upperCase').value!=null">
+            La contraseña debe contener mayúsculas.
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+    </div>
+  </div>
+</div>

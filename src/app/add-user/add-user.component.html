@@ -25,7 +25,7 @@
 
     <span class="title" *ngIf="userType===1">Ingrese el email del profesor que desea agregar:</span>
     <span class="title" *ngIf="userType===2">Ingrese el email del estudiante que desea agregar:</span>
-    <form class="form" [formGroup]="searchUserForm" #fform="ngForm">
+    <form class="form" [formGroup]="searchUserForm" #fform="ngForm" (ngSubmit)="onSubmitUser()" id="searchForm">
       <div class="form-element">
 
         <label class="input-title">Email:</label>
@@ -35,7 +35,7 @@
 
 
       </div>
-      <button class="btn btn-secondary mb-3" type="submit" [disabled]="searchUserForm.invalid" (click)="onSubmitUser()">
+      <button class="btn btn-secondary mb-3" type="submit" [disabled]="searchUserForm.invalid" id="searchButton">
         <fa-icon [icon]="magnifying"></fa-icon>
         Buscar
       </button>

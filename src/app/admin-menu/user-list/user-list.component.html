@@ -1,0 +1,48 @@
+<div class="list-container">
+  <div class="list-title">
+    Listado de usuarios
+  </div>
+
+  <table class="table-list">
+    <thead class="head-list">
+      <tr>
+        <td>#</td>
+        <td>Nombre y apellido</td>
+        <td>Mail</td>
+        <td>Matrícula</td>
+        <td>Activado</td>
+        <td>Externo</td>
+        <td *ngIf="canEdit">Acciones</td>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let user of users, let i=index">
+        <td>{{i+1}}</td>
+        <td>{{user.nombre+' '+user.apellido}}</td>
+        <td>{{user.mail}}</td>
+        <td>{{user.matricula}}</td>
+        <td *ngIf="user.validado">Sí</td>
+        <td *ngIf="!user.validado">No</td>
+        <td *ngIf="user.externo">Sí</td>
+        <td *ngIf="!user.externo">No</td>
+        <td  *ngIf="canEdit">
+          <button class="btn btn-info" routerLink="/admin-menu/edit/{{user.id_usuario}}" id="edit"><fa-icon [icon]='editIcon'></fa-icon></button>
+          <button class="btn btn-light" (click)="inactivateUser(user.id_usuario, i)" style="margin-left: 2%; margin-right: 2%;" *ngIf="user.validado" id="inactivate">
+            <fa-icon [icon]='inactivateIcon'></fa-icon>
+          </button>
+          <button class="btn btn-success" (click)="activateUser(user.id_usuario, i)" style="margin-left: 2%; margin-right: 2%;" *ngIf="!user.validado" id="activate">
+            <fa-icon [icon]='activateIcon'></fa-icon>
+          </button>
+          <button class="btn btn-danger" (click)="deleteUser(user.id_usuario, i)" id="delete"><fa-icon [icon]='deleteIcon'></fa-icon></button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="error-message">
+
+</div>

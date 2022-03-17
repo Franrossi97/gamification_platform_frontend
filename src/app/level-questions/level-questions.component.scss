@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap');
 
 $progressBar-color: rgb(151, 57, 76);
 $question-title-background: rgb(238, 235, 88);
@@ -11,9 +12,9 @@ $secondary-bg-color: rgb(63, 63, 63);
   border-radius: 7px;
   background-color: $primary-bg-color;
   width: 100%;
-  height: 100%;
+  height: 100%;/*
   padding-left: 25%;
-  padding-right: 25%;
+  padding-right: 25%;*/
 
   .question
   {
@@ -28,18 +29,25 @@ $secondary-bg-color: rgb(63, 63, 63);
       background-color: $question-title-background;
       width: 100%;
       box-shadow: rgba(50, 50, 93, 0.25) 0px 25px 55px -50px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      text-align: center;
 
-      h3
+      .title
       {
-        margin-left: 40%;
-        padding: 1rem 0 1rem 0;
+        padding: 2% 0 5% 0;
+
+        h3
+        {
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
       }
 
       .coins
       {
         color: rgb(99, 99, 99);
-        margin: -11% 0 0 82%;
-        padding-bottom: 5%;
+        margin: -8% 0 0 82%;
+        padding-bottom: 4%;
       }
     }
 
@@ -69,8 +77,10 @@ $secondary-bg-color: rgb(63, 63, 63);
 
     .timer-number
     {
+      width: 2%;
       margin-top: -0.8rem;
-      margin-left: 24%;
+      margin-left: 47%;
+      margin-right: auto;
       color: whitesmoke;
       font-family: 'Bree Serif', serif;
       position: absolute;
@@ -116,6 +126,7 @@ $secondary-bg-color: rgb(63, 63, 63);
     {
       box-shadow: 0 1rem 2rem rgba(black, .15);
       transform: translateY(-2px);
+      cursor: pointer;
     }
 
     &:active
@@ -155,7 +166,7 @@ $secondary-bg-color: rgb(63, 63, 63);
       .booster-price
       {
         font-weight: bold;
-        margin: -14% 0 5% 48%;
+        margin: -5% 0 5% 60%;
         color: rgb(99, 99, 99);
       }
     }
@@ -183,30 +194,55 @@ $secondary-bg-color: rgb(63, 63, 63);
 
 }
 
+.badge-alert
+{
+  background: rgb(255,237,67);
+  background: linear-gradient(90deg, rgba(255,237,67,1) 39%, rgba(254,255,33,1) 85%);
+  border: 7px solid rgb(179, 179, 79);
+  color: rgb(145, 145, 145);
+}
+
+.message-correct
+{
+  font-size: 3rem;
+  color: rgb(0, 255, 0);
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  font-family: 'Balsamiq Sans', cursive;
+  margin-left: 1%;
+}
+
+.message-incorrect
+{
+  font-size: 3rem;
+  color: rgb(194, 2, 2);
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  font-family: 'Balsamiq Sans', cursive;
+}
+
 .alert-container
 {
   font-weight: bold;
-  color: rgb(145, 145, 145);
-  background: rgb(255,237,67);
-  background: linear-gradient(90deg, rgba(255,237,67,1) 39%, rgba(254,255,33,1) 85%);
+  width: 70%;
   top: 38%;
-  left: 37%;
+  left: 15%;
+  right: auto;
   padding: 4%;
   border-radius: 10px;
   position: absolute;
-  border: 7px solid rgb(179, 179, 79);
 
   .content-container
   {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+    //align-content: center;
 
     h3
     {
       margin-left: auto;
       margin-right: auto;
-      width: 85%;
+      width: 55%;
       font-size: 2.2rem;
     }
 
@@ -214,7 +250,7 @@ $secondary-bg-color: rgb(63, 63, 63);
     {
       margin-left: auto;
       margin-right: auto;
-      width: 100%;
+      width: 67%;
       font-size: 1.9rem;
     }
 
@@ -222,18 +258,126 @@ $secondary-bg-color: rgb(63, 63, 63);
     {
       margin-left: auto;
       margin-right: auto;
-      width: 42%;
+      width: 28%;
     }
 
     p
     {
       margin-left: auto;
       margin-right: auto;
-      width: 55%;
+      width: 38%;
     }
   }
 }
 
+@media screen and (min-width: 280px) and (max-width: 319px)
+{
+  .alert-container
+  {
+    .content-container
+    {
+      h3
+      {
+        font-size: 1.8rem;
+        width: 100%;
+      }
+
+      h5
+      {
+        width: 75%;
+        font-size: 1.5rem;
+      }
+
+      .img-container
+      {
+        width: 65%;
+      }
+
+      p
+      {
+        width: 80%;
+      }
+    }
+  }
+
+  .message-correct
+  {
+    font-size: 2.2rem;
+  }
+
+  .message-incorrect
+  {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 360px)
+{
+  .alert-container
+  {
+    .content-container
+    {
+      h3
+      {
+        width: 95%;
+      }
+
+      h5
+      {
+        width: 75%;
+      }
+
+      .img-container
+      {
+        width: 50%;
+      }
+
+      p
+      {
+        width: 64%;
+      }
+    }
+  }
+
+  .message-correct
+  {
+    font-size: 2.4rem;
+  }
+
+  .message-incorrect
+  {
+    font-size: 2.4rem;
+  }
+}
+
+@media screen and (min-width: 361px) and (max-width: 480px)
+{
+  .alert-container
+  {
+    .content-container
+    {
+      h3
+      {
+        width: 95%;
+      }
+
+      h5
+      {
+        width: 75%;
+      }
+
+      .img-container
+      {
+        width: 50%;
+      }
+
+      p
+      {
+        width: 64%;
+      }
+    }
+  }
+}
 
 @media screen and (max-width: 700px)
 {
@@ -272,6 +416,20 @@ $secondary-bg-color: rgb(63, 63, 63);
   }
 }
 
+@media screen and (min-width: 1100px) and (max-width: 1400px)
+{
+  .question
+  {
+    .question-title
+    {
+      .coins
+      {
+        margin-top: -4% !important;
+      }
+    }
+  }
+}
+
 .wrong
 {
   background-color: brown !important;
@@ -285,4 +443,27 @@ $secondary-bg-color: rgb(63, 63, 63);
 .option-disable
 {
   filter: brightness(30%) !important;
+}
+
+@media screen and (min-width: 1401px)
+{
+  .question
+  {
+    .question-title
+    {
+      .coins
+      {
+        margin-top: -4% !important;
+      }
+    }
+  }
+
+  .booster-item
+  {
+    .booster-price
+    {
+      margin-top: -1% !important;
+      font-size: 1.6rem;
+    }
+  }
 }

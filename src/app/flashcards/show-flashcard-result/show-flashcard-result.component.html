@@ -1,0 +1,154 @@
+<div class="options-container">
+  <div class="option">
+    <a routerLink="/flashcards/list">
+      <fa-icon [icon]="leftArrowIcon"></fa-icon>
+      Volver
+    </a>
+  </div>
+
+  <div class="option">
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmitFilters()" id="filterForm">
+      <select formControlName="quarter">
+        <option value="1">Primer Cuatrimestre</option>
+        <option value="2">Segundo Cuatrimestre</option>
+      </select>
+
+      <select formControlName="year">
+        <option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</option><!--
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>-->
+      </select>
+
+      <button type="submit" class="btn btn-secondary btn-sm" [disabled]="filterForm.invalid" id="searchButton">
+        <fa-icon [icon]="searchIcon"></fa-icon>
+        Buscar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="flashcard-result-container">
+  <div class="flashcard-result-title">
+    Programación I
+  </div>
+
+  <div class="flashcard-items-container">
+    <div class="row" *ngIf="flashcardItemsResult!=null">
+      <div class="col-4" *ngFor="let item of flashcardItemsResult; index as i">
+        <div class="flashcard-item">
+          <div class="flashcard-title">
+            Flashcard {{i+1}}
+          </div>
+
+          <div class="flashcard-content">
+            <p>{{item.contenido}}</p>
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="[item.sabe, item.sabe_parcial, item.no_sabe]"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="flashcard-item">
+          <div class="flashcard-title">
+            Introducción a la programación - Nivel 1
+          </div>
+
+          <div class="flashcard-content">
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="flashcard-item">
+          <div class="flashcard-title">
+            Introducción a la programación - Nivel 1
+          </div>
+
+          <div class="flashcard-content">
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="flashcard-item">
+          <div class="flashcard-title">
+            Introducción a la programación - Nivel 1
+          </div>
+
+          <div class="flashcard-content">
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="flashcard-item">
+          <div class="flashcard-title">
+            Introducción a la programación - Nivel 1
+          </div>
+
+          <div class="flashcard-content">
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

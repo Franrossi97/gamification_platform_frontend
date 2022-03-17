@@ -20,7 +20,6 @@ export class NavegationComponent implements OnInit
 
   ngOnInit(): void
   {
-    console.log(this.subjectName);
   /*
     this.levelService.getCountLevels().then(count =>
     {
@@ -35,8 +34,6 @@ export class NavegationComponent implements OnInit
     {
       this.levelService.getCountLevels(+param.get('id')).subscribe(count =>
       {
-        console.log('contador', count);
-
         this.numberArray = Array(count).fill(0).map((x,i)=>i); // [0,1,2,3,4]
       });
     });

@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+$border-bottom-color: deepskyblue;
+
+.create-flashcard-container
+{
+  border-radius: 8px;
+  margin: 2% auto 2%  auto;
+  width: 80%;
+  height: 100%;
+  background-color: whitesmoke;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  .title
+  {
+    letter-spacing: 3px;
+    font-family: 'Fredoka One', cursive;
+    color: rgb(40, 100, 156);
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin: 2%;
+    border-bottom: 2px rgb(58, 58, 58) solid;
+  }
+
+  form
+  {
+    width: 86%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .row
+  {
+
+    .input-title
+    {
+      color: rgb(85, 85, 85);
+      font-size: 1.5rem;
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .form-input-position-size
+    {
+      font-size: 1.2rem;
+      margin-left: 2%;
+      padding-left: 1%;
+      width: 35%;
+      height: 3rem;
+      margin-bottom: 3%;
+      outline: none;
+    }
+
+    .form-input
+    {
+      border: 0px;
+      border-bottom: 2px $border-bottom-color solid;
+      background-color: rgb(188, 221, 255);
+      transition: all 0.3s ease-in;
+      border-radius: 4px;
+
+      &:focus
+      {
+        border-bottom: 4px $border-bottom-color solid;
+      }
+    }
+
+    select
+    {
+      border-radius: 8px;
+      border-color: $border-bottom-color;
+      background-color: rgb(188, 221, 255);
+      transition: all 0.2s ease-in-out;
+
+      option
+      {
+        background-color: whitesmoke;
+      }
+
+      &:hover
+      {
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+      }
+
+      &:focus
+      {
+        box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      }
+    }
+
+    .trash-icon
+    {
+      margin-left: 1.3rem;
+      height: 100%;
+      margin-top: 1%;
+      margin-bottom: auto;
+    }
+  }
+
+}

@@ -1,0 +1,136 @@
+.edit-container
+{
+  background-color: whitesmoke;
+  border-radius: 7px;
+  height: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 30%;
+
+  .icon-trash
+  {
+    font-size: 1.2rem;
+    color: red;
+    margin-left: -16%;
+    margin-top: 10px;
+
+    &:hover
+    {
+      filter: brightness(1.5);
+      cursor: pointer;
+    }
+  }
+
+  .flashcard-delete
+  {
+    font-size: 3rem;
+    margin-left: 34%;
+    margin-top: 3%;
+  }
+
+  .flashcard-card
+  {
+    /*background: rgb(255,255,255);
+    background: linear-gradient(354deg, rgba(255,255,255,1) 0%, rgba(187,207,221,1) 6%, rgba(0,167,229,1) 39%);*/
+    background: rgb(42,80,182);
+    background: -moz-linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
+    background: -webkit-linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
+    background: linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2a50b6",endColorstr="#00d4ff",GradientType=1);
+    border-radius: 8px;
+    border: 4px rgb(0, 187, 255) solid;
+    padding: 5%;
+    margin-top: 10%;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: honeydew;
+    font-weight: bold;
+    align-items: center;
+    transition: all 0.25s ease-in;
+
+    &:hover
+    {
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      transform: scale(1.05);
+    }
+
+    .title-card
+    {
+      font-size: 1.2rem;
+      width: 100%;
+      margin-right: auto;
+      //margin-bottom: 4%;
+    }
+
+    .content-card
+    {
+      margin-top: 5%;
+      width: 100%;
+      margin-left: 7%;
+      margin-right: auto;
+    }
+  }
+
+  .flashcard-title
+  {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgb(100, 199, 166);
+    padding: 10px;
+    padding-left: 5%;
+  }
+
+  .bottom-border
+  {
+    content : "";
+    //border-bottom: 2px gray solid;
+    left    : 0;
+    bottom  : 0;
+    width   : 95%;  /* or 100px */
+    border-bottom: 2px solid rgb(121, 121, 121);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .edit-content
+  {
+    background-color: rgb(123, 185, 214);
+    border-radius: 10px;
+    border: 1px honeydew solid;
+    outline: none;
+    width: 100%;
+    margin-bottom: 5%;
+    color: whitesmoke;
+  }
+
+  .cancel-content
+  {
+    color: rgb(199, 0, 0);
+    font-weight: bold;
+    margin-left: 5%;
+
+    &:hover
+    {
+      cursor: pointer;
+    }
+  }
+
+  .error-message
+  {
+    width: 100%;
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 10%;
+  }
+
+  .form-title
+  {
+    text-decoration: underline;
+    margin-top: 5%;
+    margin-left: -2%;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+}
