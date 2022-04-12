@@ -45,31 +45,18 @@ export class CreateSubjectComponent implements OnInit {
   onSubmit()
   {
     //const uploadImageData = new FormData();
-    this.subject=new SubjectClass();
-
-    //uploadImageData.append('imgFile', this.uploadPic, this.uploadPic.name);
-    //const reader= new FileReader();
-
-    /*reader.readAsDataURL(this.uploadPic);
-    reader.onload=() =>
-    {
-      this.uploadPic=reader.result;
-    }*/
-
-    this.subject.nombre=this.newSubjectForm.get('name').value;
-    this.subject.cuatrimestre=this.newSubjectForm.get('quarter').value;
-    this.subject.anio=this.newSubjectForm.get('year').value;
-    this.subject.carrera=this.newSubjectForm.get('career').value;
-    //this.subject.image=reader.result;
-    //this.subject.image=uploadImageData;
-
-    //console.log(this.subject);
+    this.subject=new SubjectClass(this.newSubjectForm.get('name').value,
+    this.newSubjectForm.get('quarter').value, this.newSubjectForm.get('year').value, this.newSubjectForm.get('career').value,
+    0, true, true, null, +localStorage.getItem('userId'));
 
     //llamar a servicio
     this.subjectService.createSubject(this.subject, localStorage.getItem('userId')).subscribe(res =>
     {
       this.newSubjectForm.reset();
       this.router.navigate([`/subject/${res}`]);
+    }, err =>
+    {
+      //Lanzar error
     });
     /*
     console.log(uploadImageData);
