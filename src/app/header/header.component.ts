@@ -4,17 +4,19 @@ import { SubjectService } from './../services/subject.service';
 import { Component, OnInit } from '@angular/core';
 import { SubjectClass } from '../shared/Subject';
 import { faCaretDown, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
+import { fadeInHorizontal } from './../animations/FadeInHorizontalDelayed';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  animations: [ fadeInHorizontal ]
 })
 export class HeaderComponent implements OnInit
 {
   caretDown=faCaretDown;
   graduatedIcon=faUserGraduate;
-  subjects: SubjectClass[];
+  subjects: Array<SubjectClass>=new Array<SubjectClass>();
   showRight: boolean;
   show:boolean;
   canView: boolean=false;
@@ -40,11 +42,9 @@ export class HeaderComponent implements OnInit
 
   getSubjects()
   {
-    this.subjectService.getSubjectsForStudent(localStorage.getItem('userId')).subscribe(subjects =>
+    this.subjectService.getSubjectsForStudent(localStorage.getItem('userId'), 0, 4).subscribe(subjects =>
     {
       this.subjects=subjects;
-      if(this.subjects.length>4)
-        this.subjects.length=4
     })
   }
 
@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit
   {
     localStorage.removeItem('userId');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.canView=false;
   }
 

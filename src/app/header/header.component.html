@@ -2,21 +2,21 @@
   <div class="topnavbar">
     <div class="navbar-items">
       <!--<a routerLink='home' class="navbar-title vert">Gamification</a>-->
-      <a routerLink='home' class="navbar-title" style="visibility: visible !important;">
+      <a routerLink='home' class="navbar-title" style="visibility: visible !important;" @fadeInHorizontal>
         <img src="../../assets/img/logo.png" alt="logo" width="140px" height="100px">
       </a>
-      <a routerLink='home' class="navbar-item vert">Home</a>
-      <a routerLink='subjects' class="navbar-item vert">Materias</a>
-      <a routerLink='flashcards/list' class="navbar-item vert">Flashcards</a>
-      <a href="" class="navbar-item vert">About</a>
-      <div class="dropdown">
+      <a routerLink='home' class="navbar-item vert" @fadeInHorizontal>Home</a>
+      <a routerLink='subjects' class="navbar-item vert" @fadeInHorizontal>Materias</a>
+      <a routerLink='flashcards/list' class="navbar-item vert" @fadeInHorizontal>Flashcards</a>
+      <a href="" class="navbar-item vert" @fadeInHorizontal>About</a>
+      <div class="dropdown" @fadeInHorizontal>
         <a class="navbar-item" (click)="onShow()" id="onShow">
           Mis materias
           <fa-icon [icon]="caretDown"></fa-icon>
         </a>
         <div class="dropdown-content" *ngIf="show">
-          <a routerLink='subject/subject.id_materia' class="dropdown-item list-item" *ngFor="let subject of subjects">{{subject.nombre}}</a>
-          <a class="dropdown-item list-item" *ngIf="subjects.length > 0">....................</a>
+          <a routerLink='subject/{{subject.id_materia}}' class="dropdown-item list-item" *ngFor="let subject of subjects">{{subject.nombre}}</a>
+          <a class="dropdown-item list-item" *ngIf="subjects.length > 0">...........................</a>
           <a class="dropdown-item last-item" routerLink='create-subject'>Crear una nueva materia</a>
         </div>
       </div>
@@ -40,6 +40,7 @@
           <a routerLink='subjects' class="dropdown-item list-item">Materias</a>
           <a routerLink='flashcards/list' class="dropdown-item list-item">Flashcards</a>
           <a href="" class="dropdown-item list-item">About</a>
+          <a routerLink="profile" class="dropdown-item list-item" *ngIf="this.isAuthenticated()">Mi perfil</a>
           <a (click)="logOut()" class="dropdown-item list-item" *ngIf="this.isAuthenticated()" id="logOutList">Salir</a>
           <a routerLink='login' class="dropdown-item list-item" *ngIf="!this.isAuthenticated()">Ingresar</a>
           <a routerLink='register' class="dropdown-item list-item" *ngIf="!this.isAuthenticated()">Registrarse</a>

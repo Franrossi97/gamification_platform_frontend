@@ -107,8 +107,6 @@ export class UserProfileComponent implements OnInit {
     {
       validator: MustMatch('newpassword', 'repeatnewpassword'),
     });
-
-    console.log(this.passwordForm.getError('mustMatch'));
   }
 
   changePassword()
