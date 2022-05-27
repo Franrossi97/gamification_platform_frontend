@@ -142,6 +142,10 @@
               <button class="btn btn-primary" style="margin-top: 2.6rem;" [disabled]='newOptionsForm.invalid || newQuestionForm.invalid' id="createquestion">
                 Crear pregunta
               </button>
+
+              <div style="margin-top: -4%;">
+                <app-loading-spinner *ngIf="getLoadingCreate()"></app-loading-spinner>
+              </div>
           </form>
         </div>
     </div>

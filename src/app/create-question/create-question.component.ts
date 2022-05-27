@@ -20,6 +20,8 @@ export class CreateQuestionComponent implements OnInit
   questionType:number;
   selectedOption:boolean;
   checkboxControl: boolean[]=[false, false, false, false];
+  private loadingCreate: boolean= false;
+
   constructor(private fb: FormBuilder, private questionService: QuestionService,
     private route: ActivatedRoute, private router: Router, private location: Location) { }
 
@@ -143,6 +145,7 @@ export class CreateQuestionComponent implements OnInit
 
   onSubmitQuestion()
   {
+    this.loadingCreate= true;
     let newQuestion:Question;
     newQuestion=this.createQuestion();
     console.log(newQuestion);
@@ -151,7 +154,7 @@ export class CreateQuestionComponent implements OnInit
     {
       this.newQuestionForm.reset();
       this.newOptionsForm.reset();
-      //this.router.navigate([this.route.routeConfig.path.slice(0, this.route.routeConfig.path.length-1)]);
+      this.loadingCreate= false;
       this.location.back();
     },error =>
     {
@@ -180,4 +183,7 @@ export class CreateQuestionComponent implements OnInit
     return options;
   }
 
+  getLoadingCreate() {
+    return this.loadingCreate;
+  }
 }

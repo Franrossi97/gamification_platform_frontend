@@ -17,6 +17,8 @@ export class MultipleChoiceComponent implements OnInit {
   valid:boolean=true;
   questionType:number;
   selectedOption:boolean;
+  private loadingCreate: boolean= false;
+
   constructor(private fb: FormBuilder, private questionService: QuestionService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void
@@ -76,6 +78,7 @@ export class MultipleChoiceComponent implements OnInit {
 
   onSubmitQuestion()
   {
+    this.loadingCreate=true;
     let newQuestion:Question;
     newQuestion=this.createQuestion();
     console.log(newQuestion);
@@ -84,6 +87,7 @@ export class MultipleChoiceComponent implements OnInit {
     {
       this.newQuestionForm.reset();
       this.newOptionsForm.reset();
+      this.loadingCreate=false;
       this.router.navigate(['level', this.route.snapshot.params.id, 'question', 'create', 'select']);
     }, err =>
     {
@@ -110,6 +114,10 @@ export class MultipleChoiceComponent implements OnInit {
     options.push(new Option(this.newOptionsForm.get('option4.text').value, this.newOptionsForm.get('option4.score').value, 0));
 
     return options;
+  }
+
+  getLoadingCreate() {
+    return this.loadingCreate;
   }
 
 }
