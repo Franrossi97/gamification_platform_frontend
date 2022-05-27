@@ -1,5 +1,5 @@
-<div class="options-container">
-  <div class="option">
+<div class="options-container row">
+  <div class="option-back">
     <a routerLink="/flashcards/list">
       <fa-icon [icon]="leftArrowIcon"></fa-icon>
       Volver
@@ -8,32 +8,33 @@
 
   <div class="option">
     <form [formGroup]="filterForm" (ngSubmit)="onSubmitFilters()" id="filterForm">
-      <select formControlName="quarter">
-        <option value="1">Primer Cuatrimestre</option>
-        <option value="2">Segundo Cuatrimestre</option>
-      </select>
 
-      <select formControlName="year">
-        <option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</option><!--
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>-->
-      </select>
+      <div class="quarter-select">
+        <select formControlName="quarter">
+          <option value="1">Primer Cuatrimestre</option>
+          <option value="2">Segundo Cuatrimestre</option>
+        </select>
+      </div>
 
-      <button type="submit" class="btn btn-secondary btn-sm" [disabled]="filterForm.invalid" id="searchButton">
-        <fa-icon [icon]="searchIcon"></fa-icon>
-        Buscar
-      </button>
+      <div class="year-select">
+        <select formControlName="year">
+          <option *ngFor="let year of generateArrayOfYears()" value="{{year}}">{{year}}</option>
+        </select>
+      </div>
+
+      <div class="searchButton">
+        <button type="submit" class="btn btn-secondary btn-sm" [disabled]="filterForm.invalid" id="searchButton">
+          <fa-icon [icon]="searchIcon"></fa-icon>
+          Buscar
+        </button>
+      </div>
     </form>
   </div>
 </div>
 
 <div class="flashcard-result-container">
   <div class="flashcard-result-title">
-    Programación I
+    {{titleFlashcard}}
   </div>
 
   <div class="flashcard-items-container">
@@ -61,6 +62,7 @@
         </div>
       </div>
 
+      <!--
       <div class="col-4">
         <div class="flashcard-item">
           <div class="flashcard-title">
@@ -147,7 +149,11 @@
           </div>
 
         </div>
-      </div>
+      </div>-->
+    </div>
+
+    <div class="row empty-alert" *ngIf="flashcardItemsResult==null">
+      <h3>No se han respondido flashcards según su criterio de búsqueda todavía.</h3>
     </div>
   </div>
 

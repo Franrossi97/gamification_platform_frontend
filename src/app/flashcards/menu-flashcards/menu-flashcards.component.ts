@@ -40,11 +40,6 @@ export class MenuFlashcardsComponent implements OnInit {
   {
     this.flashcards=new Array<Flashcard>();
     this.flashcards.length=0;
-    /*
-    this.flashcards.push(new Flashcard(1, 'Introducción a la informática1', 'Hola', 2, 'Chau', 2, null));
-    this.flashcards.push(new Flashcard(2, 'Introducción a la informática2', 'Hola', 3, 'Chau', 2, null));
-    this.flashcards.push(new Flashcard(3, 'Introducción a la informática3', 'Hola', 4, 'Chau', 2, null));
-    this.flashcards.push(new Flashcard(4, 'Introducción a la informática4', 'Hola', 5, 'Chau', 2, null));*/
 
     this.flashcardService.getFlahscard(+localStorage.getItem('userId'), filter).subscribe(res =>
     {

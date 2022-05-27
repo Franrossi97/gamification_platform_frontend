@@ -1,4 +1,4 @@
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { FlashcardService } from './../../services/flashcard.service';
 import { FlashcardItem } from './../../shared/FlashcardItem';
@@ -23,6 +23,7 @@ export class CreateFlashcardComponent implements OnInit
   levelsForSelectedSubject: Array<Level>;
   showErrorMessage: boolean=false;
   trashIcon=faTrashAlt;
+  arrowLeft=faArrowLeft;
 
   @ViewChild('fform') newFlashCardInformationFormDirective;
 
@@ -38,7 +39,7 @@ export class CreateFlashcardComponent implements OnInit
 
   getSubjectForSelect()
   {
-    this.subjectService.getSubjectsForTeacher(localStorage.getItem('userId')).subscribe(res =>
+    this.subjectService.getSubjectsForTeacher(localStorage.getItem('userId'), 0, 99999999).subscribe(res =>
     {
       this.subjectsToSelect=res;
       //console.log(this.subjectsToSelect);

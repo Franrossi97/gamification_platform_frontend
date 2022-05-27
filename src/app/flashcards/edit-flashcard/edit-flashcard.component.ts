@@ -1,9 +1,8 @@
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardService } from './../../services/flashcard.service';
 import { Flashcard } from './../../shared/Flashcard';
 import { Component, OnInit } from '@angular/core';
-import { FlashcardItem } from 'src/app/shared/FlashcardItem';
 import { FormBuilder, Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Component({
@@ -13,6 +12,7 @@ import { FormBuilder, Validators, FormGroup, FormControl, FormArray } from '@ang
 })
 export class EditFlashcardComponent implements OnInit {
 
+  ID_FLASHCARD: number;
   flashcard: Flashcard;
   editFlashcardForm: FormGroup;
   editFlashcardItemForm: FormGroup;
@@ -21,30 +21,20 @@ export class EditFlashcardComponent implements OnInit {
   updateTitleError: boolean=false;
   updateItemError: boolean=false;
   trashIcon=faTrashAlt;
+  arrowLeft= faArrowLeft;
 
   constructor(private fb: FormBuilder, private flashcardService: FlashcardService, private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void
   {
-    /*
-    let flashcardItems: Array<FlashcardItem>=new Array<FlashcardItem>();
-    flashcardItems.push(new FlashcardItem(1, 'La programación permite solucionar problemas'));
-    flashcardItems.push(new FlashcardItem(2, 'La programación permite solucionar problemas'));
-    flashcardItems.push(new FlashcardItem(3, 'La programación permite solucionar problemas'));
-    flashcardItems.push(new FlashcardItem(4, 'La programación permite solucionar problemas'));
-    flashcardItems.push(new FlashcardItem(5, 'La programación permite solucionar problemas'));
-    flashcardItems.push(new FlashcardItem(6, 'La programación permite solucionar problemas'));*/
-
-    this.flashcard=new Flashcard(1, null, 'Programación', 1, 'Programación I', 0, null);
-
     this.route.paramMap.subscribe(param =>
     {
-      //console.log(param.get('id_flashcard'));
-
-      this.getFlahscardInformation(+param.get('id_flashcard'));
+      this.ID_FLASHCARD=+param.get('id_flashcard');
+      this.flashcard=new Flashcard(this.ID_FLASHCARD);
+      this.getFlahscardInformation(this.ID_FLASHCARD);
+      this.setFlashcardTitle(this.ID_FLASHCARD);
     });
-    this.setFlashcardTitle();
 
   }
 
@@ -96,7 +86,6 @@ export class EditFlashcardComponent implements OnInit {
   onCancelEditFlashcard()
   {
     this.showFlashcardForm=false;
-    //this.createFlashcardItemForm=null;
   }
 
   onShowFlashcardItemForm(index: number, value: string)
@@ -123,7 +112,6 @@ export class EditFlashcardComponent implements OnInit {
   onCancelEditItem()
   {
     this.showFlashcardItemForm=-1;
-    //this.createFlashcardItemForm=null;
   }
 
   getFlahscardInformation(idFlashcard: number)
@@ -142,11 +130,16 @@ export class EditFlashcardComponent implements OnInit {
     });
   }
 
-  setFlashcardTitle()
+  setFlashcardTitle(idFlashcard: number)
   {
-    this.flashcardService.getFlashcardTitle().subscribe(title =>
+    this.flashcardService.getFlashcardTitle(idFlashcard).subscribe(value =>
     {
-      this.flashcard.titulo=title;
+      this.flashcard.titulo=value.titulo;
     });
+  }
+
+  onBack()
+  {
+    this.router.navigate(['flashcards', 'list']);
   }
 }

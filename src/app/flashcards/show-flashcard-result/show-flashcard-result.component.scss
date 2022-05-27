@@ -6,6 +6,12 @@
   background-color: rgb(238, 238, 238);
   border-radius: 8px;
 
+  .empty-alert
+  {
+    font-weight: bold;
+    padding: 6% 4% 50% 6%;
+  }
+
   .flashcard-result-title
   {
     color: floralwhite;
@@ -117,11 +123,68 @@
       }
     }
 
+    .quarter-select
+    {
+      float: left;
+      margin-right: 2%;
+    }
+
+    .year-select
+    {
+      float: left;
+      margin-right: 2%;
+    }
+
+    .searchButton
+    {
+      width: 20%;
+      float: left;
+    }
+  }
+
+  .option-back
+  {
+    width: 100%;
     a
     {
       color: darkgray;
       font-weight: bold;
       text-decoration: none;
+    }
+  }
+}
+
+@media screen and (max-width: 510px)
+{
+  .options-container
+  {
+    .option
+    {
+      .searchButton
+      {
+        margin-top: 4%;
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 330px)
+{
+  .options-container
+  {
+    .option
+    {
+      .quarter-select
+      {
+        width: 100%;
+      }
+
+      .year-select
+      {
+        margin-top: 4%;
+        width: 100%;
+      }
     }
   }
 }

@@ -1,5 +1,15 @@
 <div class="edit-container">
   <div class="row">
+    <div class="col-md-12">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="back-button" (click)="onBack()">
+      <fa-icon [icon]="arrowLeft"></fa-icon>
+      Volver
+    </div>
     <div class="flashcard-title" *ngIf="!showFlashcardForm && flashcard!=undefined">
       {{flashcard.titulo}}
 

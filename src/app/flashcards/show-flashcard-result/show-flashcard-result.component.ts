@@ -41,7 +41,7 @@ export class ShowFlashcardResultComponent implements OnInit {
       this.idFlashcard=Number(params.get('id_flashcard'));
 
       this.createFilterForm();
-      this.setFlashcardTitle();
+      this.setFlashcardTitle(this.idFlashcard);
     });
   }
 
@@ -75,11 +75,11 @@ export class ShowFlashcardResultComponent implements OnInit {
     }
   }
 
-  setFlashcardTitle()
+  setFlashcardTitle(idFlashcard: number)
   {
-    this.flashcardService.getFlashcardTitle().subscribe(title =>
+    this.flashcardService.getFlashcardTitle(idFlashcard).subscribe(title =>
     {
-      this.titleFlashcard=title;
+      this.titleFlashcard=title.titulo;
     });
   }
 
