@@ -26,9 +26,11 @@ const MAX_BOOSTERS: number=4;
 export class LevelQuestionsComponent implements OnInit
 {
   coinsIcon=faCoins;
+  COIND_ID: number;
   LEVEL_NAME: string='';
   SUBJECT_ID: number;
   LEVEL_ID: number;
+  MAX_TIME: number=0;
   maxScore: number=0; //El valor se obtiene del componente nivel
   actualTime: number=0;
   questions: Question[];
@@ -108,15 +110,12 @@ export class LevelQuestionsComponent implements OnInit
 
   getAvailableCoins()
   {
-    this.userService.getStudentCoins(this.SUBJECT_ID, +localStorage.getItem('userId')).subscribe((res: {cant_monedas:number}) =>
+    this.userService.getStudentCoins(this.SUBJECT_ID, +localStorage.getItem('userId')).subscribe((res: {id_moneda: number, cant_monedas:number}) =>
     {
-      console.log(res);
-
       if(res)
       {
+        this.COIND_ID= res.id_moneda;
         this.availableCoins=res.cant_monedas;
-        console.log(this.availableCoins);
-
       }
     });
   }
@@ -127,7 +126,6 @@ export class LevelQuestionsComponent implements OnInit
     this.actualTime=0;
     this.settedInterval= setInterval(() =>
     {
-      //if (this.actualTime>= this.MAX_TIME)
       if (this.actualTime>= this.questions[this.actualQuestion].tiempo)
       {
         clearInterval(this.settedInterval);
@@ -177,7 +175,6 @@ export class LevelQuestionsComponent implements OnInit
     this.countTimer+=this.floorTimer(this.actualTime); //Se utilizaran independientemente de si la insignia de preguntas está activa o no
     //this.disableBoosters=false;
     //let auxQuestion: number;
-    //this.actualQuestion=null;
     this.countAnsweredQuestions++; //Se suma  1 al contador de preguntas respondidas
     this.anotherAttempt=false;
 
@@ -193,18 +190,12 @@ export class LevelQuestionsComponent implements OnInit
 
       await this.setQuestionToShow(questionIndex);
 
-      /*while(this.questions[this.actualQuestion].opciones==undefined)
-      {
-        true;
-      }*/
-
       this.questions[this.actualQuestion].opciones.forEach(item => //Cuento la cantidad de opciones que se deberán marcar
       //this.questions[auxQuestion].opciones.forEach(item =>
       {
         if(item.porcentaje_puntaje>0)
           this.optionsToSelect++;
       });
-
 
       //this.countDown(3);
 
@@ -262,24 +253,13 @@ export class LevelQuestionsComponent implements OnInit
         i++;
       }
 
-      this.answeredQuestions[i]=true;
-      this.actualQuestion=i;
-      /*
-      this.answeredQuestions.every(item =>
-      {
-        console.log(item);
-
-        if(!item)
-        {
-          console.log('entro');
-
-          this.answeredQuestions[i]=true;
-          this.actualQuestion=i;
-          return false;
-        }
-
-        i++;
-      });*/
+      if(i < this.answeredQuestions.length){
+        this.answeredQuestions[i]=true;
+        this.actualQuestion=i;
+      }
+      else{
+        clearInterval(this.settedInterval);
+      }
     }
   }
 
@@ -296,14 +276,15 @@ export class LevelQuestionsComponent implements OnInit
       {
         this.selection[1][optionIndex]=true;
         //this.selectionRight[optionIndex]=true;
-        this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'), this.questions[this.actualQuestion].id_pregunta, 100, this.lastDateAttempt);
+        this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
+        this.questions[this.actualQuestion].id_pregunta, 100, this.lastDateAttempt);
         this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 100);
         this.followedAnsweredQuestions+=1; //Se utilizaran independientemente de si la insignia de preguntas está activa o no
         this.showCorrect=true;
         if(this.updateCoins)
         {
           this.availableCoins+=this.questions[this.actualQuestion].recompensa;
-          this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
+          this.changeCoinsQuantity(this.COIND_ID, this.availableCoins);
         }
         this.selectNextQuestionWithDelay(2000);
       }
@@ -313,7 +294,8 @@ export class LevelQuestionsComponent implements OnInit
         {
           this.selection[0][optionIndex]=true;
           //this.selectionWrong[optionIndex]=true;
-          this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'), this.questions[this.actualQuestion].id_pregunta, 0, this.lastDateAttempt);
+          this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
+          this.questions[this.actualQuestion].id_pregunta, 0, this.lastDateAttempt);
           this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 0);
           this.showIncorrect=true;
           this.followedAnsweredQuestions=0;
@@ -358,7 +340,7 @@ export class LevelQuestionsComponent implements OnInit
             if(this.updateCoins)
             {
               this.availableCoins+=this.questions[this.actualQuestion].recompensa;
-              this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), this.availableCoins);
+              this.changeCoinsQuantity(this.COIND_ID, this.availableCoins);
             }
             this.showCorrect=true;
             this.selectNextQuestionWithDelay(2000);
@@ -371,7 +353,8 @@ export class LevelQuestionsComponent implements OnInit
             this.selection[0][optionIndex]=true;
             //this.selectionWrong[optionIndex]=true;
             this.optionDisabled.fill(false);
-            this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'), this.questions[this.actualQuestion].id_pregunta, 0, this.lastDateAttempt);
+            this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
+              this.questions[this.actualQuestion].id_pregunta, 0, this.lastDateAttempt);
             //this.porcentajesPregunta[this.actualQuestion]=0;
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, 0);
             //this.getQuestiontoShow();
@@ -481,7 +464,6 @@ export class LevelQuestionsComponent implements OnInit
     this.registerBadgeAttempts(intentos);
     this.registerBadgeDate();
 
-    //console.log('registrado');
     this.getQuestiontoShow();
   }
 
@@ -490,7 +472,6 @@ export class LevelQuestionsComponent implements OnInit
     this.questionService.getIndividualAttempts(idUser, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
     {
       this.lastDateAttempt=new Date(res.fecha_ultimo_intento);
-      //console.log(this.lastDateAttempt);
     },err =>
     {
       console.log(err);
@@ -564,7 +545,6 @@ export class LevelQuestionsComponent implements OnInit
         this.loadBadgesScore(this.stringPadLeft(res.uso_insignias));
         this.getPendingQuestions(idStudent, idLevel, res.fecha_ultimo_intento);
         this.lastDateAttempt= new Date(res.fecha_ultimo_intento);
-        //console.log(this.lastDateAttempt);
         this.disableBoosters=res.uso_booster;
       }
 
@@ -782,7 +762,7 @@ export class LevelQuestionsComponent implements OnInit
         }
 
         this.availableCoins-=this.BOOSTER_PRICES[idBooster];
-        this.changeCoinsQuantity(this.SUBJECT_ID, +localStorage.getItem('userId'), (this.availableCoins-this.BOOSTER_PRICES[idBooster]));
+        this.changeCoinsQuantity(this.COIND_ID, (this.availableCoins-this.BOOSTER_PRICES[idBooster]));
       }, err =>
       {
         console.log(err);
@@ -802,9 +782,9 @@ export class LevelQuestionsComponent implements OnInit
     return boosters;
   }
 
-  changeCoinsQuantity(idSubject: number, idStudent: number, coins: number)
+  changeCoinsQuantity(idCoin: number, coins: number)
   {
-    this.userService.setCountCoins(idSubject, idStudent, coins).subscribe(res =>
+    this.userService.setCountCoins(idCoin, coins).subscribe(res =>
     {
       console.log(res);
     },err =>
