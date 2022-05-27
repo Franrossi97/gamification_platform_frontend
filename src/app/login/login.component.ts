@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy
   showRegistrationForm: boolean=false;
   socialUser: SocialUser;
   newExternalUser: NewUser;
+  private loadingLogin=false;
   noAgain=false;
 
   @ViewChild('fform') newSubjectFormDirective;
@@ -49,12 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy
 
   onSubmit()
   {
+    this.loadingLogin=true;
     let loginUser: LoginUser=new LoginUser(this.loginUserForm.get('mail').value, this.loginUserForm.get('password').value);
-    console.log(loginUser.mail);
     this.authService.authenticating(loginUser).subscribe(res =>
     {
-      console.log(res);
-
       if(res.length==0)
       {
         this.invalidLogin=true;
@@ -65,13 +64,8 @@ export class LoginComponent implements OnInit, OnDestroy
         this.loadNeededInformation(res);
       }
 
-      /*localStorage.setItem('currentUser', res.mail);
-      localStorage.setItem('userId', res.id_usuario.toString());
-      localStorage.setItem('token', res.jwt)
-      this.invalidLogin=false;
-      this.router.navigate(['home']);*/
-
-    },(err) => {this.invalidLogin=true;});
+      this.loadingLogin=false;
+    },(err) => {this.invalidLogin=true; this.loadingLogin=false;});
   }
 
   subscribeAuthService()
@@ -87,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy
 
       this.authService.authenticating(new LoginUser(this.newExternalUser.mail, this.newExternalUser.password)).subscribe(res =>
       {
-        console.log(res);
 
         if(res.jwt)
         {
@@ -134,7 +127,6 @@ export class LoginComponent implements OnInit, OnDestroy
 
   loadNeededInformation(user)
   {
-    console.log(user);
 
     localStorage.setItem('currentUser', user.mail);
     localStorage.setItem('userId', user.id_usuario.toString());
@@ -157,5 +149,9 @@ export class LoginComponent implements OnInit, OnDestroy
   ngOnDestroy(): void {
 
     this.noAgain=true;
+  }
+
+  getLoadingLogin() {
+    return this.loadingLogin;
   }
 }

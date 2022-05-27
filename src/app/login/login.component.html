@@ -1,4 +1,4 @@
-<div class="container card">
+<div class="container card" style="padding-bottom: 10%;">
   <h2>Inicio de sesión</h2><hr>
   <div class="row">
 
@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-md-9">
-      <form class="form-horizontal" [formGroup]="loginUserForm" #fform="ngForm">
+      <form class="form-horizontal" [formGroup]="loginUserForm" #fform="ngForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label class="col-lg-4 control-label">Mail:</label>
 						<div class="col-md-8">
@@ -20,7 +20,7 @@
 							<input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
             </div>
           </div>
-          <button class="btn btn-primary mb-3" type="submit" [disabled]="loginUserForm.invalid" (click)="onSubmit()">Ingresar</button><br>
+          <button class="btn btn-primary mb-3" type="submit" [disabled]="loginUserForm.invalid">Ingresar</button><br>
           <span *ngIf="invalidLogin" style="color: red;">Usuario y/o contraseña incorrectos</span>
           <span *ngIf="loginUserForm.touched && loginUserForm.invalid" style="color: red;">
             <span *ngIf="loginUserForm.get('mail').errors">Inserte un mail válido.</span><br>
@@ -30,6 +30,8 @@
     </div>
 
   </div>
+
+  <app-loading-spinner *ngIf="getLoadingLogin()"></app-loading-spinner>
 
   <div class="row options-login-container">
 
