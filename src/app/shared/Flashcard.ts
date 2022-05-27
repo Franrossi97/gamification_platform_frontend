@@ -12,7 +12,9 @@ export class Flashcard
   cantidad_items: number;
   items: Array<FlashcardItem>;
 
-  constructor(id_flashcard: number, titulo: string, nivel: string, id_materia: number, materia: string, cantidad_items: number, items: Array<FlashcardItem>)
+  constructor(id_flashcard: number, titulo: string='',
+  nivel: string='', id_materia: number=0, materia: string='',
+  cantidad_items: number=0, items: Array<FlashcardItem>=null)
   {
     this.id_flashcard=id_flashcard;
     this.titulo=titulo;

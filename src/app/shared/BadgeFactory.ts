@@ -9,6 +9,7 @@ export class BadgeFactory {
 
   static getBadge(badge)
   {
+    console.log(badge);
     switch(badge.tipo_insignia)
     {
       case 0:
@@ -27,7 +28,7 @@ export class BadgeFactory {
       case 2:
       {
         return new BadgeDate(badge.id_insignia,
-          badge.puntaje_extra, badge.hasta_dia, 3);
+          badge.puntaje_extra, badge.hasta_dia, 2);
       }
       break;
       case 3:
@@ -37,7 +38,5 @@ export class BadgeFactory {
       }
       break;
     }
-
-    //return null;
   }
 }
