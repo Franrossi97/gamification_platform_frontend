@@ -24,16 +24,16 @@ export class SubjectService
     return this.http.post(postUrl, newSubject);
   }
 
-  getSubjectsForTeacher(id:string|number): Observable<SubjectClass[]>
+  getSubjectsForTeacher(id:string|number, offset: number, limit: number): Observable<SubjectClass[]>
   {
-    const getUrl=`${baseURL}/teacher/subjects/${id}`;
+    const getUrl=`${baseURL}/teacher/subjects/${id}/${offset}/${limit}`;
 
     return this.http.get<SubjectClass[]>(getUrl);
   }
 
-  getSubjectsForStudent(id:string|number): Observable<SubjectClass[]>
+   getSubjectsForStudent(id:string|number, offset: number, limit: number): Observable<SubjectClass[]>
   {
-    const getUrl=`${baseURL}/student/subjects/${id}`;
+    const getUrl=`${baseURL}/student/subjects/${id}/${offset}/${limit}`;
 
     return this.http.get<SubjectClass[]>(getUrl);
   }
@@ -120,19 +120,23 @@ export class SubjectService
 
   uploadCoverImage(name: string, img)
   {
-    let header: HttpHeaders=new HttpHeaders();
-
-    header=header.append('Access-Control-Allow-Origin', 'http://localhost:4200');
-    header=header.append('Access-Control-Allow-Headers', 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range');
-    header=header.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    header=header.append('Access-Control-Allow-Credentials', 'true');
-
     const postImgUrl: string=`${baseURL}/subject/picture/${name}`;
+    const formData= new FormData();
+    formData.append('cover', img);
 
-    return this.http.post(postImgUrl, img,
-    {
-      reportProgress: true,
-      observe: 'events',
-    });
+    return this.http.post(postImgUrl, img);
+  }
+
+  getSubjectPagination(userId: number, userType: number){
+    const getUrl: string= `${baseURL}/subjects/pagination/${userId}/${userType}`;
+
+    return this.http.get<{total: number, per_page: number}>(getUrl);
+  }
+
+  getCoverImages(imageNameOfSubjectId: Array<number>){
+    const getUrl: string= `${baseURL}/subjects/picture`;
+
+    return this.http.post<Array<{subjectId: number, image: any}>>
+      (getUrl, imageNameOfSubjectId);
   }
 }

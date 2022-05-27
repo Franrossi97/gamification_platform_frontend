@@ -89,8 +89,8 @@ export class UserService {
     return this.http.get(getUserCoinsUrl);
   }
 
-  setCountCoins(idSubject: number, idStudent: number, coins: number){
-    const patchUserCoinsUrl: string=`${baseURL}/subject/${idSubject}/users/${idStudent}/coins`;
+  setCountCoins(idCoin: number, coins: number){
+    const patchUserCoinsUrl: string=`${baseURL}/coins/${idCoin}`;
 
     return this.http.patch(patchUserCoinsUrl, coins);
   }
@@ -137,5 +137,11 @@ export class UserService {
     const deleteUrl: string=`${baseURL}/users/${userId}`;
 
     return this.http.delete(deleteUrl);
+  }
+
+  canEditInsideSubject(idUser: number|string, idSubject: number|string) {
+    const getUrl: string= `${baseURL}/user/${idUser}/subject/${idSubject}/task`;
+
+    return this.http.get(getUrl).toPromise();
   }
 }

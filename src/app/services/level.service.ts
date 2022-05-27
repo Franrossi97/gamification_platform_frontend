@@ -176,11 +176,29 @@ export class LevelService
     return this.http.patch(updateBadgesUrl, newValue);
   }
 
+  createBadge(badge: any, idLevel: number) {
+    const postBadgeUrl: string= `${baseURL}/badges/level/${idLevel}`;
+
+    return this.http.post(postBadgeUrl, badge);
+  }
+
   editBadge(badge: any)
   {
     const patchBadgeUrl: string=`${baseURL}/badge/${badge.id_insignia}`;
 
     return this.http.patch(patchBadgeUrl, badge);
+  }
+
+  getAvailableBadges(idLevel: number | String) {
+    const getUrl: string=`${baseURL}/level/${idLevel}/badges/available`;
+
+    return this.http.get<Array<{tipo_insignia: number, nombre: string}>>(getUrl);
+  }
+
+  getUsedBadges(idLevel: number | String) {
+    const getUrl: string=`${baseURL}/level/${idLevel}/badges/used`;
+
+    return this.http.get<Array<{tipo_insignia: number}>>(getUrl);
   }
 
   recieveLevelId(levelId: number)

@@ -90,9 +90,11 @@ export class FlashcardService {
     this.title=new BehaviorSubject(title);
   }
 
-  getFlashcardTitle()
+  getFlashcardTitle(idFlashcard: number)
   {
-    return this.title.asObservable();
+    const getUrl: string=`${baseURL}/flashcard/${idFlashcard}/title`
+
+    return this.http.get<{titulo: string}>(getUrl);
   }
 
   registerFlashcardResult(idItem: number, idStudent: number, result: number)
