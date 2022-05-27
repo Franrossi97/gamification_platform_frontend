@@ -28,3 +28,18 @@ $background-color: #63d1db;
   font-weight: bold;
   margin-top: 3%;
 }
+
+.error-msg
+{
+  font-weight: bold;
+  color: rgb(117, 12, 12);
+  margin-top: 3% 0 0 2%;
+}
+
+@media screen and (max-width: 767px)
+{
+  .left-side-form
+  {
+    display: none;
+  }
+}

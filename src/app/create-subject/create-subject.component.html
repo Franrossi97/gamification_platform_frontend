@@ -8,14 +8,14 @@
       </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-9" style="margin-bottom: 15%;">
       <form class="form-horizontal" [formGroup]="newSubjectForm" #fform="ngForm" (ngSubmit)="onSubmit()" id="subjectform">
         <div class="form-group">
 						<label class="col-lg-4 control-label">Nombre</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" formControlName="name" placeholder="Introduccion a la quimica">
 
-              <span *ngIf="newSubjectForm.get('name').touched && newSubjectForm.get('name').invalid">Inserte un nombre válido.</span>
+              <span class="error-msg" *ngIf="newSubjectForm.get('name').touched && newSubjectForm.get('name').invalid">Inserte un nombre válido.</span>
             </div>
             <label class="col-lg-4 control-label">Cuatrimestre</label>
 						<div class="col-md-8">
@@ -24,26 +24,37 @@
                 <option value="2">Segundo cuatrimestre</option>
               </select>
 
-              <span *ngIf="newSubjectForm.get('quarter').touched && newSubjectForm.get('quarter').invalid">Seleccione un cuatrimestre.</span>
+              <span class="error-msg" *ngIf="newSubjectForm.get('quarter').touched && newSubjectForm.get('quarter').invalid">Seleccione un cuatrimestre.</span>
             </div>
             <label class="col-lg-4 control-label">Año</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" formControlName="year" placeholder="2021">
 
-              <span *ngIf="newSubjectForm.get('year').touched && newSubjectForm.get('year').invalid">Inserte un año válido.</span>
+              <span class="error-msg" *ngIf="newSubjectForm.get('year').touched && newSubjectForm.get('year').invalid">Inserte un año válido.</span>
             </div>
             <label class="col-lg-4 control-label">Carrera</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" formControlName="career" placeholder="Ingenieria en Informática">
 
-              <span *ngIf="newSubjectForm.get('career').touched && newSubjectForm.get('career').invalid">Inserte un nombre de carrera válido.</span>
+              <span class="error-msg" *ngIf="newSubjectForm.get('career').touched && newSubjectForm.get('career').invalid">Inserte un nombre de carrera válido.</span>
 						</div>
 
             <label class="col-lg-4 control-label">Imagen de portada</label>
-            <input type="file" class="form-control-file" style="margin-left: 2%;" formControlName="image" (change)="onFileChanged($event)">
+            <div class="row">
+              <input type="file" class="form-control-file" style="margin-left: 6%;"
+              formControlName="image" (change)="onImageChanged(fileUpload)" #fileUpload>
+
+              <span class="error-msg" *ngIf="fileSizeError">La imagen supera el tamaño correcto (< 90KB).</span>
+              <span class="error-msg" *ngIf="fileTypeError">El formato de imagen no es correcto (png/jpg).</span>
+            </div>
         </div>
-          <button class="btn btn-primary mb-3" type="submit" [disabled]="newSubjectForm.invalid">Crear</button>
+          <button class="btn btn-primary mb-3" type="submit"
+          [disabled]="newSubjectForm.invalid" style="margin-top: 5%;">Crear</button>
       </form>
+
+      <div style="margin-top: -8%;">
+        <app-loading-spinner *ngIf="getLoadingSubmit()"></app-loading-spinner>
+      </div>
     </div>
 
   </div>
