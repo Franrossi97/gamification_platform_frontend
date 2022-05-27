@@ -20,7 +20,7 @@ import { LevelComponent } from './subject/level/level.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import { CreateLevelComponent } from './create-level/create-level.component';
@@ -51,6 +51,10 @@ import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { AdminAddUserComponent } from './admin-menu/admin-add-user/admin-add-user.component';
 import { UserListComponent } from './admin-menu/user-list/user-list.component';
 import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
+import { CursandoComponent } from './home/cursando/cursando.component';
+import { AdministrandoComponent } from './home/administrando/administrando.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-badge/create-badge.component';
 
 
 @NgModule({
@@ -94,6 +98,10 @@ import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
     UserListComponent,
     AdminAddUserComponent,
     EditUserComponent,
+    CursandoComponent,
+    AdministrandoComponent,
+    LoadingSpinnerComponent,
+    CreateBadgeComponent
   ],
   imports: [
     BrowserModule,
@@ -108,6 +116,7 @@ import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
     ChartsModule,
     NgbModule,
     SocialLoginModule,
+    NgbDropdownModule
   ],
   providers:
   [

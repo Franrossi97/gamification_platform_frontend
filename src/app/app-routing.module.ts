@@ -1,3 +1,6 @@
+import { SubjectCreationGuard } from './auth/permission/subject-creation.guard';
+import { AdministrandoComponent } from './home/administrando/administrando.component';
+import { CursandoComponent } from './home/cursando/cursando.component';
 import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
 import { AdminAddUserComponent } from './admin-menu/admin-add-user/admin-add-user.component';
 import { AdminGuard } from './auth/admin/admin.guard';
@@ -37,9 +40,13 @@ import { CreateFlashcardGuard } from './auth/create-flashcard/create-flashcard.g
 
 const routes: Routes = [
   {path: 'home', component: PresentationComponent},
-  {path: 'subjects', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'subjects', component: HomeComponent, canActivate: [AuthGuard], children:
+  [
+    {path: 'cursando', component: CursandoComponent},
+    {path: 'administrando', component: AdministrandoComponent, canActivate: [PermissionGuard]},
+  ]},
   {path: 'register', component: UserRegisterComponent},
-  {path: 'subject/:id', component: SubjectComponent, canActivate: [AuthGuard], children:
+  {path: 'subject/:id', component: SubjectComponent, canActivate: [AuthGuard, SubjectCreationGuard], children:
   [
     {path: 'level/:id_level', component: EditSubjectComponent},
     //{path: 'participants', component: ParticipantsListComponent},
@@ -50,7 +57,7 @@ const routes: Routes = [
   {path: 'subject/:id_subject/level/:id_level/edit', component: LevelEditComponent, canActivate: [AuthGuard, PermissionGuard]},
   {path: 'subject/:id_subject/level/:id', canActivate: [AuthGuard, PermissionGuard], children:
   [
-    {path: 'question/create/select', component: SelectQuestionTypeComponent},
+    {path: 'question/create/select', component: SelectQuestionTypeComponent, canActivate: [SubjectCreationGuard]},
     {path: 'question/create/1', component: CreateQuestionComponent},
     {path: 'question/create/2', component: MultipleChoiceComponent},
   ]},
@@ -73,9 +80,7 @@ const routes: Routes = [
   [
     {path: 'user-list', component: UserListComponent},
     {path: 'add-user', component: AdminAddUserComponent},
-    {path: 'edit/:id_usuario', component: EditUserComponent},/*
-    {path: ''},
-    {path: ''},*/
+    {path: 'edit/:id_usuario', component: EditUserComponent},
   ]},
   {path: 'login', component: LoginComponent},
   {path: '**', component: PresentationComponent},
