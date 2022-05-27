@@ -1,10 +1,9 @@
-import { UserService } from './../services/user.service';
+import { PermissionService } from './../services/permission.service';
 import { SubjectService } from './../services/subject.service';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SubjectClass } from '../shared/Subject';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -13,82 +12,43 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons';
 })
 export class HomeComponent implements OnInit {
 
-  subjectsTeacher: SubjectClass[]=new Array();
-  subjectsStudent: SubjectClass[]=new Array();
-  searchResultSubject: Array<SubjectClass>;
+  private canEdit: boolean=false;
+  private arrowDown=faCaretDown;
+  private showDropDown: boolean=true;
 
-  magnifying=faSearch;
-  constructor(private router: Router, private subjectService:SubjectService) { }
+  constructor(private permissionService: PermissionService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
-    this.getSubjects();
+    this.canEditSubject();
+    //this.router.navigate(['cursando'], {relativeTo: this.route});
   }
 
-  onNewSubject()
-  {
-    this.router.navigate(['create-subject'])
+  getIconArrowDown(){
+    return this.arrowDown;
   }
 
-  getSubjects()
-  {
-    this.subjectService.getSubjectsForTeacher(localStorage.getItem('userId')).subscribe(subjects =>
-    {
-      //console.log(subjects);
-      this.subjectsTeacher=subjects;
-    },(err) => console.log(err));
-
-    this.subjectService.getSubjectsForStudent(localStorage.getItem('userId')).subscribe(subjects =>
-    {
-      //console.log(subjects);
-      this.subjectsStudent=subjects;
-    },(err) => console.log(err));
+  getShowDropDown(){
+    return this.showDropDown;
   }
 
-  sendRequestData(requestedSubject: SubjectClass)
-  {
-    //console.log(requestedSubject);
-
-    this.subjectService.sendData(requestedSubject);
-
-    this.router.navigate(['subject', requestedSubject.id_materia]);
+  setShowDropDown(value: boolean){
+    this.showDropDown=value;
   }
 
-  disableSubject(idSubject: number)
-  {
-    this.subjectService.hideSubject(idSubject).subscribe(res =>
+  getCanEdit(){
+    return this.canEdit;
+  }
+
+  canEditSubject(){
+    this.permissionService.canEdit('materia').then(can =>
     {
-      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].show_menu=false;
-    }, err =>
-    {
-      console.log(err);
+      this.canEdit= can;
     });
   }
 
-  enableSubject(idSubject: number)
-  {
-    this.subjectService.showSubject(idSubject).subscribe(res =>
-    {
-      this.subjectsTeacher[this.getTeacherSubjectIndexById(idSubject)].show_menu=true;
-    }, err =>
-    {
-      console.log(err);
-    });
+  onChangeView(){
+    this.showDropDown= !this.showDropDown;
   }
-
-  getTeacherSubjectIndexById(idSubject: number): number
-  {
-    let res: number=-1;
-
-    for(let i=0; i<this.subjectsTeacher.length && res==-1; i++)
-    {
-      if(this.subjectsTeacher[i].id_materia==idSubject)
-      {
-        res=i;
-      }
-    }
-    //console.log(res);
-    return res;
-  }
-
 }

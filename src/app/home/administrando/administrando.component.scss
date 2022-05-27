@@ -1,0 +1,9 @@
+@import '../home.component.scss';
+
+.page-item
+{
+  &:hover
+  {
+    cursor: pointer;
+  }
+}

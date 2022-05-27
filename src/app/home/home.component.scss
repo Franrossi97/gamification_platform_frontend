@@ -37,6 +37,34 @@
   }
 }
 
+.dropdown-content
+{
+  margin: 0.5rem 0 1rem 0;
+  border: 1px solid rgb(83, 138, 221);
+  border-radius: 10px;
+  width: 19%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  .dropdown-item
+  {
+    text-align: center;
+    color: rgb(150, 150, 150);
+    font-weight: bold;
+    border-bottom: 1px solid rgb(83, 138, 221);
+
+    &:hover
+    {
+      filter: brightness(0.4);
+      background-color: transparent;
+    }
+
+    &:last-child
+    {
+      border-bottom: 0 !important;
+    }
+  }
+}
+
 .footer-search
 {
   background-color: rgb(88, 88, 88);
@@ -71,6 +99,7 @@
 
 .empty-alert
 {
+  margin-top: 1rem;
   color: whitesmoke;
   font-size: 2rem;
   font-weight: bold;
@@ -106,6 +135,11 @@
 
 @media screen and (max-width: 299px)
 {
+  .dropdown-content
+  {
+    width: 100%;
+  }
+
   .empty-alert
   {
     .text-alert
@@ -137,6 +171,11 @@
 
 @media screen and (min-width: 300px) and (max-width: 359px)
 {
+  .dropdown-content
+  {
+    width: 100%;
+  }
+
   .empty-alert
   {
     .text-alert
@@ -167,6 +206,11 @@
 
 @media screen and (min-width: 360px) and (max-width: 500px)
 {
+  .dropdown-content
+  {
+    width: 100%;
+  }
+
   .empty-alert
   {
     .text-alert
@@ -198,6 +242,11 @@
 
 @media screen and (min-width: 501px) and (max-width: 800px)
 {
+  .dropdown-content
+  {
+    width: 44%;
+  }
+
   .empty-alert
   {
     .text-alert
@@ -229,6 +278,11 @@
 
 @media screen and (min-width: 801px) and (max-width: 1100px)
 {
+  .dropdown-content
+  {
+    width: 24%;
+  }
+
   .empty-alert
   {
     .text-alert
@@ -257,54 +311,3 @@
 
   }
 }
-
-@media screen and (min-width: 1101px) and (max-width: 1200px)
-{
-  .empty-alert
-  {
-    .text-alert
-    {
-      .exclamation
-      {
-        margin-left: 0%;
-        margin-right: 45%;
-        font-size: 8rem;
-      }
-    }
-
-  }
-}
-
-/*
-@media screen and (min-width: 1201px)
-{
-  .empty-alert
-  {
-    .text-alert
-    {
-      .exclamation
-      {
-        margin-left: 35%;
-        margin-right: 45%;
-      }
-    }
-
-  }
-}*/
-
-/*
-@media screen and (min-width: 1401px)
-{
-  .empty-alert
-  {
-    .text-alert
-    {
-      .exclamation
-      {
-        margin-left: 0%;
-        margin-right: 45%;
-      }
-    }
-
-  }
-}*/

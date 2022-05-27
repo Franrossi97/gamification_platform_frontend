@@ -3,114 +3,22 @@
     <div class="col-md-12 card">
       <h2>Mis materias</h2>
       <hr>
-      <div *ngIf="subjectsStudent.length>0">
-        <h3>Cursando</h3>
-        <div class="row row-cols-md-3 row-cols-sm-1">
 
-          <div class="col" *ngFor="let subject of subjectsStudent">
-            <div class="card" style="width: 18rem;">
-              <div class="img-card">
-                <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg"
-                class="card-img-top" alt="..." height="180rem" routerLink="/subject/{{subject.id_materia}}">
-              </div>
+      <div class="row dropdown">
+        <div class="col-md-12">
+          <button class="btn btn-outline-primary" (click)="onChangeView()">
+            Seleccionar &nbsp;
+            <fa-icon [icon]="getIconArrowDown()"></fa-icon>
+          </button>
 
-              <div class="card-body">
-                <h5 class="card-title">{{subject.nombre}}</h5>
-                <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
-                <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
-                <a routerLink="/subject/{{subject.id_materia}}" class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</a>
-              </div>
-            </div>
+          <div class="dropdown-content" *ngIf="getShowDropDown()">
+            <a routerLink='cursando' class="dropdown-item">Cursando</a>
+            <a routerLink='administrando' class="dropdown-item" *ngIf="getCanEdit()">Administrando</a>
           </div>
         </div>
       </div>
 
-      <div *ngIf="subjectsTeacher.length>0">
-        <h3 style="margin-top: 2rem;">Administrando</h3>
-        <hr>
-        <div class="row row-cols-md-3 row-cols-sm-1">
-          <div class="col" *ngFor="let subject of subjectsTeacher">
-            <div class="card">
-              <div class="img-card">
-                <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg"
-                class="card-img-top" alt="..." height="180rem" routerLink='/subject/{{subject.id_materia}}'>
-              </div>
-
-              <div class="card-body">
-                <h5 class="card-title">{{subject.nombre}}</h5>
-                <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
-                <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
-                <button class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</button>
-                <a (click)='disableSubject(subject.id_materia)' *ngIf="subject.show_menu" class="disable-link" id="disableSubject">Deshabilitar</a>
-                <a (click)='enableSubject(subject.id_materia)' *ngIf="!subject.show_menu" class="disable-link" id="enableSubject">Habilitar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card" style="width: 18rem;">
-              <!--<img src="https://us.123rf.com/450wm/blankstock/blankstock1409/blankstock140905118/31640485-signo-m%C3%A1s-icono-s%C3%ADmbolo-positivo-acercar-bot%C3%B3n-plano-c%C3%ADrculo-con-la-sombra-modern-sitio-web-de-interfaz-de-us.jpg?ver=6" class="card-img-top" alt="..." height="180rem">-->
-              <img src="../../assets/img/plus.png" class="card-img-top" alt="Nueva materia">
-              <div class="card-body">
-                <h5 class="card-title">Agregar una nueva materia</h5>
-                <p class="card-text">Crear una nueva materia.</p>
-                <a class="btn btn-primary" (click)="onNewSubject()">Crear nueva materia</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col empty-alert" *ngIf="subjectsStudent.length==0 && subjectsTeacher.length==0">
-        <div class="row">
-          <div class="text-alert">
-            <div class="exclamation">
-              !
-            </div>
-            No tienes materias.
-            Puedes buscarlas a continuación
-          </div>
-        </div><!--
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <form (ngSubmit)="onSearchSubject()" [formGroup]="searchForm">
-                <div class="input-container">
-                  <input type="text" class="form-control center-form" formControlName="search">
-
-                  <div class="subject-list" *ngIf="searchResultSubject!=null">
-                    <div class="subject-item" *ngFor="let subject of searchResultSubject; index as i" (click)="onSelectSubject(i)">
-                      {{subject.nombre}}
-                    </div>
-                  </div>
-                </div>
-
-                <button class="btn btn-primary btn-center" type="submit" [disabled]="searchForm.invalid">
-                  <fa-icon [icon]='magnifying'></fa-icon>&nbsp;
-                  Buscar
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div class="row selected-subject-container" *ngIf="selectedSubject!=null">
-
-          <div class="selected-subject-title">
-            {{selectedSubject.nombre}}
-          </div>
-          <div class="border-bottom-line">&nbsp;</div>
-
-          <div class="selected-subject-content">
-            <p *ngIf="selectedSubject.cuatrimestre==1">Materia del primer cuatrimestre del año {{selectedSubject.anio}} de la carrera de {{selectedSubject.carrera}}</p>
-            <p *ngIf="selectedSubject.cuatrimestre==2">Materia del segundo cuatrimestre del año {{selectedSubject.anio}} de la carrera de {{selectedSubject.carrera}}</p>
-
-            <button class="btn btn-info" type="button">Inscribirse</button>
-          </div>
-        </div>-->
-
-        <app-search-box></app-search-box>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

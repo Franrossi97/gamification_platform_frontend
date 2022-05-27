@@ -1,0 +1,65 @@
+<div *ngIf="getSubjects().length>0">
+  <h3 style="margin-top: 2rem;">Administrando</h3>
+  <hr>
+  <div class="row row-cols-md-3 row-cols-sm-1">
+    <div class="col" *ngFor="let subject of getSubjects()" [@fadeIn]="getSubjects().length==0">
+      <div class="card">
+        <div class="img-card">
+          <img src="https://aprender-libre.com/wp-content/uploads/2018/08/Introducci%C3%B3n-a-la-Inform%C3%A1tica-1194x640.jpg" id="{{subject.id_materia}}"
+          class="card-img-top" alt="..." height="180rem" routerLink='/subject/{{subject.id_materia}}'>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{subject.nombre}}</h5>
+          <p class="card-text" *ngIf="subject.cuatrimestre===1">Materia del primer cuatrimestre del año {{subject.anio}}</p>
+          <p class="card-text" *ngIf="subject.cuatrimestre===2">Materia del segundo cuatrimestre del año {{subject.anio}}</p>
+          <button class="btn btn-primary" (click)='sendRequestData(subject)'>Ingresar</button>
+          <a (click)='disableSubject(subject.id_materia)' *ngIf="subject.show_menu" class="disable-link" id="disableSubject">Deshabilitar</a>
+          <a (click)='enableSubject(subject.id_materia)' *ngIf="!subject.show_menu" class="disable-link" id="enableSubject">Habilitar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <img src="../../assets/img/plus.png" class="card-img-top" alt="Nueva materia">
+        <div class="card-body">
+          <h5 class="card-title">Agregar una nueva materia</h5>
+          <p class="card-text">Crear una nueva materia.</p>
+          <a class="btn btn-primary" (click)="onNewSubject()">Crear nueva materia</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 2rem;">
+    <div class="col-md-12">
+
+      <ul class="pagination pagination-lg justify-content-end" *ngIf="getTotalPages()<8">
+        <div *ngFor="let page of getPages()" (click)="onGetSubjectPage(page, 10)">
+          <li class="page-item" *ngIf="page != getActualPage()">
+            <a class="page-link">{{page+1}}</a>
+          </li>
+          <li class="page-item active" *ngIf="page == getActualPage()">
+            <a class="page-link">{{page+1}}</a>
+          </li>
+        </div>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+<div class="col empty-alert" *ngIf="getSubjects().length==0">
+  <div class="row">
+    <div class="text-alert">
+      <div class="exclamation">
+        !
+      </div>
+      No tienes materias.
+      Puedes buscarlas a continuación
+    </div>
+  </div>
+
+  <app-search-box></app-search-box>
+</div>
