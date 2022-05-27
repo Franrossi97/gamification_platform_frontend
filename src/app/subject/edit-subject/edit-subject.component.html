@@ -1,10 +1,26 @@
 <ul class="list-group" style="padding-right: 20px;">
   <a routerLink='{{onAddQuestion()}}'> <li class="list-group-item list-group-item-primary">Agregar una nueva pregunta</li></a>
-  <a> <li class="list-group-item list-group-item-info" (click)='onEditBadges()'>Ver listado de insignias</li> </a>
-  <a> <li class="list-group-item list-group-item-success">Agregar una nueva insignia</li> </a>
+  <a> <li class="list-group-item list-group-item-info" (click)='onEditBadges(contentEditBadge)'>Ver listado de insignias</li> </a>
+  <a> <li class="list-group-item list-group-item-success" (click)='onClickNewLevel(contentNewBadge)'>Agregar una nueva insignia</li> </a>
   <a> <li class="list-group-item list-group-item-danger">Estadísticas</li> </a>
   <a routerLink='{{onEditQuestions()}}'> <li class="list-group-item list-group-item-light">Editar banco de preguntas</li> </a>
 </ul>
 
-<app-badge-menu [idLevel]='editingLevelId' (successfulUpdate)='closeWindow($event)'
-(errorMessage)='receiveErrorEvent($event)' *ngIf="showBadgeMenu"></app-badge-menu>
+<!--<app-badge-menu [idLevel]='editingLevelId' (successfulUpdate)='closeWindow($event)'
+(errorMessage)='receiveErrorEvent($event)' *ngIf="showBadgeMenu"></app-badge-menu>-->
+
+<ng-template #contentEditBadge let-modal>
+  <app-badge-menu [idLevel]='editingLevelId' (successfulUpdate)='closeWindow($event)'
+    (errorMessage)='receiveErrorEvent($event)' *ngIf="showBadgeMenu"></app-badge-menu>
+</ng-template>
+
+<ng-template #contentNewBadge let-modal>
+  <app-create-badge [idLevel]='editingLevelId' (successfulUpdate)='closeWindow($event)'
+    (errorMessage)='receiveErrorEvent($event)'></app-create-badge>
+</ng-template>
+
+<div *ngIf="showErrMessage" class="error-alert-message">
+  {{errorMessage}}
+
+  <fa-icon class="icon-close" [icon]="xIcon" (click)="showErrMessage=false"></fa-icon>
+</div>

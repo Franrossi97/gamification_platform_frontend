@@ -6,14 +6,14 @@
 
     <div class="row badge" *ngFor="let badge of badges; let i=index"
     (click)="onSelectBadge(badge.tipo_insignia, i, badge.id_insignia)" id="badgePic">
-      <div class="col-md-4 badge-information">
+      <div class="col-md-4 badge-information" style="text-align: center;">
         <div class="row">
           <img [src]="getBadgePic(badge.tipo_insignia)">
         </div>
 
-        <div class="row title">
+        <p class="row title">
           {{ getBadgeName(badge.tipo_insignia) }}
-        </div>
+        </p>
 
       </div>
 

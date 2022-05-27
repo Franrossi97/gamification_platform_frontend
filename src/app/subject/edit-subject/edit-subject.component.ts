@@ -1,3 +1,5 @@
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -11,7 +13,11 @@ export class EditSubjectComponent implements OnInit
   @Input() editingLevelId: number;
   @Input() subjectId: number;
   showBadgeMenu: boolean=false;
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  showErrMessage: boolean= false;
+  errorMessage: string= '';
+  xIcon=faTimes;
+
+  constructor(private router: Router, private route: ActivatedRoute, private modalService: NgbModal) { }
 
   ngOnInit(): void
   {
@@ -34,23 +40,40 @@ export class EditSubjectComponent implements OnInit
     return `/subject/${this.subjectId}/level/${this.editingLevelId}/edit`;
   }
 
-  onEditBadges()
+  onEditBadges(content)
   {
     this.showBadgeMenu=!this.showBadgeMenu;
+
+    this.modalService.open(content).result.then(res =>
+    {
+      let closeResult=`Closed with: ${res}`;
+    }, err => console.log(err))
+    .catch(err => console.log(err));
   }
 
   closeWindow(evn)
   {
     this.showBadgeMenu=false;
+    this.modalService.dismissAll('close');
   }
 
   receiveErrorEvent(event)
   {
-    this.showErrorMessage(event.target.value);
+    this.showErrorMessage(event);
   }
 
   showErrorMessage(message)
   {
+    this.showErrMessage= true;
+    this.errorMessage= message;
+  }
 
+  onClickNewLevel(content)
+  {
+    this.modalService.open(content).result.then(res =>
+    {
+      let closeResult=`Closed with: ${res}`;
+    }, err => console.log(err))
+    .catch(err => console.log(err));
   }
 }

@@ -1,9 +1,10 @@
 .menu-container
 {
-  width: 200%;
-  position: absolute;
-  margin-left: -175%;
-  margin-top: -100%;
+  width: 100%;
+  /*position: absolute;
+  left: -185%;
+  top: 0%;*/
+  //margin-left: -75%;
   border-radius: 10px;
   border: rgb(0, 110, 255) 1px solid;
   background-color: rgb(164, 194, 233);
@@ -15,6 +16,11 @@
     margin-top: -1%;
     margin-bottom: 2%;
     margin: -1% 0 1% 98%;
+
+    &:hover
+    {
+      cursor: pointer;
+    }
   }
 
   .badges-container
@@ -36,6 +42,7 @@
         width: 100%;
         margin-left: auto;
         margin-right: auto;
+        text-align: center;
 
         img
         {
@@ -48,7 +55,9 @@
         .title
         {
           word-wrap: break-word;
-          margin-left: -50%;
+          white-space: initial;
+          width: 200%;
+          text-align: center;
         }
       }
 
@@ -102,6 +111,17 @@
         {
           margin-bottom: 10% !important;
         }
+
+        select {
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          //background-color: rgb(164, 194, 233);
+          padding: 2px;
+          width: 100%;
+          height: 2.4rem;
+          outline: none;
+          border-radius: 2px;
+          border: 1px aqua solid;
+        }
       }
 
       button
@@ -112,3 +132,132 @@
 
   }
 }
+
+@media screen and (min-width: 1201px)
+{
+  .menu-container
+  {
+    width: 200%;
+    margin-left: -50%;
+
+    .badges-container
+    {
+      .badge
+      {
+        .badge-information
+        {
+          .title
+          {
+            margin-left: -50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 1025px)
+{
+  .menu-container
+  {
+    width: 150%;
+    margin-left: -25%;
+
+    .badges-container
+    {
+      .badge
+      {
+        .badge-information
+        {
+          .title
+          {
+            margin-left: -50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 769px)
+{
+  .menu-container
+  {
+    width: 150%;
+    margin-left: -25%;
+
+    .badges-container
+    {
+      .badge
+      {
+        .badge-information
+        {
+          .title
+          {
+            margin-left: -50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*@media screen and (max-width: 768px) and (min-width: 481px)
+{
+  .menu-container
+  {
+    width: 90%;
+    position: absolute;
+    left: 5%;
+    top: -180%;
+    border-radius: 10px;
+    border: rgb(0, 110, 255) 1px solid;
+    background-color: rgb(164, 194, 233);
+    padding: 3%;
+
+    .badges-container
+    {
+      .badge
+      {
+        .badge-information
+        {
+          .title
+          {
+            margin-left: 5%;
+            width: 30vw;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) and (min-width: 320px)
+{
+  .menu-container
+  {
+    width: 90%;
+    position: absolute;
+    left: 5%;
+    top: -180%;
+    border-radius: 10px;
+    border: rgb(0, 110, 255) 1px solid;
+    background-color: rgb(164, 194, 233);
+    padding: 3%;
+
+    .badges-container
+    {
+      .badge
+      {
+        .badge-information
+        {
+          .title
+          {
+            margin-left: -32%;
+            width: 30vw;
+          }
+        }
+      }
+    }
+  }
+}*/

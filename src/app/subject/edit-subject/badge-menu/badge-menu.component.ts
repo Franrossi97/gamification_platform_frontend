@@ -1,4 +1,3 @@
-import { BadgeFactory } from './../../../shared/BadgeFactory';
 import { BadgeTimer } from './../../../shared/BadgeTimer';
 import { BadgeQuestions } from './../../../shared/BadgeQuestion';
 import { BadgeDate } from './../../../shared/BadgeDate';
@@ -10,6 +9,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Badge } from 'src/app/shared/Badge';
 import { badgeInfo } from 'src/app/shared/BadgeInformation';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { generateBadge } from './generateBadge';
 //import {} from '../../../../assets/img/badges/';
 
 @Component({
@@ -27,6 +27,7 @@ export class BadgeMenuComponent implements OnInit {
   selectedBadgeType: number=-1;
   editBadgeForm: FormGroup;
   fullEditingBadge: BadgeAttempts|BadgeDate|BadgeQuestions|BadgeTimer;
+
   constructor(private route: ActivatedRoute, private levelService: LevelService, private fb: FormBuilder) { }
 
   ngOnInit(): void
@@ -148,51 +149,20 @@ export class BadgeMenuComponent implements OnInit {
 
   getFormValidation(): boolean
   {
-    //console.log(this.editBadgeForm.controls['date'].value);
-
     return this.fullEditingBadge && ((this.fullEditingBadge.tipo_insignia==2 && !this.editBadgeForm.controls['date'].value) && !this.editBadgeForm.valid);
   }
 
   async onUpdateBadge()
   {
-    let badgeAux= await this.generateBadge();
+    let badgeAux= await generateBadge(this.fullEditingBadge, this.editBadgeForm);
 
     this.levelService.editBadge(badgeAux).subscribe(res =>
     {
-      this.successfulUpdate.emit(false);
+      this.onCloseWindow();
     }, err =>
     {
       this.errorMessage.emit('No se pudo actualizar la insignia seleccionada. Intente de nuevo.');
     });
-  }
-
-  async generateBadge()
-  {
-    let badgeAux: any=this.fullEditingBadge;
-
-    badgeAux.puntaje_extra=this.editBadgeForm.get('extra').value;
-    if(this.fullEditingBadge.tipo_insignia==0)
-    {
-      badgeAux.preguntas_seguidas=this.editBadgeForm.get('parameter').value;
-    }
-    else
-    if(this.fullEditingBadge.tipo_insignia==1)
-    {
-      badgeAux.tiempo_requerido=this.editBadgeForm.get('parameter').value;
-      badgeAux.por_pregunta=this.editBadgeForm.get('perQuestion').value;
-    }
-    else
-    if(this.fullEditingBadge.tipo_insignia==2)
-    {
-      badgeAux.hasta_dia=this.editBadgeForm.get('date').value;
-    }
-    else
-    if(this.fullEditingBadge.tipo_insignia==3)
-    {
-      badgeAux.intentos_maximos=this.editBadgeForm.get('parameter').value;
-    }
-
-    return badgeAux;
   }
 
   onCloseWindow()
