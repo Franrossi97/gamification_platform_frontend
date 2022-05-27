@@ -74,8 +74,13 @@ export class CreateSubjectComponent implements OnInit {
   onSubmit()
   {
     this.loadingSubmit=true;
-    const fileName: string=
-    `${this.newSubjectForm.get('year').value}_${this.newSubjectForm.get('career').value}_${this.fileS.file.name}`;
+    let fileName: string= null;
+
+    if(this.fileS) {
+      const fileName: string=
+      `${this.newSubjectForm.get('year').value}_${this.newSubjectForm.get('career').value}_${this.fileS.file.name}`;
+    }
+
     this.subject=new SubjectClass(this.newSubjectForm.get('name').value,
     this.newSubjectForm.get('quarter').value, this.newSubjectForm.get('year').value, this.newSubjectForm.get('career').value,
     0, true, true, fileName, +localStorage.getItem('userId'));
