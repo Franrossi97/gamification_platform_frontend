@@ -17,6 +17,7 @@ export class SearchBoxComponent implements OnInit {
   searchForm: FormGroup;
   searchResultSubject: Array<SubjectClass>;
   selectedSubject: SubjectClass=null;
+  private loadingSearch: boolean= false;
 
   constructor(private subjectService:SubjectService, private fb: FormBuilder, private userService: UserService,
     private router: Router) { }
@@ -36,9 +37,11 @@ export class SearchBoxComponent implements OnInit {
 
   onSearchSubject()
   {
+    this.loadingSearch=true;
     this.subjectService.getSubjectBySearch(this.searchForm.get('search').value, +localStorage.getItem('userId')).subscribe(res =>
     {
       this.searchResultSubject=res;
+      this.loadingSearch=false;
     });
   }
 
@@ -53,5 +56,9 @@ export class SearchBoxComponent implements OnInit {
     {
       this.router.navigate(['subject', idSubject]);
     });
+  }
+
+  getLoadingSearch() {
+    return this.loadingSearch;
   }
 }
