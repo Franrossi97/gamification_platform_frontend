@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class PermissionGuard implements CanActivate {
 
-  constructor(private userService: UserService, private router: Router, private permissionService: PermissionService){}
+  constructor(private permissionService: PermissionService){}
 
   async canActivate(
     route: ActivatedRouteSnapshot,

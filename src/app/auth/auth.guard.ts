@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate
     });*/
 
     let jwtToken: string;
-    console.log(route.url);
+    //console.log(route.url);
     if(route.url[0].path=="activation")
     {
       jwtToken=route.paramMap.get('jwt');
@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate
     try
     {
       promiseStructure=await this.authService.isAuthenticated(jwtToken);
-      console.log(promiseStructure);
+      //console.log(promiseStructure);
     }
     catch(err)
     {
