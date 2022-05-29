@@ -34,9 +34,15 @@ export class AuthService {
 
   authenticating(user: LoginUser): Observable<any>
   {
-    console.log(user.mail);
+    //console.log(user.mail);
     //console.log(user.password);
     const loginUrl=`${baseURL}/login`;
+    return this.http.post<any>(loginUrl, user);
+  }
+
+  externalAuthenticating(user: LoginUser) {
+    const loginUrl: string = `${baseURL}/login/external`;
+
     return this.http.post<any>(loginUrl, user);
   }
 }
