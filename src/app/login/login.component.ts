@@ -118,16 +118,18 @@ export class LoginComponent implements OnInit, OnDestroy
     this.newExternalUser.externo=true;
     this.userService.registerExternalUser(this.newExternalUser).subscribe(res =>
     {
-      this.authService.authenticating(new LoginUser(this.newExternalUser.mail, null)).subscribe(userInfo =>
+      this.authService.externalAuthenticating(new LoginUser(this.newExternalUser.mail, null)).subscribe(userInfo =>
       {
         this.loadNeededInformation(userInfo);
+      },
+      err =>{
+        console.log('Error al loguearse');
       });
     });
   }
 
   loadNeededInformation(user)
   {
-
     localStorage.setItem('currentUser', user.mail);
     localStorage.setItem('userId', user.id_usuario.toString());
     localStorage.setItem('token', user.jwt)
