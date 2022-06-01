@@ -31,7 +31,18 @@
 
   </div>
 
-  <app-loading-spinner *ngIf="getLoadingLogin()"></app-loading-spinner>
+  <div class="row">
+    <div class="col-md-4 decorline">
+      &nbsp;
+    </div>
+    <div class="col-md-4 separate">
+      <h3 *ngIf="!getLoadingLogin()">O</h3>
+      <app-loading-spinner *ngIf="getLoadingLogin()"></app-loading-spinner>
+    </div>
+    <div class="col-md-4 decorline">
+      &nbsp;
+    </div>
+  </div>
 
   <div class="row options-login-container">
 
