@@ -46,7 +46,7 @@ export class AdminAddUserComponent implements OnInit {
   onSubmitUserInformation()
   {
     this.newUser=new NewUser(this.newUserForm.get('name').value, this.newUserForm.get('lastname').value,
-    this.newUserForm.get('enrollment').value, this.newUserForm.get('email').value, this.newUserForm.get('password').value, this.newUserForm.get('profile'));
+    this.newUserForm.get('enrollment').value, this.newUserForm.get('email').value, this.newUserForm.get('password').value, false, this.newUserForm.get('profile'));
 
     this.userService.registerUser(this.newUser).subscribe(res =>
     {
