@@ -97,8 +97,10 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-
+    <div class="col-md-12 error-container" *ngIf="errrors.length">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let error of errrors">{{error}}</li>
+      </ul>
     </div>
   </div>
 </div>

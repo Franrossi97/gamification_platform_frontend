@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MustMatch } from 'src/app/shared/validators/equal-validator';
 import { containsMayus, containsNumber, containsSpecialCharacter } from 'src/app/shared/validators/strengths-validators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -19,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   userInfoForm: FormGroup;
   passwordForm: FormGroup;
   newInfoUser: User;
+  errrors: Array<string>= new Array<string>();
 
   constructor(private route: ActivatedRoute, private userService: UserService, private fb: FormBuilder) { }
 
@@ -52,13 +54,39 @@ export class UserProfileComponent implements OnInit {
 
   onSaveInfo()
   {
-    this.newInfoUser=new User(undefined, this.userInfoForm.get('nombre').value,
-    this.userInfoForm.get('apellido').value, this.userInfoForm.get('matricula').value, this.userInfoForm.get('mail').value, undefined, undefined);
+    this.errrors.length=0;
+    this.newInfoUser=new User(undefined,
+      this.userInfoForm.get('nombre').value != this.user.nombre ? this.userInfoForm.get('nombre').value : undefined,
+    this.userInfoForm.get('apellido').value != this.user.apellido ? this.userInfoForm.get('apellido').value : undefined,
+    this.userInfoForm.get('matricula').value != this.user.matricula ? this.userInfoForm.get('matricula').value : undefined,
+    this.userInfoForm.get('mail').value != this.user.mail ? this.userInfoForm.get('mail').value : undefined, undefined, undefined);
     //this.checkNewValues(this.newInfoUser);
     this.userService.editUser(+localStorage.getItem('userId'), this.newInfoUser).subscribe(res =>
     {
+      this.user.nombre = this.userInfoForm.get('nombre').value;
+      this.user.apellido = this.userInfoForm.get('apellido').value;
+      this.user.matricula = this.userInfoForm.get('matricula').value;
+      this.user.mail = this.userInfoForm.get('mail').value;
+    }, (err: HttpErrorResponse) =>{
+      console.log(err.error.message);
 
+      this.generateErrorMessage(err.error.message)
     });
+  }
+
+  generateErrorMessage(message: string) {
+    if(message.includes('mail')) {
+      this.errrors.push('El mail se encuentra duplicado.')
+    }
+    if(message.includes('nombre')) {
+      this.errrors.push('El nombre excede el límite de caracteres (25).')
+    }
+    if(message.includes('apellido')) {
+      this.errrors.push('El apellido excede el límite de caracteres (25).')
+    }
+    if(message.includes('matricula')) {
+      this.errrors.push('La matrícula excede el límite de caracteres (8).')
+    }
   }
 
   checkNewValues(infoUser: User): User
