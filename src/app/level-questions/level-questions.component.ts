@@ -321,10 +321,6 @@ export class LevelQuestionsComponent implements OnInit
           this.optionDisabled[optionIndex]=false;
           this.optionsToSelect--;
 
-          this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
-            this.questions[this.actualQuestion].id_pregunta, this.porcentajesPregunta[this.actualQuestion]
-            +this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje, this.lastDateAttempt);
-
           if(this.porcentajesPregunta.has(this.questions[this.actualQuestion].id_pregunta))
           {
             let aux=this.porcentajesPregunta.get(this.questions[this.actualQuestion].id_pregunta);
@@ -334,6 +330,11 @@ export class LevelQuestionsComponent implements OnInit
           {
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
           }
+
+          this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
+            this.questions[this.actualQuestion].id_pregunta, this.porcentajesPregunta[this.actualQuestion]
+            +this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje, this.lastDateAttempt);
+
           if(this.optionsToSelect<1)
           {
             this.followedAnsweredQuestions+=1;
@@ -511,8 +512,6 @@ export class LevelQuestionsComponent implements OnInit
   registerResultOnTable(idLevel: number|string, idStudent: number|string, idQuestion: number|string, result: number, lastAttemptDate: Date)
   {
     let dateToUse:string=`${lastAttemptDate.getFullYear()}-${lastAttemptDate.getMonth()}-${lastAttemptDate.getDate()} ${lastAttemptDate.getHours()}:${lastAttemptDate.getMinutes()}:${lastAttemptDate.getSeconds()}`;
-
-    console.log(dateToUse);
 
     this.questionService.addNewAnswer(this.SUBJECT_ID, idLevel, idStudent, idQuestion, result, dateToUse).subscribe();
   }
