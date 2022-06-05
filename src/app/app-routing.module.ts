@@ -1,3 +1,4 @@
+import { SubjectViewGuard } from './auth/permission/subject-view.guard';
 import { SubjectCreationGuard } from './auth/permission/subject-creation.guard';
 import { AdministrandoComponent } from './home/administrando/administrando.component';
 import { CursandoComponent } from './home/cursando/cursando.component';
@@ -46,7 +47,7 @@ const routes: Routes = [
     {path: 'administrando', component: AdministrandoComponent, canActivate: [PermissionGuard]},
   ]},
   {path: 'register', component: UserRegisterComponent},
-  {path: 'subject/:id', component: SubjectComponent, canActivate: [AuthGuard, SubjectCreationGuard], children:
+  {path: 'subject/:id', component: SubjectComponent, canActivate: [AuthGuard, SubjectViewGuard], children:
   [
     {path: 'level/:id_level', component: EditSubjectComponent},
     //{path: 'participants', component: ParticipantsListComponent},
