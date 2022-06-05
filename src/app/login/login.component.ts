@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import {LoginUser} from '../shared/LoginUser';
 import {Router} from '@angular/router'
 import { providerId } from '../shared/GoogleProviderId';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -22,8 +23,9 @@ export class LoginComponent implements OnInit, OnDestroy
   showRegistrationForm: boolean=false;
   socialUser: SocialUser;
   newExternalUser: NewUser;
-  private loadingLogin=false;
-  noAgain=false;
+  private loadingLogin: boolean=false;
+  private authenticationProcess: Subscription;
+  private elementToScroll;
 
   @ViewChild('fform') newSubjectFormDirective;
   constructor(private fb: FormBuilder, private authService:AuthService, private router:Router,
@@ -32,7 +34,6 @@ export class LoginComponent implements OnInit, OnDestroy
   ngOnInit(): void
   {
     this.createForm();
-    this.createRegistrationForm();
 
     this.subscribeAuthService();
     if(localStorage.getItem('currentUser')!==null)
@@ -70,27 +71,26 @@ export class LoginComponent implements OnInit, OnDestroy
 
   subscribeAuthService()
   {
-    if(!this.noAgain){
-    this.socialAuthService.authState.subscribe((user) =>
+    this.authenticationProcess=this.socialAuthService.authState.subscribe((user) =>
     {
       this.socialUser = user;
       //this.isLoggedin = (user != null);
       console.log(this.socialUser);
 
-      this.newExternalUser=new NewUser(user.firstName, user.lastName, '', user.email, null, 2);
+      this.newExternalUser=new NewUser(user.firstName, user.lastName, '', user.email, null, true, 2);
 
-      this.authService.authenticating(new LoginUser(this.newExternalUser.mail, this.newExternalUser.password)).subscribe(res =>
+      this.authService.externalAuthenticating(new LoginUser(this.newExternalUser.mail, this.newExternalUser.password)).subscribe(res =>
       {
+        console.log(res);
 
         if(res.jwt)
         {
           this.loadNeededInformation(res);
         }
 
-        if(res.length==0)
+        if(!res.mail)
         {
           this.createRegistrationForm();
-          this.showRegistrationForm=true;
         }
 
       }, err =>
@@ -101,15 +101,18 @@ export class LoginComponent implements OnInit, OnDestroy
     }, err =>
     {
       console.log(err);
-    });}
+    });
+
   }
 
   createRegistrationForm()
   {
+    this.scrollToElement();
     this.completeRegistrationForm=this.fb.group(
     {
       identifier: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(8)]),
-    })
+    });
+    this.showRegistrationForm=true;
   }
 
   onFinishedLogin()
@@ -138,19 +141,25 @@ export class LoginComponent implements OnInit, OnDestroy
     this.router.navigate(['home']);
   }
 
-  onGoogleLogin()
+  onGoogleLogin($element)
   {
+    this.elementToScroll= $element;
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
-  onFacebookLogin()
+  onFacebookLogin($element)
   {
+    this.elementToScroll= $element;
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  scrollToElement() {
+    this.elementToScroll.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
   ngOnDestroy(): void {
 
-    this.noAgain=true;
+    this.authenticationProcess.unsubscribe();
   }
 
   getLoadingLogin() {
