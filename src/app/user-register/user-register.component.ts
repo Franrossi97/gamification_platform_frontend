@@ -37,7 +37,7 @@ export class UserRegisterComponent implements OnInit
   {
     let newUser=new NewUser (this.newUserForm.get('name').value, this.newUserForm.get('lastname').value,
     this.newUserForm.get('enrollment').value, this.newUserForm.get('mail').value,
-    this.newUserForm.get('password').value, 2);
+    this.newUserForm.get('password').value, false, 2);
 
     //console.log(newUser.nombre);console.log(newUser.apellido);console.log(newUser.matricula);console.log(newUser.mail);
     this.userService.registerUser(newUser).subscribe(data =>
