@@ -330,6 +330,8 @@ export class LevelQuestionsComponent implements OnInit
           {
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
           }
+          
+          console.log('REVISIÓN', this.porcentajesPregunta[this.actualQuestion], this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
 
           this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
             this.questions[this.actualQuestion].id_pregunta, this.porcentajesPregunta[this.actualQuestion]
