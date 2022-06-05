@@ -144,4 +144,10 @@ export class UserService {
 
     return this.http.get(getUrl).toPromise();
   }
+
+  canViewSubject(idUser: number|string, idSubject: number|string) {
+    const getUrl: string = `${baseURL}/user/${idUser}/subject/${idSubject}/view`;
+
+    return this.http.get(getUrl).toPromise();
+  }
 }
