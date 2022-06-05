@@ -330,11 +330,9 @@ export class LevelQuestionsComponent implements OnInit
           {
             this.porcentajesPregunta.set(this.questions[this.actualQuestion].id_pregunta, this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
           }
-          
-          console.log('REVISIÓN', this.porcentajesPregunta[this.actualQuestion], this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje);
 
           this.registerResultOnTable(this.questions[this.actualQuestion].id_nivel, localStorage.getItem('userId'),
-            this.questions[this.actualQuestion].id_pregunta, this.porcentajesPregunta[this.actualQuestion]
+            this.questions[this.actualQuestion].id_pregunta, this.porcentajesPregunta.get(this.questions[this.actualQuestion].id_pregunta)
             +this.questions[this.actualQuestion].opciones[optionIndex].porcentaje_puntaje, this.lastDateAttempt);
 
           if(this.optionsToSelect<1)
@@ -520,12 +518,11 @@ export class LevelQuestionsComponent implements OnInit
 
   pendingQuestions(idStudent: number, idLevel: number|string)
   {
-    //console.log('preguntas pendientes');
     this.questionService.getIndividualAttempts(idStudent, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
     {
       console.log(res);
 
-      if(res== null || res.finalizado)
+      if(res== null || !!(res.finalizado))
       {
         if(res==null)
         {
@@ -828,12 +825,9 @@ export class LevelQuestionsComponent implements OnInit
 
   assignBadges(badges: badgeData[])
   {
-    console.log(badges);
 
     badges.forEach(badge =>
     {
-      console.log(badge);
-
       this.availableBadges[badge.tipo_insignia]= BadgeFactory.getBadge(badge);
       console.log(this.availableBadges[badge.tipo_insignia]);
 
