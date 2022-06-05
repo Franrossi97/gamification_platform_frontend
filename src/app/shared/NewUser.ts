@@ -9,7 +9,7 @@ export class NewUser
   externo: boolean;
   //tipo_usuario: number;
 
-  constructor(nombre, apellido, matricula, mail, password, profile)//, tipo_usuario)
+  constructor(nombre, apellido, matricula, mail, password, externo: boolean, profile)//, tipo_usuario)
   {
     this.nombre=nombre;
     this.apellido=apellido;
@@ -17,6 +17,6 @@ export class NewUser
     this.mail=mail;
     this.password=password;
     this.perfil=profile;
-    //this.tipo_usuario=tipo_usuario;
+    this.externo= externo;
   }
 }
