@@ -1,3 +1,4 @@
+import { HostListener } from '@angular/core';
 import { badgeInfo } from './../shared/BadgeInformation';
 import { ConstantService } from './../services/constant.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
@@ -445,40 +446,6 @@ export class LevelQuestionsComponent implements OnInit
     });
   }
 
-  registerAttempt(idLevel: number|string, idUser: number, intentos: number)
-  {
-    this.questionService.addNewAttempt(this.SUBJECT_ID, idLevel, idUser).subscribe(res =>
-    {
-      //console.log(res);
-      this.getDateAttempt(idLevel, idUser);
-
-      this.badgeRegisterAndGetQuestions(intentos);
-    }, err =>
-    {
-      console.log(err);
-
-    });
-  }
-
-  badgeRegisterAndGetQuestions(intentos: number)
-  {
-    this.registerBadgeAttempts(intentos);
-    this.registerBadgeDate();
-
-    this.getQuestiontoShow();
-  }
-
-  getDateAttempt(idLevel: number|string, idUser: number)
-  {
-    this.questionService.getIndividualAttempts(idUser, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
-    {
-      this.lastDateAttempt=new Date(res.fecha_ultimo_intento);
-    },err =>
-    {
-      console.log(err);
-    });
-  }
-
   retrieveMaxScore()
   {
     this.questionService.getMaxScore().subscribe(maxScore =>
@@ -547,6 +514,40 @@ export class LevelQuestionsComponent implements OnInit
       }
 
     });
+  }
+
+  registerAttempt(idLevel: number|string, idUser: number, intentos: number)
+  {
+    this.questionService.addNewAttempt(this.SUBJECT_ID, idLevel, idUser).subscribe(res =>
+    {
+      //console.log(res);
+      this.getDateAttempt(idLevel, idUser);
+
+      this.badgeRegisterAndGetQuestions(intentos);
+    }, err =>
+    {
+      console.log(err);
+
+    });
+  }
+
+  getDateAttempt(idLevel: number|string, idUser: number)
+  {
+    this.questionService.getIndividualAttempts(idUser, idLevel, this.SUBJECT_ID).subscribe((res: individualAnswer) =>
+    {
+      this.lastDateAttempt=new Date(res.fecha_ultimo_intento);
+    },err =>
+    {
+      console.log(err);
+    });
+  }
+
+  badgeRegisterAndGetQuestions(intentos: number)
+  {
+    this.registerBadgeAttempts(intentos);
+    this.registerBadgeDate();
+
+    this.getQuestiontoShow();
   }
 
   //Recorro el número binario que indica si en la sesión anterior ganó alguna insignia.
@@ -918,6 +919,10 @@ export class LevelQuestionsComponent implements OnInit
       });
     });
     //console.log(this.BOOSTER_PRICES);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.settedInterval);
   }
 
 }
