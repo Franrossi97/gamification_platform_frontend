@@ -1,23 +1,10 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
-// custom validator to check that two fields match
-export function MustMatch(controlName: string, matchingControlName: string)
-{
-  return (formGroup: FormGroup) =>
-  {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
+export const passwordMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const password = control.get('newpassword');
+  const confirmPassword = control.get('repeatnewpassword');
 
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-          // return if another validator has already found an error on the matchingControl
-          return;
-      }
+  console.log(password?.value == confirmPassword?.value);
 
-      // set error on matchingControl if validation fails
-      if (control.value !== matchingControl.value) {
-          matchingControl.setErrors({ mustMatch: true });
-      } else {
-          matchingControl.setErrors(null);
-      }
-  }
-}
+  return password?.value == confirmPassword?.value ? null : { mustMatch: true };
+};
