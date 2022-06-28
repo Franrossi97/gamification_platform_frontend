@@ -1,9 +1,9 @@
+import { passwordMatching } from './../../shared/validators/equal-validator';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { User } from './../../shared/User';
 import { UserService } from './../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { MustMatch } from 'src/app/shared/validators/equal-validator';
 import { containsMayus, containsNumber, containsSpecialCharacter } from 'src/app/shared/validators/strengths-validators';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -133,7 +133,7 @@ export class UserProfileComponent implements OnInit {
       repeatnewpassword: new FormControl(null, [Validators.required, Validators.minLength(6)]),
     },
     {
-      validator: MustMatch('newpassword', 'repeatnewpassword'),
+      validators: passwordMatching,
     });
   }
 
