@@ -55,7 +55,7 @@ export class EditUserComponent implements OnInit {
 
   onSubmitUserInformation()
   {
-    this.user=new User(null, this.editUserForm.get('name').value, this.editUserForm.get('lastname').value,
+    this.user=new User(this.user.id_usuario, this.editUserForm.get('name').value, this.editUserForm.get('lastname').value,
     this.editUserForm.get('enrollment').value, this.editUserForm.get('email').value, null, +this.editUserForm.get('profile'));
 
     this.userService.editUser(this.user.id_usuario, this.user).subscribe(res =>
