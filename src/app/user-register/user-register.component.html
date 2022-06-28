@@ -21,33 +21,52 @@
 							<input type="text" class="form-control" formControlName="lastname" placeholder="Martinez">
               <span *ngIf="newUserForm.get('lastname').touched && newUserForm.get('lastname').invalid" class="error-alert-form">Inserte un apellido válido.</span>
             </div>
-            <label class="col-lg-4 control-label">Mail</label>
+            <label class="col-lg-4 control-label">Email</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" formControlName="mail" placeholder="fede_mart99@gmail.com">
               <span *ngIf="newUserForm.get('mail').touched && newUserForm.get('mail').errors" class="error-alert-form">Inserte un mail válido.</span>
             </div>
-            <label class="col-lg-4 control-label">Contraseña</label>
-						<div class="col-md-8">
-							<input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
-              <span *ngIf="newUserForm.get('password').touched && newUserForm.get('password').errors" class="error-alert-form">Inserte una contraseña válida.</span>
+
+            <div formGroupName="passwordmenu">
+              <label class="col-lg-4 control-label">Contraseña</label>
+              <div class="col-md-8">
+                <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+                 <span *ngIf="newUserForm.get('passwordmenu.password').touched &&
+                  newUserForm.get('passwordmenu.password').getError('containsNumber')" class="error-alert-form">
+                  La contraseña debe contener números <br></span>
+
+                <span *ngIf="newUserForm.get('passwordmenu.password').touched &&
+                newUserForm.get('passwordmenu.password').getError('specialCharacter')" class="error-alert-form">
+                La contraseña debe contener caracteres especiales <br></span>
+
+                <span *ngIf="newUserForm.get('passwordmenu.password').touched &&
+                newUserForm.get('passwordmenu.password').getError('upperCase')" class="error-alert-form">
+                La contraseña debe contener mayúsculas <br></span>
+              </div>
+
+              <label class="col-lg-4 control-label">Confirme contraseña</label>
+              <div class="col-md-8">
+                <input type="password" class="form-control" formControlName="repeatpassword" placeholder="Contraseña">
+                <span *ngIf="this.newUserForm.get('passwordmenu.repeatpassword').touched &&
+                  this.newUserForm.get('passwordmenu').getError('mustMatch')" class="error-alert-form">
+                  Las contraseña deben coincidir
+                  </span>
+              </div>
             </div>
-            <label class="col-lg-4 control-label">Matricula</label>
+
+            <label class="col-lg-4 control-label">Matricula o DNI</label>
 						<div class="col-md-8">
 							<input type="text" class="form-control" formControlName="enrollment" placeholder="11792">
               <span *ngIf="newUserForm.get('enrollment').touched && newUserForm.get('enrollment').errors" class="error-alert-form">Inserte una matricula válida.</span>
+              <span *ngIf="newUserForm.get('enrollment').touched && newUserForm.get('enrollment').errors" class="error-alert-form">
+                Longitud mínima 5 y máxima 8</span>
             </div>
-            <!--
-            <label class="col-lg-4 control-label">Usted es:</label>
-            <div class="col-md-8">
-							<select class="form-select" aria-label="Default select example" formControlName="usertype">
-                <option value="3">Alumno</option>
-                <option value="1">Profesor</option>
-                <option value="2">Ayudante</option>
-              </select>
-            </div>
-            -->
           </div>
           <button class="btn btn-primary mb-3" type="submit" [disabled]="newUserForm.invalid" (click)="onSubmit()">Registrarse</button>
+
+          <app-loading-spinner *ngIf="getLoadingLogin()"></app-loading-spinner>
+          <div class="successful-message" *ngIf="getSuccessMessage()">Te enviamos un mail para activar tu cuenta</div>
+
           <br><span *ngIf="newUserError" style="color: red;">Ocurrió un error al ingresar el usuario.</span>
       </form>
     </div>

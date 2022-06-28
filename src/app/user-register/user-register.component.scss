@@ -22,6 +22,12 @@ $background-color: #63d1db;
   }
 }
 
+.control-label
+{
+  color: #1a4447;
+  font-weight: bold;
+}
+
 .form-control
 {
   margin-bottom: 1.5rem;
@@ -29,8 +35,16 @@ $background-color: #63d1db;
 
 .error-alert-form
 {
+  font-weight: bold;
   margin-bottom: 1.2rem;
   color: #e92525;
+}
+
+.successful-message {
+  font-size: 1.5rem;
+  color: #0a99a7;
+  font-weight: bold;
+  padding: 1rem;
 }
 
 @media only screen and (max-width: 750px)
