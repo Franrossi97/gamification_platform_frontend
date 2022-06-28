@@ -44,8 +44,6 @@ export class AchievementMenuComponent implements OnInit {
     this.participantsListService.getAchievementsForUser(idSubject, idStudent).subscribe((res: Array<Achievement>) =>
     {
       this.userAchievements=res;
-
-      //this.userAchievements.push({id_logro: 1, titulo: 'Hola', descripcion:'Hola', incremento: 8, id_materia: 2});
     });
 
   }
@@ -54,6 +52,8 @@ export class AchievementMenuComponent implements OnInit {
   {
     this.participantsListService.getAchievementsForSubject(idSubject).subscribe((res: Array<Achievement>) =>
     {
+      console.log(res);
+
       this.subjectAchievements=res;
     });
   }
