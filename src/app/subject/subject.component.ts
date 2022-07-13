@@ -14,10 +14,13 @@ import { Level } from '../shared/Level';
 })
 export class SubjectComponent implements OnInit
 {
+  ID_SUBJECT: number;
   //userType:number=0;
   subject: SubjectClass=null;
   levels:Level[];
   canEditSubject: boolean=false;
+  score: number=0;
+
   constructor(private subjectService:SubjectService, private levelService:LevelService, private userService: UserService,
   private route: ActivatedRoute, private permissionService: PermissionService) { }
 
@@ -25,9 +28,11 @@ export class SubjectComponent implements OnInit
   {
     this.route.params.subscribe(params =>
     {
+      this.ID_SUBJECT= params['id'];
       //this.getUserType(params['id']);
       this.getUserType();
-      this.getWholeSubjectData(params['id']);
+      this.getWholeSubjectData(this.ID_SUBJECT);
+      this.getUserScore();
     })
   }
 
@@ -38,22 +43,12 @@ export class SubjectComponent implements OnInit
       this.canEditSubject=res;
     });
   }
-/*
-  getLevels(idSubject: number)
-  {
-    this.subjectService.getLevels(idSubject).subscribe(levels =>
-    {
-      this.levels=levels;
 
-      this.levels.forEach((level:Level) =>
-      {
-        this.levelService.getUnits(level.id_nivel).subscribe(units =>
-        {
-          level.unitList=units;
-        });
-      });
+  async getUserScore() {
+    this.userService.getUserScore(this.ID_SUBJECT, +localStorage.getItem('userId')).subscribe(res => {
+      this.score = res.puntaje_tot;
     });
-  }*/
+  }
 
   getWholeSubjectData(idSubject: number)
   {
