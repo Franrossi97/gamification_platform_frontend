@@ -132,11 +132,42 @@
         }
       }
 
+      .delete-icon {
+        color: rgb(224, 0, 0);
+      }
+
       &:hover
       {
         filter: brightness(1.2);
       }
     }
 
+  }
+}
+
+.error-container {
+  width: 98.7%;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: rgb(46, 46, 46);
+
+  h5 {
+    padding: 1rem 0 1rem 2rem;
+    color: aliceblue;
+  }
+
+  h4 {
+    padding: 1rem 0 1rem 2rem;
+    color: aliceblue;
+  }
+
+  .buttons {
+    padding: 1rem;
+
+    .btn {
+      padding: 0 1.5rem 0 1.5rem;
+      margin-left: 1rem;
+    }
   }
 }

@@ -20,11 +20,10 @@
         <td>#</td>
         <td>Nombre y apellido</td>
         <td>Mail</td>
-        <td>Resultados</td><!--
-        <td>Puntaje promedio</td>-->
-        <td>Puntaje total</td><!--
-        <td><a (click)="openAchievementMenu(contentNewAchievement)"> <fa-icon [icon]='plusIcon'></fa-icon> logros </a></td>-->
+        <td>Resultados</td>
+        <td>Puntaje total</td>
         <td> <fa-icon [icon]='plusIcon'></fa-icon> logros</td>
+        <td>Acción</td>
       </tr>
     </thead>
 
@@ -67,8 +66,40 @@
           <fa-icon [icon]='plusIcon' class="fa-icon"
           (click)="assignAchieveToUser(contentNewAchievement, student.id_usuario, student.nombre+' '+student.apellido)"></fa-icon>
         </td>
+        <td class="icon-field delete-icon">
+          <fa-icon [icon]='minusIcon' class="fa-icon"
+          (click)="showUnlinkUser(student.id_usuario, i)"></fa-icon>
+        </td>
 
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="error-container" *ngIf="getShowError() || getShowDeleteQuestion()">
+  <div class="row" *ngIf="getShowDeleteQuestion()">
+    <div class="col-md-5">
+      <h5>¿Seguro querés eliminar el usuario?</h5>
+    </div>
+  </div>
+
+  <div class="row buttons" *ngIf="getShowDeleteQuestion()">
+    <div class="col-md-7">
+      &nbsp;
+    </div>
+    <div class="col-md-5">
+      <button class="btn btn-danger" (click)="unlinkUser()">
+        Si
+      </button>
+      <button class="btn btn-link" (click)="setShowDeleteQuestion(false)">
+        No
+      </button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="getShowError()">
+    <div class="col-md-5">
+      <h4>Ocurrió un error. Intente más tarde</h4>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,8 @@
+import { UserService } from './../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParticipantsListService } from './../services/participants-list.service';
 import { Component, OnInit } from '@angular/core';
-import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes, faMinusSquare} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 const BADGES_NAMES=[
@@ -20,6 +21,7 @@ export class ParticipantsListComponent implements OnInit
 {
   SUBJECT_ID: number;
   plusIcon=faPlusSquare;
+  minusIcon= faMinusSquare;
   alphabeticalOrder= faSortAlphaDown;
   numericalOrder= faSortNumericDown;
   achievementOrder= faStar;
@@ -30,8 +32,14 @@ export class ParticipantsListComponent implements OnInit
   selectedUserId: number;
   selectedUserName: string;
   availableFilters: Array<boolean>=new Array<boolean>(4);
+  private showError: boolean=false;
+  private showDeleteQuestion: boolean=false;
 
-  constructor(private participantsListService: ParticipantsListService, private route: ActivatedRoute, private modalService: NgbModal) { }
+  deleteUser: number;
+  deleteUserIndex: number;
+
+  constructor(private participantsListService: ParticipantsListService, private userService: UserService,
+    private route: ActivatedRoute, private modalService: NgbModal) { }
 
   ngOnInit(): void
   {
@@ -43,6 +51,8 @@ export class ParticipantsListComponent implements OnInit
       this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID,0).subscribe(async (students: ListStudents[]) =>
       {
         this.students=students;
+      }, err => {
+        this.showError=true;
       });
     });
   }
@@ -52,24 +62,9 @@ export class ParticipantsListComponent implements OnInit
     this.showMoreInfo=(this.showMoreInfo==idUser) ? -1 : idUser;
   }
 
-  /*generateIdUserArrays(students: ListStudents[])
-  {
-    let res: Array<number>=new Array<number>(students.length);
-    students.forEach(student =>
-    {
-      res.push(student.id_usuario);
-    });
-
-    return new Promise(resolution =>
-    {
-      resolution(res);
-    });
-  }*/
-
   getBadgeName(nameIndex: string)
   {
     let res: string='', i: number=0, nameIndexPasLeft: string=this.stringPadLeft(nameIndex);
-    //console.log(nameIndexPasLeft);
 
     BADGES_NAMES.forEach(name =>
     {
@@ -118,7 +113,44 @@ export class ParticipantsListComponent implements OnInit
     this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID, filterIndex).subscribe((resFilter: ListStudents[]) =>
     {
       this.students=resFilter;
+      this.showError=false;
+    }, err => {
+      this.showError=true;
     });
+  }
+
+  showUnlinkUser(idUser: number, userIndex: number) {
+    this.showDeleteQuestion=true;
+
+    this.deleteUser= idUser;
+    this.deleteUserIndex= userIndex;
+  }
+
+  unlinkUser() {
+    this.showDeleteQuestion=true;
+
+    this.userService.unlinkUser(this.deleteUser, this.SUBJECT_ID).subscribe(res => {
+      this.students.splice(this.deleteUserIndex, 1);
+    }, err => {
+      this.showError=true;
+    });
+
+  }
+
+  getShowError() {
+    return this.showError;
+  }
+
+  setShowError(value: boolean) {
+    this.showError= value;
+  }
+
+  getShowDeleteQuestion() {
+    return this.showDeleteQuestion;
+  }
+
+  setShowDeleteQuestion(value: boolean) {
+    this.showDeleteQuestion= value;
   }
 }
 
