@@ -67,7 +67,7 @@
           <app-loading-spinner *ngIf="getLoadingLogin()"></app-loading-spinner>
           <div class="successful-message" *ngIf="getSuccessMessage()">Te enviamos un mail para activar tu cuenta</div>
 
-          <br><span *ngIf="newUserError" style="color: red;">Ocurrió un error al ingresar el usuario.</span>
+          <br><span *ngIf="newUserError" style="color: red;">{{getErrorMessage()}}</span>
       </form>
     </div>
 

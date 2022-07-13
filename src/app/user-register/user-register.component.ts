@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { containsSpecialCharacter, containsNumber, containsMayus } from 'src/app/shared/validators/strengths-validators';
 import { UserService } from './../services/user.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -24,6 +25,7 @@ export class UserRegisterComponent implements OnInit
   newUserForm: FormGroup;
   private loadingLogin: boolean= false;
   private successMessage: boolean= false;
+  private errorMessage: string;
 
   @ViewChild('fform') newSubjectFormDirective;
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) { }
@@ -66,9 +68,15 @@ export class UserRegisterComponent implements OnInit
       this.successMessage=true;
       setTimeout(() => this.router.navigate(['login']), 3000);
     },
-    error =>
+    (error: HttpErrorResponse) =>
     {
-      console.log(error);
+      const message: string= error.error.message;
+      if(message.includes('mail')) {
+        this.errorMessage='El email ya existe en la plataforma. Utilice otro';
+      } else {
+        this.errorMessage='Ocurrió un error al ingresar el usuario';
+      }
+      this.loadingLogin=false;
       this.newUserError=true;
     });
   }
@@ -79,5 +87,9 @@ export class UserRegisterComponent implements OnInit
 
   getSuccessMessage() {
     return this.successMessage;
+  }
+
+  getErrorMessage() {
+    return this.errorMessage;
   }
 }
