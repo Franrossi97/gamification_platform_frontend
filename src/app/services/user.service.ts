@@ -61,6 +61,12 @@ export class UserService {
     return this.http.post(postUrl, {});
   }
 
+  unlinkUser(idUser:number, idSubject: number|string) {
+    const deleteUrl: string= `${baseURL}/student/${idUser}/${idSubject}`;
+
+    return this.http.delete(deleteUrl);
+  }
+
   async numberUserType(idUser: number|string, idSubject: number|string): Promise<number>
   {
     const checkUrl: string=`${baseURL}/subject/${idSubject}/user/${idUser}`
@@ -149,5 +155,11 @@ export class UserService {
     const getUrl: string = `${baseURL}/user/${idUser}/subject/${idSubject}/view`;
 
     return this.http.get(getUrl).toPromise();
+  }
+
+  getUserScore(idSubject: number, idStudent: number) {
+    const getUrl: string = `${baseURL}/subject/${idSubject}/student/${idStudent}/score`;
+
+    return this.http.get<{puntaje_tot: number}>(getUrl);
   }
 }
