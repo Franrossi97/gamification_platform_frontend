@@ -60,7 +60,7 @@ export class PermissionService
     }
     else
     {
-      res=this.permissions.get(what).get('lectura');
+      res=this.permissions.get(what)?.get('lectura');
     }
 
     return res;
@@ -78,7 +78,7 @@ export class PermissionService
     }
     else
     {
-      res=this.permissions.get(what).get('escritura');
+      res=this.permissions.get(what)?.get('escritura');
     }
 
     return res;
