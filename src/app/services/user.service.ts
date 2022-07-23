@@ -81,9 +81,9 @@ export class UserService {
     return this.http.get<number>(getAttemptsUrl);
   }
 
-  setUsedBoosterOnLevel(idLevel: number|string, idStudent: number)
+  setUsedBoosterOnLevel(idSubject: number, idLevel: number|string, idStudent: number)
   {
-    const patchUsedBooster: string=`${baseURL}/level/${idLevel}/student/${idStudent}/usedbooster`;
+    const patchUsedBooster: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/student/${idStudent}/usedbooster`;
 
     return this.http.patch(patchUsedBooster, {});
   }
