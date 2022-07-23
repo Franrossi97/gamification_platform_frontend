@@ -67,6 +67,7 @@ export class LevelQuestionsComponent implements OnInit
   addPenalization: boolean=false;
   showCorrect: boolean=false;
   showIncorrect: boolean=false;
+  boosters: Array<Function>;
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
     private levelService: LevelService, private router: Router,
@@ -89,6 +90,7 @@ export class LevelQuestionsComponent implements OnInit
       this.selection[0]=new Array(4);
       this.selection[1]=new Array(4);
       this.initializeBoosterPrices();
+
       if(this.countQuestions==undefined)
       {
         this.router.navigate(['home']);
@@ -304,12 +306,12 @@ export class LevelQuestionsComponent implements OnInit
         }
         else
         {
+          this.optionDisabled[optionIndex]=false;
           this.optionDisableColor[optionIndex]=true;
           this.anotherAttempt=false;
         }
         this.optionDisabled[optionIndex]=false;
       }
-      this.anotherAttempt ? null : this.optionDisabled.fill(false);
     }
     else
     {
@@ -365,6 +367,7 @@ export class LevelQuestionsComponent implements OnInit
           }
           else
           {
+            this.optionDisableColor[optionIndex]=true;
             this.optionDisabled[optionIndex]=false;
             this.anotherAttempt=false;
           }
@@ -671,6 +674,7 @@ export class LevelQuestionsComponent implements OnInit
 
   selectNextQuestionWithDelay(time: number)
   {
+    this.optionDisabled.fill(false);
     setTimeout(() =>
     {
       this.getQuestiontoShow();
@@ -707,7 +711,7 @@ export class LevelQuestionsComponent implements OnInit
       else
       {
         let i=0;
-        while(!this.optionDisabled[i] && this.questions[this.actualQuestion].opciones[i].porcentaje_puntaje!=0)
+        while(!this.optionDisabled[i] || this.questions[this.actualQuestion].opciones[i].porcentaje_puntaje!=0)
         {
           //console.log(i);
           i++
@@ -729,6 +733,8 @@ export class LevelQuestionsComponent implements OnInit
 
   skipQuestion(idLevel: number|string, idQuestion: number|string, dateToCompare: Date)
   {
+    console.log('salteo pregunta');
+
     let dateForComparison: string=`${dateToCompare.getFullYear}-${dateToCompare.getMonth}-${dateToCompare.getDate} ${dateToCompare.getHours}:${dateToCompare.getMinutes}:${dateToCompare.getSeconds}`;
     this.questionService.deleteAnswer(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), idQuestion, dateForComparison).subscribe(res =>
     {
@@ -744,20 +750,19 @@ export class LevelQuestionsComponent implements OnInit
     if((this.availableCoins-this.BOOSTER_PRICES[idBooster]) > 0)
     {
       this.disableBoosters=true;
-      let boosters: Array<any>=this.setBoosterArray();
+      //let boosters: Array<any>=this.setBoosterArray();
 
-      this.userService.setUsedBoosterOnLevel(idLevel, +localStorage.getItem('userId')).subscribe(res =>
+      console.log(idBooster);
+      this.userService.setUsedBoosterOnLevel(this.SUBJECT_ID, idLevel, +localStorage.getItem('userId')).subscribe(res =>
       {
-        if(idBooster==3)
-        {
-          this.skipQuestion(idLevel, idQuestion, dateToCompare);
-        }
-        else
-        {
-          if(idBooster==0||idBooster==1||idBooster==2)
-          {
-            boosters[idBooster];
-          }
+        switch(idBooster) {
+          case 0: this.addMoreTime();
+          break;
+          case 1: this.addAnotherAttempt();
+          break;
+          case 2: this.deleteTwoOptions();
+          break;
+          case 3: this.skipQuestion(idLevel, idQuestion, dateToCompare);
         }
 
         this.availableCoins-=this.BOOSTER_PRICES[idBooster];
@@ -768,17 +773,6 @@ export class LevelQuestionsComponent implements OnInit
       });
     }
 
-  }
-
-  setBoosterArray()
-  {
-    var boosters: Array<any>=new Array<any>(3);
-
-    boosters.push(this.addMoreTime());
-    boosters.push(this.addAnotherAttempt());
-    boosters.push(this.deleteTwoOptions());
-
-    return boosters;
   }
 
   changeCoinsQuantity(idCoin: number, coins: number)
@@ -871,7 +865,7 @@ export class LevelQuestionsComponent implements OnInit
     //console.log(newValue, newValue.toString(2));
 
     //this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), (newValue >>> 0).toString(2)).subscribe(res =>
-    await this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(async res =>
+    await this.levelService.updateUsedBadges(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(async res =>
     {
       await this.showWonBadgeAlert();
     },err =>
