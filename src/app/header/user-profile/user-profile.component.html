@@ -48,7 +48,7 @@
     </form>
   </div>
 
-  <div class="row change-password">
+  <div class="row change-password" *ngIf="!this.user?.externo">
     <div class="col-md-12">
       <button class="btn btn-info" (click)="onEditPassword()">Cambiar contraseña</button>
     </div>
@@ -97,10 +97,14 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12 error-container" *ngIf="errrors.length">
+    <div class="col-md-12 error-container" *ngIf="errors.length">
       <ul class="list-group list-group-flush">
         <li class="list-group-item" *ngFor="let error of errrors">{{error}}</li>
       </ul>
     </div>
   </div>
+</div>
+
+<div class="error-container">
+  {{ changePasswordMessage }}
 </div>

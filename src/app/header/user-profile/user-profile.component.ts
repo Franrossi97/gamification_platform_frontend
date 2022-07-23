@@ -20,7 +20,9 @@ export class UserProfileComponent implements OnInit {
   userInfoForm: FormGroup;
   passwordForm: FormGroup;
   newInfoUser: User;
-  errrors: Array<string>= new Array<string>();
+  errors: Array<string>= new Array<string>();
+  showChangePasswordMessage: boolean;
+  changePasswordMessage: string;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private fb: FormBuilder) { }
 
@@ -37,6 +39,8 @@ export class UserProfileComponent implements OnInit {
     this.userService.searchUser(userId).subscribe((user: Array<User>) =>
     {
       this.user=user[0];
+      console.log(this.user);
+
     });
   }
 
@@ -54,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
   onSaveInfo()
   {
-    this.errrors.length=0;
+    this.errors.length=0;
     this.newInfoUser=new User(undefined,
       this.userInfoForm.get('nombre').value != this.user.nombre ? this.userInfoForm.get('nombre').value : undefined,
     this.userInfoForm.get('apellido').value != this.user.apellido ? this.userInfoForm.get('apellido').value : undefined,
@@ -76,16 +80,16 @@ export class UserProfileComponent implements OnInit {
 
   generateErrorMessage(message: string) {
     if(message.includes('mail')) {
-      this.errrors.push('El mail se encuentra duplicado.')
+      this.errors.push('El mail se encuentra duplicado.')
     }
     if(message.includes('nombre')) {
-      this.errrors.push('El nombre excede el límite de caracteres (25).')
+      this.errors.push('El nombre excede el límite de caracteres (25).')
     }
     if(message.includes('apellido')) {
-      this.errrors.push('El apellido excede el límite de caracteres (25).')
+      this.errors.push('El apellido excede el límite de caracteres (25).')
     }
     if(message.includes('matricula')) {
-      this.errrors.push('La matrícula excede el límite de caracteres (8).')
+      this.errors.push('La matrícula excede el límite de caracteres (8).')
     }
   }
 
@@ -139,10 +143,14 @@ export class UserProfileComponent implements OnInit {
 
   changePassword()
   {
+    this.showChangePasswordMessage=true;
+
     this.userService.changePassword(+localStorage.getItem('userId'), this.passwordForm.get('password').value,
     this.passwordForm.get('newpassword').value).subscribe(res =>
     {
-
+      this.changePasswordMessage='Se cambio con éxito su contraseña.';
+    }, err => {
+      this.changePasswordMessage='Ocurrió un error al intentar cambiar su contraseña';
     });
   }
 
