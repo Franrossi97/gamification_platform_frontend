@@ -1,5 +1,5 @@
 import { Level } from 'src/app/shared/Level';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LevelService } from './../../services/level.service';
 import { QuestionResultService } from './../../services/question-result.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +14,7 @@ export class LevelResultComponent implements OnInit
 {
   LEVEL_ID: number;
   finalScore: number=undefined;
-  countStars: number=0;
+  countStars=0;
   //cartelSpecifications: Map<number, infoToShow>=new Map<number, infoToShow>();
   RETRIES: boolean;
   SUBJECT_ID: number;
@@ -108,7 +108,7 @@ export class LevelResultComponent implements OnInit
     this.levelService.getOneLevel(idLevel).subscribe((res: Level) =>
     {
       this.SUBJECT_ID=res.id_materia;
-      this.RETRIES=res.reintentos;
+      this.RETRIES=!!res.reintentos;
     });
   }
 }

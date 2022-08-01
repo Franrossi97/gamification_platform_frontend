@@ -1,9 +1,7 @@
-import { HostListener } from '@angular/core';
 import { badgeInfo } from './../shared/BadgeInformation';
 import { ConstantService } from './../services/constant.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { BadgeFactory } from './../shared/BadgeFactory';
-import { BadgeAttempts } from './../shared/BadgeAttempts';
 import { BadgeTimer } from './../shared/BadgeTimer';
 import { Badge } from './../shared/Badge';
 import { UserService } from './../services/user.service';
@@ -16,8 +14,8 @@ import { Question } from '../shared/Question';
 import { Option } from '../shared/Option';
 import { BadgeQuestions } from '../shared/BadgeQuestion';
 import { BadgeDate } from '../shared/BadgeDate';
-const MAX_BADGES: number=4;
-const MAX_BOOSTERS: number=4;
+const MAX_BADGES=4;
+const MAX_BOOSTERS=4;
 
 @Component({
   selector: 'app-level-questions',
@@ -28,46 +26,45 @@ export class LevelQuestionsComponent implements OnInit
 {
   coinsIcon=faCoins;
   COIND_ID: number;
-  LEVEL_NAME: string='';
+  LEVEL_NAME='';
   SUBJECT_ID: number;
   LEVEL_ID: number;
-  MAX_TIME: number=0;
-  maxScore: number=0; //El valor se obtiene del componente nivel
-  actualTime: number=0;
+  MAX_TIME=0;
+  maxScore=0; //El valor se obtiene del componente nivel
+  actualTime=0;
   questions: Question[];
-  countQuestions: number;
-  countAnsweredQuestions: number=0; //Cantidad de actual de preguntas visualizadas
+  countQuestions;
+  countAnsweredQuestions=0; //Cantidad de actual de preguntas visualizadas
   answeredQuestions: boolean[]; //Se utiliza para preguntar si una X pregunta fue visualizada
-  followedAnsweredQuestions: number=0;
-  actualQuestion: number=-1; //Index de la pregunta actual
+  followedAnsweredQuestions=0;
+  actualQuestion=-1; //Index de la pregunta actual
   selection: Array<Array<boolean>>=new Array(2); //Contiene los vectores para cambiar el color de las opciones en caso de responder bien o mal
   //selectionWrong: boolean[]=new Array(4); //Se setea en false, si se selecciona la respuesta incorrecta pasa a true y cambia a rojo el botón de la opción
   //selectionRight: boolean[]=new Array(4); //Se setea en false, si se selecciona la respuesta correcta pasa a true y cambia a verde el botón de la opción
   optionDisabled: boolean[]=new Array(4); //Desabilita el click de las preguntas
   optionDisableColor: boolean[]=new Array(4);
-  optionsToSelect: number; //Cantidad de opciones correctas que se pueden seleccionar
+  optionsToSelect; //Cantidad de opciones correctas que se pueden seleccionar
   //porcentajesPregunta: number[]=new Array(); //Se van a ir acumulando cada uno de los porcentajes obtenidos por cada pregunta para luego calcular el puntaje final
   porcentajesPregunta: Map<number, number>=new Map<number, number>();
   finalScore: number;
   countDownIndicator: number;
   lastDateAttempt: Date;
-  disableBoosters: boolean=false;
+  disableBoosters=false;
   BOOSTER_PRICES: Array<number>=new Array<number>(MAX_BOOSTERS);
-  anotherAttempt: boolean=false;
+  anotherAttempt=false;
   settedInterval;
   availableBadges: any[]=new Array<any>(MAX_BADGES);
   wonBadgeIndex: number;
-  showWonAlert: boolean=false;
-  winBadges: number=0; //Binario
-  extraBadgesScore: number=0;
-  countTimer: number=0;
+  showWonAlert=false;
+  winBadges=0; //Binario
+  extraBadgesScore=0;
+  countTimer=0;
   availableCoins=0;
-  updateCoins: boolean=false;
-  PENALIZATAION: number=0;
-  addPenalization: boolean=false;
-  showCorrect: boolean=false;
-  showIncorrect: boolean=false;
-  boosters: Array<Function>;
+  updateCoins=false;
+  PENALIZATAION=0;
+  addPenalization=false;
+  showCorrect=false;
+  showIncorrect=false;
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
     private levelService: LevelService, private router: Router,
@@ -125,7 +122,7 @@ export class LevelQuestionsComponent implements OnInit
 
   setTimer() //Manejo el timer
   {
-    var starterTime=new Date().getTime();
+    const starterTime=new Date().getTime();
     this.actualTime=0;
     this.settedInterval= setInterval(() =>
     {
@@ -188,7 +185,7 @@ export class LevelQuestionsComponent implements OnInit
       this.selection[1].fill(false); //this.selectionWrong.fill(false);
       this.optionDisabled.fill(true);
       this.optionDisableColor.fill(false);
-      let questionIndex: number=Math.floor(this.getRandomArbitrary(0, this.questions.length-1)); //Tomo un valor aleatorio dentro de un rango
+      const questionIndex=Math.floor(this.getRandomArbitrary(0, this.questions.length-1)); //Tomo un valor aleatorio dentro de un rango
       console.log(questionIndex);
 
       await this.setQuestionToShow(questionIndex);
@@ -481,7 +478,7 @@ export class LevelQuestionsComponent implements OnInit
 
   registerResultOnTable(idLevel: number|string, idStudent: number|string, idQuestion: number|string, result: number, lastAttemptDate: Date)
   {
-    let dateToUse:string=`${lastAttemptDate.getFullYear()}-${lastAttemptDate.getMonth()}-${lastAttemptDate.getDate()} ${lastAttemptDate.getHours()}:${lastAttemptDate.getMinutes()}:${lastAttemptDate.getSeconds()}`;
+    const dateToUse=`${lastAttemptDate.getFullYear()}-${lastAttemptDate.getMonth()}-${lastAttemptDate.getDate()} ${lastAttemptDate.getHours()}:${lastAttemptDate.getMinutes()}:${lastAttemptDate.getSeconds()}`;
 
     this.questionService.addNewAnswer(this.SUBJECT_ID, idLevel, idStudent, idQuestion, result, dateToUse).subscribe();
   }
@@ -576,7 +573,7 @@ export class LevelQuestionsComponent implements OnInit
 
   stringPadLeft(binaryNumber: string): string
   {
-    let concatString: string='';
+    const concatString='';
     for(let i=0; i<(MAX_BADGES-binaryNumber.length); i++)
     {
       //concatString+='0';
@@ -589,7 +586,8 @@ export class LevelQuestionsComponent implements OnInit
   registerBadgeAttempts(countAttempts: number)
   {
     //let auxBadges: BadgeAttempts=this.getBadgeOfType(3); //Attempts badge
-    let auxBadges: BadgeAttempts=this.availableBadges[3], extraAux: number;
+    const auxBadges=this.availableBadges[3]
+    let extraAux: number;
     console.log(auxBadges);
 
     if(auxBadges!=null)
@@ -735,7 +733,7 @@ export class LevelQuestionsComponent implements OnInit
   {
     console.log('salteo pregunta');
 
-    let dateForComparison: string=`${dateToCompare.getFullYear}-${dateToCompare.getMonth}-${dateToCompare.getDate} ${dateToCompare.getHours}:${dateToCompare.getMinutes}:${dateToCompare.getSeconds}`;
+    const dateForComparison=`${dateToCompare.getFullYear}-${dateToCompare.getMonth}-${dateToCompare.getDate} ${dateToCompare.getHours}:${dateToCompare.getMinutes}:${dateToCompare.getSeconds}`;
     this.questionService.deleteAnswer(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), idQuestion, dateForComparison).subscribe(res =>
     {
       this.getQuestiontoShow();
