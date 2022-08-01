@@ -178,13 +178,13 @@
         <div class="card-footer text-muted">
           <div class="row">
             <div class="col-md" style="border-right: 1px solid lightgrey;">
-              Created: {{calculateDateDifference(level.fecha_creacion)}} days ago
+              Creado hace: {{calculateDateDifference(level.fecha_creacion)}} days ago
             </div>
             <div class="col-md" style="border-right: 1px solid lightgrey;">
-              Played: {{level.cantidad_estudiantes_intentos}} out of {{cantStudents}} students
+              Jugado por: {{level.cantidad_estudiantes_intentos}} de {{cantStudents}} estudiantes
             </div>
             <div class="col-md">
-              Recommended date: {{getFormattedRecommendedDate(level.fecha_recomendada_realizacion)}}
+              Fecha recomendada: {{getFormattedRecommendedDate(level.fecha_recomendada_realizacion)}}
             </div>
           </div>
         </div>
