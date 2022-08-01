@@ -2,7 +2,7 @@ import { UserService } from './../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParticipantsListService } from './../services/participants-list.service';
 import { Component, OnInit } from '@angular/core';
-import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes, faMinusSquare} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes, faMinusSquare, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 const BADGES_NAMES=[
@@ -20,20 +20,23 @@ const BADGES_NAMES=[
 export class ParticipantsListComponent implements OnInit
 {
   SUBJECT_ID: number;
+  envelopeIcon= faEnvelope;
   plusIcon=faPlusSquare;
   minusIcon= faMinusSquare;
   alphabeticalOrder= faSortAlphaDown;
   numericalOrder= faSortNumericDown;
   achievementOrder= faStar;
   noOrder= faTimes;
-  showMoreInfo: number=-1;
+  showMoreInfo=-1;
   students: ListStudents[]=new Array<ListStudents>();
   closeResult;
   selectedUserId: number;
   selectedUserName: string;
   availableFilters: Array<boolean>=new Array<boolean>(4);
-  private showError: boolean=false;
-  private showDeleteQuestion: boolean=false;
+  private showError=false;
+  private showDeleteQuestion=false;
+  showEmailMenu= false;
+  emailsToSend: Array<string>=new Array<string>();
 
   deleteUser: number;
   deleteUserIndex: number;
@@ -48,7 +51,7 @@ export class ParticipantsListComponent implements OnInit
       this.SUBJECT_ID=params.id_subject;
       this.availableFilters.fill(true);
       this.availableFilters[0]=false;
-      this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID,0).subscribe(async (students: ListStudents[]) =>
+      this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID,0).subscribe((students: ListStudents[]) =>
       {
         this.students=students;
       }, err => {
@@ -64,7 +67,8 @@ export class ParticipantsListComponent implements OnInit
 
   getBadgeName(nameIndex: string)
   {
-    let res: string='', i: number=0, nameIndexPasLeft: string=this.stringPadLeft(nameIndex);
+    let res='', i=0;
+    const nameIndexPasLeft=this.stringPadLeft(nameIndex);
 
     BADGES_NAMES.forEach(name =>
     {
@@ -79,7 +83,7 @@ export class ParticipantsListComponent implements OnInit
 
   stringPadLeft(binaryNumber: string): string
   {
-    let concatString: string='';
+    const concatString='';
     for(let i=0; i<(MAX_BADGES-binaryNumber.length); i++)
     {
       concatString.concat('0');
@@ -135,6 +139,29 @@ export class ParticipantsListComponent implements OnInit
       this.showError=true;
     });
 
+  }
+
+  onSendEmail(email: string) {
+    this.showEmailMenu=true;
+    this.emailsToSend.length=0;
+    this.emailsToSend.push(email);
+  }
+
+  async onSendEmailAll() {
+    this.emailsToSend.length=0;
+    await this.loadAllEmails();
+    this.showEmailMenu=true;
+  }
+
+  loadAllEmails() {
+    this.students.forEach(student =>{
+      this.emailsToSend.push(student.mail);
+    });
+  }
+
+  onCancelSendEmail(event) {
+    this.emailsToSend.length=0;
+    this.showEmailMenu=false;
   }
 
   getShowError() {

@@ -66,14 +66,33 @@
           <fa-icon [icon]='plusIcon' class="fa-icon"
           (click)="assignAchieveToUser(contentNewAchievement, student.id_usuario, student.nombre+' '+student.apellido)"></fa-icon>
         </td>
-        <td class="icon-field delete-icon">
-          <fa-icon [icon]='minusIcon' class="fa-icon"
-          (click)="showUnlinkUser(student.id_usuario, i)"></fa-icon>
+        <td class="icon-field">
+          <div class="row">
+            <div class="col-md-1 email-icon">
+              <fa-icon [icon]='envelopeIcon' class="fa-icon"
+              (click)="onSendEmail(student.mail)"></fa-icon>
+            </div>
+            &nbsp;
+            <div class="col-md-1 delete-icon">
+              <fa-icon [icon]='minusIcon' class="fa-icon"
+              (click)="showUnlinkUser(student.id_usuario, i)"></fa-icon>
+            </div>
+          </div>
         </td>
 
       </tr>
     </tbody>
   </table>
+
+  <div class="row" style="margin-top: 1rem;" *ngIf="!showEmailMenu">
+    <div class="col-md-9">&nbsp;</div>
+    <div class="col-md-2"><button class="btn btn-success" (click)="onSendEmailAll()">Enviar mail a todos</button></div>
+    <div class="col-md-1">&nbsp;</div>
+  </div>
+
+  <div class="email-container" *ngIf="showEmailMenu">
+    <app-send-email [emailsToSend]="emailsToSend" (cancelationEmitter)="onCancelSendEmail($event)"></app-send-email>
+  </div>
 </div>
 
 <div class="error-container" *ngIf="getShowError() || getShowDeleteQuestion()">

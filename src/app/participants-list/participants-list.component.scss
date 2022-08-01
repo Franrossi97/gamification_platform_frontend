@@ -136,6 +136,10 @@
         color: rgb(224, 0, 0);
       }
 
+      .email-icon {
+        color: rgb(22, 192, 141);
+      }
+
       &:hover
       {
         filter: brightness(1.2);
@@ -170,4 +174,11 @@
       margin-left: 1rem;
     }
   }
+}
+
+.email-container {
+  background-color: rgb(192, 192, 192);
+  padding: 2rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }

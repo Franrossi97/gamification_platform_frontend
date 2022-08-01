@@ -1,0 +1,29 @@
+<form (submit)="onSendEmail()" [formGroup]="getSendEmailForm()">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Destinatario</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" value="franrossi97@gmail.com" disabled *ngIf="this.emailsToSend.length==1">
+      <input type="email" class="form-control" value="TODOS" disabled *ngIf="this.emailsToSend.length!=1">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Asunto</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="Asunto" formControlName="subject">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Mensaje</label>
+    <div class="col-sm-10">
+      <textarea type="textarea" class="form-control" placeholder="Cuerpo del mensaje" formControlName="message"></textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary" [disabled]="!this.getSendEmailForm().valid">Enviar</button>
+      <button type="button" class="btn btn-link" style="color: red; font-weight: bold;"
+      (click)="this.cancelEmailSender()">Cancelar</button>
+    </div>
+  </div>
+</form>
