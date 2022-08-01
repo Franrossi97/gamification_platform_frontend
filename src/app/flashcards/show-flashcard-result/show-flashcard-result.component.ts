@@ -1,3 +1,4 @@
+import { PermissionService } from './../../services/permission.service';
 import { faAngleLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormBuilder, FormControl, Validator, Validators } from '@angular/forms';
 import { FlashcardService } from './../../services/flashcard.service';
@@ -28,7 +29,8 @@ export class ShowFlashcardResultComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
-  constructor(private route: ActivatedRoute, private flashcardService: FlashcardService, private fb: FormBuilder)
+  constructor(private route: ActivatedRoute, private flashcardService: FlashcardService,
+    private fb: FormBuilder)
   {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
@@ -93,6 +95,8 @@ export class ShowFlashcardResultComponent implements OnInit {
 
     return res;
   }
+
+
 
 }
 

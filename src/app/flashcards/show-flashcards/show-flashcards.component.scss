@@ -51,11 +51,14 @@
 
     .option
     {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
       font-size: 1.7rem;
       font-weight: bold;
       color: floralwhite;
-      padding: 10px 10px 10px;
+      padding: 3% 0 3% 0;
       width: 33%;
       margin-left: auto;
       margin-right: auto;
@@ -70,23 +73,7 @@
       .arrow-position
       {
         font-size: 5rem;
-        margin-top: -18%;
       }
-    }
-
-    .left-center
-    {
-      padding-left: 13%;
-    }
-
-    .center-center
-    {
-      padding-left: 6%;
-    }
-
-    .right-center
-    {
-      padding-left: 11%;
     }
   }
 }
@@ -138,26 +125,7 @@
 
       .option
       {
-        font-size: 0.8rem;
-      }
-
-      .left-center
-      {
-        padding-top: 7%;
-        padding-left: 10%;
-      }
-
-      .center-center
-      {
-        padding-left: 2%;
-        font-size: 0.7rem;
-      }
-
-      .right-center
-      {
-        padding-top: 8%;
-        padding-left: 7%;
-        font-size: 0.7rem;
+        font-size: 66%;
       }
     }
   }
@@ -180,32 +148,17 @@
 
       .option
       {
-        font-size: 0.8rem;
+        font-size: 66%;
       }
 
-      .left-center
-      {
-        padding-top: 7%;
-        padding-left: 10%;
-      }
-
-      .center-center
-      {
-        padding-left: 2%;
-        font-size: 0.7rem;
-      }
-
-      .right-center
-      {
-        padding-top: 8%;
-        padding-left: 7%;
-        font-size: 0.7rem;
+      .center-center {
+        padding-left: 1%;
       }
     }
   }
 }
 
-@media screen and (min-width: 321px) and (max-width: 400px)
+@media screen and (min-width: 321px) and (max-width: 410px)
 {
   .show-flashcard-container
   {
@@ -222,26 +175,11 @@
 
       .option
       {
-        font-size: 0.8rem;
+        font-size: 78%;
       }
 
-      .left-center
-      {
-        padding-top: 6%;
-        padding-left: 11%;
-      }
-
-      .center-center
-      {
-        padding-left: 4%;
-        font-size: 0.7rem;
-      }
-
-      .right-center
-      {
-        padding-top: 7%;
-        padding-left: 8%;
-        font-size: 0.7rem;
+      .center-center {
+        padding-left: 1%;
       }
     }
   }
@@ -264,26 +202,7 @@
 
       .option
       {
-        font-size: 0.8rem;
-      }
-
-      .left-center
-      {
-        padding-top: 5%;
-        padding-left: 12%;
-      }
-
-      .center-center
-      {
-        padding-left: 5%;
-        font-size: 0.78rem;
-      }
-
-      .right-center
-      {
-        padding-top: 6%;
-        padding-left: 9%;
-        font-size: 0.7rem;
+        font-size: 70%;
       }
     }
   }
@@ -308,21 +227,8 @@
         font-size: 1.4rem;
       }
 
-      .left-center
-      {
-        padding-top: 4.5%;
-        padding-left: 12%;
-      }
-
-      .center-center
-      {
-        padding-left: 5%;
-      }
-
-      .right-center
-      {
-        padding-top: 4.5%;
-        padding-left: 9%;
+      .center-center {
+        padding-left: 2%;
       }
     }
   }
@@ -345,24 +251,7 @@
 
       .option
       {
-        font-size: 2rem;
-      }
-
-      .left-center
-      {
-        padding-top: 4.5%;
-        padding-left: 12%;
-      }
-
-      .center-center
-      {
-        padding-left: 4.5%;
-      }
-
-      .right-center
-      {
-        padding-top: 4.5%;
-        padding-left: 9%;
+        font-size: 1.2rem;
       }
     }
   }
@@ -385,25 +274,8 @@
 
       .option
       {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
-/*
-      .left-center
-      {
-        padding-top: 4.5%;
-        padding-left: 12%;
-      }*/
-
-      .center-center
-      {
-        padding-left: 3.9%;
-      }
-/*
-      .right-center
-      {
-        padding-top: 4.5%;
-        padding-left: 9%;
-      }*/
     }
   }
 }
@@ -427,23 +299,6 @@
       {
         font-size: 2rem;
       }
-/*
-      .left-center
-      {
-        padding-top: 4.5%;
-        padding-left: 12%;
-      }*/
-
-      .center-center
-      {
-        padding-left: 6.2%;
-      }
-/*
-      .right-center
-      {
-        padding-top: 4.5%;
-        padding-left: 9%;
-      }*/
     }
   }
 }

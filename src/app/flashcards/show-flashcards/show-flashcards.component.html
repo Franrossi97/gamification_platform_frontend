@@ -7,11 +7,11 @@
   </div>
 </div>
 
-<div class="show-flashcard-container">
+<div class="show-flashcard-container" *ngIf="!showEnd">
   <div class="title-flashcard">
     Flashcard Nº{{flashcardCount+1}}
   </div>
-<!--
+  <!--
   <div class="content-flashcard">
     La programación permite hacer cosas.
   </div>-->
@@ -41,16 +41,23 @@
   </div>
 
   <div class="options-result-flashcard" *ngIf="blockButtons">
-    <a class="option left-center" (click)="selectFlashcard(0)" id="flashcardleft">
+    <a class="option" (click)="selectFlashcard(0)" id="flashcardleft">
       <div class="arrow-position">
         <fa-icon [icon]="arrowLeftIcon"></fa-icon>
       </div>
     </a>
 
-    <a class="option right-center" (click)="selectFlashcard(1)" id="flashcardright">
-      <div class="arrow-position" style="margin-left: 12%;">
+    <a class="option" (click)="selectFlashcard(1)" id="flashcardright" style="padding: 0 !important;">
+      <div class="arrow-position">
         <fa-icon [icon]="arrowRightIcon"></fa-icon>
       </div>
     </a>
+  </div>
+</div>
+
+<div class="show-flashcard-container" *ngIf="showEnd">
+  <div class="content-flashcard">
+    <h2>¡Eso es todo!</h2><br>
+    <h5>Estate atento porque tu profe puede cargar nuevas Flashcards</h5>
   </div>
 </div>

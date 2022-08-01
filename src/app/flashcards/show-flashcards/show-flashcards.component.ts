@@ -17,10 +17,10 @@ export class ShowFlashcardsComponent implements OnInit {
   flashcard: Flashcard;
   flashcardItems: Array<FlashcardItem>;
   showFlashcardItem: FlashcardItem;
-  flashcardCount: number=-1;
-  showEnd: boolean=false;
-  selectedError: boolean=false;
-  blockButtons: boolean=false;
+  flashcardCount=-1;
+  showEnd=false;
+  selectedError=false;
+  blockButtons=false;
   arrowLeftIcon= faArrowLeft;
   arrowRightIcon= faArrowRight;
 
@@ -64,13 +64,13 @@ export class ShowFlashcardsComponent implements OnInit {
   showFlashcard()
   {
     this.selectedError=false;
-    if(this.flashcardCount<this.flashcardItems.length)
+    if(this.flashcardCount<(this.flashcardItems.length-1))
     {
       this.showFlashcardItem=this.flashcardItems[++this.flashcardCount];
     }
     else
     {
-      this.showEnd=true;
+      this.showTheEnd();
     }
   }
 
@@ -101,8 +101,9 @@ export class ShowFlashcardsComponent implements OnInit {
       if(res!=2)
       {
         this.blockButtons=true; //bloquear botones para no guardar desempeño
-        //console.log('No es estudiante');
       }
+
+      this.blockButtons=true;
     });
   }
 
@@ -116,9 +117,13 @@ export class ShowFlashcardsComponent implements OnInit {
     }
     else
     {
-      if(this.flashcardCount< (this.flashcardItems.length-1)) this.showFlashcardItem=this.flashcardItems[++this.flashcardCount];
+      (this.flashcardCount< (this.flashcardItems.length-1)) ? this.showFlashcardItem=this.flashcardItems[++this.flashcardCount] : this.showTheEnd();
     }
 
     //console.log(this.flashcardCount);
+  }
+
+  showTheEnd() {
+    this.showEnd=true;
   }
 }

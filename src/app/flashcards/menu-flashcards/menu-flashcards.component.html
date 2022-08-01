@@ -16,7 +16,7 @@
           Mis materias
         </div>
 
-        <div class="filter" (click)="getSubjectFromEnsenia()" id="enseniaSubject">
+        <div class="filter" (click)="getSubjectFromEnsenia()" id="enseniaSubject" *ngIf="allowCreation">
           Materias que puedo editar
         </div>
 
