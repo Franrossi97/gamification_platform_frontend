@@ -17,9 +17,10 @@ export class HeaderComponent implements OnInit
   caretDown=faCaretDown;
   graduatedIcon=faUserGraduate;
   subjects: Array<SubjectClass>=new Array<SubjectClass>();
-  showRight: boolean;
-  show:boolean;
-  canView: boolean=false;
+  /*showRight: boolean;
+  show:boolean;*/
+  canView=false;
+  canCreateSubject=false;
 
   constructor(private subjectService:SubjectService, private permissionService: PermissionService, private route: ActivatedRoute) { }
 
@@ -28,9 +29,8 @@ export class HeaderComponent implements OnInit
     this.route.paramMap.subscribe(param =>
     {
       this.getSubjects();
-      this.show=false;
-      this.showRight=false;
       this.getPermissionForAdmin();
+      this.getPermissionForCreateSubject();
     });
   }
 
@@ -61,16 +61,6 @@ export class HeaderComponent implements OnInit
     this.canView=false;
   }
 
-  onShow()
-  {
-    this.show=!this.show;
-  }
-
-  onShowRight()
-  {
-    this.showRight=!this.showRight;
-  }
-
   getPermissionForAdmin()
   {/*
     this.permissionService.canView('usuario').then(res =>
@@ -81,6 +71,12 @@ export class HeaderComponent implements OnInit
     this.permissionService.canView('usuario').then(res =>
     {
       this.canView=!!res;
+    });
+  }
+
+  getPermissionForCreateSubject() {
+    this.permissionService.canEdit('materia').then(res => {
+      this.canCreateSubject=!!res;
     });
   }
 }

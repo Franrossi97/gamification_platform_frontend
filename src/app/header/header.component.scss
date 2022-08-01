@@ -76,6 +76,19 @@
     .dropdown
     {
       float: left;
+
+      .navbar-item {
+
+        &#onShow:focus {
+          + #big-menu {
+            visibility: visible;
+          }
+        }
+      }
+
+      .dropdown-content#big-menu:hover {
+        visibility: visible;
+      }
     }
 
     .vert
@@ -122,10 +135,19 @@
       filter: brightness(1.25);
       cursor: pointer;
     }
+
+    &:focus {
+
+      +#right-dropdown
+      .dropdown-content{
+        visibility: visible;
+      }
+    }
   }
 
   .dropdown-content
   {
+    visibility: hidden;
     position: absolute;
     z-index: 2;
     margin-top: 4.7rem;
@@ -148,6 +170,10 @@
       {
         cursor: pointer;
       }
+    }
+
+    &:hover {
+      visibility: visible;
     }
   }
 
