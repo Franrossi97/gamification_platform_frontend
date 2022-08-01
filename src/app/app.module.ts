@@ -55,6 +55,7 @@ import { CursandoComponent } from './home/cursando/cursando.component';
 import { AdministrandoComponent } from './home/administrando/administrando.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-badge/create-badge.component';
+import { SendEmailComponent } from './participants-list/send-email/send-email.component';
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-b
     CursandoComponent,
     AdministrandoComponent,
     LoadingSpinnerComponent,
-    CreateBadgeComponent
+    CreateBadgeComponent,
+    SendEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -129,8 +131,8 @@ import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-b
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              //'151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
-              '574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
+              '151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
+              //'574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
             )
           },
           {
