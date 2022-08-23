@@ -17,11 +17,11 @@ import { Level } from 'src/app/shared/Level';
 export class CreateFlashcardComponent implements OnInit
 {
 
-  idSubjectSelected: number;
+  idSubjectSelected = -1;
   newFlashCardInformationForm: FormGroup;
   subjectsToSelect: Array<SubjectClass>;
   levelsForSelectedSubject: Array<Level>;
-  showErrorMessage: boolean=false;
+  showErrorMessage = false;
   trashIcon=faTrashAlt;
   arrowLeft=faArrowLeft;
 
@@ -42,7 +42,6 @@ export class CreateFlashcardComponent implements OnInit
     this.subjectService.getSubjectsForTeacher(localStorage.getItem('userId'), 0, 99999999).subscribe(res =>
     {
       this.subjectsToSelect=res;
-      //console.log(this.subjectsToSelect);
     });
   }
 
@@ -52,7 +51,7 @@ export class CreateFlashcardComponent implements OnInit
     {
       subject: new FormControl(null, Validators.required),
       level: new FormControl(null, Validators.required),
-      title: new FormControl(null, [Validators.required, Validators.maxLength(60)]),
+      title: new FormControl(null, [Validators.required, Validators.maxLength(120)]),
       items: this.fb.array([], Validators.required),
     });
 
@@ -134,7 +133,7 @@ export class CreateFlashcardComponent implements OnInit
 
   generateArrayFlashcardItems()
   {
-    let res=new Array<FlashcardItem>();
+    const res=new Array<FlashcardItem>();
     this.getItemsControl().controls.forEach(control =>
     {
       res.push(control.value);

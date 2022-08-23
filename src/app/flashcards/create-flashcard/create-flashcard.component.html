@@ -20,11 +20,14 @@
           </label>
 
           <select id="subject" name="subject" formControlName="subject" class="form-input-position-size">
-            <option *ngFor="let subject of subjectsToSelect" value="{{subject.id_materia}}">{{subject.nombre}}</option>
+            <option *ngFor="let subject of subjectsToSelect" value="{{subject.id_materia}}">
+              {{subject.nombre}} -
+              A{{subject.anio}}C{{subject.cuatrimestre}}
+            </option>
           </select>
         </div>
 
-        <div class="row" style="width: 100%;" *ngIf="levelsForSelectedSubject!=null">
+        <div class="row" style="width: 100%;" *ngIf="idSubjectSelected!=-1">
           <label class="input-title" for="subject">
             Escoge un nivel:
           </label>
@@ -71,6 +74,8 @@
         style="margin-bottom: 1rem;" id="createButton"
         [disabled]="newFlashCardInformationForm.invalid" type="submit">Crear</button>
 
+        <span *ngIf="newFlashCardInformationForm.touched && newFlashCardInformationForm.invalid"
+          style="color: red; margin-left: 2%;">Ocurrió un error al crear las flashcards</span>
         <span *ngIf="showErrorMessage" style="color: red;">Ocurrió un error al crear las flashcards</span>
       </div>
     </form>
