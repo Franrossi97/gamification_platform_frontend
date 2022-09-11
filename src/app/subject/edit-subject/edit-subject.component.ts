@@ -1,7 +1,9 @@
+import { LevelService } from './../../services/level.service';
+import { Level } from 'src/app/shared/Level';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-edit-subject',
@@ -12,20 +14,21 @@ export class EditSubjectComponent implements OnInit
 {
   @Input() editingLevelId: number;
   @Input() subjectId: number;
-  showBadgeMenu: boolean=false;
-  showErrMessage: boolean= false;
-  errorMessage: string= '';
+  @Output() changeLevelValueEvent = new EventEmitter<Level>();
+  @Output() deleteLevelEvent = new EventEmitter<number>();
+  showBadgeMenu = false;
+  showErrMessage = false;
+  errorMessage = '';
   xIcon=faTimes;
+  showDeletePopUpId = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private modalService: NgbModal) { }
+  constructor(private router: Router, private route: ActivatedRoute, private modalService: NgbModal, private levelService: LevelService) { }
 
   ngOnInit(): void
   {
     this.route.paramMap.subscribe(param =>
     {
       this.subjectId=Number(param.get('id'));
-
-      console.log(this.subjectId);
     });
   }
 
@@ -68,6 +71,12 @@ export class EditSubjectComponent implements OnInit
     this.errorMessage= message;
   }
 
+  onClickEditLevel(content) {
+    this.modalService.open(content).result.then(res => {
+      let closeResult=`Closed with: ${res}`;
+    }, err => null);
+  }
+
   onClickNewLevel(content)
   {
     this.modalService.open(content).result.then(res =>
@@ -75,5 +84,26 @@ export class EditSubjectComponent implements OnInit
       let closeResult=`Closed with: ${res}`;
     }, err => console.log(err))
     .catch(err => console.log(err));
+  }
+
+  showDeleteLevelMenu()
+  {
+    this.showDeletePopUpId=true;
+  }
+
+  deleteLevel(idLevel: number)
+  {
+    this.levelService.deleteLevel(idLevel).subscribe(() => {
+      this.deleteLevelEvent.emit(idLevel);
+    });
+  }
+
+  onChangeLevelValues(level: Level) {
+    this.changeLevelValueEvent.emit(level);
+  }
+
+  cancelDeleteLevel()
+  {
+    this.showDeletePopUpId = false;
   }
 }

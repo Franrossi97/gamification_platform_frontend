@@ -1,0 +1,90 @@
+<div class="back-button-container">
+  <button class="btn btn-secondary" (click)="goBack()">
+    <fa-icon [icon]="arrowLeft"></fa-icon>
+    Volver
+  </button>
+</div>
+
+<div class="edit-container">
+  <div class="row level-title" *ngIf="editingLevel">
+    <div class="col-md-12">
+      Nivel: {{editingLevel.descripcion}}
+    </div>
+    <div class="col-md-12" style="font-size: 2rem;">
+      Editar preguntas
+    </div>
+  </div>
+  <hr>
+  <div class="row level-list-container">
+
+    <!--<div class="col-md-3 col-sm-1 card-question"
+    *ngFor="let question of questions; let i = index" [ngClass]="{'bigger-card': editedLevelIndex == i}">
+      <div class="row question-title">
+        Pregunta {{i+1}}
+      </div>
+
+      <div class="row card-title">
+        {{question.texto}}
+      </div>
+
+      <div class="row buttons-container">
+        <button (click)="onSelectEditQuestion(question.id_pregunta, i)" id="editQuestion">Editar</button>
+
+        <a (click)="onDeleteQuestion(question.id_pregunta, i)" id="deleteQuestion">Borrar</a>
+      </div>
+    </div>-->
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nº pregunta</th>
+          <th>Texto</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of questions; let i = index">
+          <th style="padding-left: 5%;">{{ i+1 }}</th>
+          <th>{{question.texto}}</th>
+          <th style="padding-left: 3%;">
+            <button class="btn btn-primary btn-sm" style="margin-right: 1rem;"
+            (click)="onSelectEditQuestion(question.id_pregunta, i)"><fa-icon [icon]="editIcon"></fa-icon></button>
+            <button class="btn btn-danger btn-sm"
+            (click)="onDeleteQuestionModal(contentDeleteQuestion, question.id_pregunta, i)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+          </th>
+        </tr>
+        <tr *ngIf="questions.length == 0">
+          <th>Aún no has creado ninguna pregunta</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="error-message" *ngIf="showErrorMessage">
+  ERROR
+  {{errorMessage}}
+
+  <fa-icon [icon]='XIcon' class="icon" (click)="closeErrorMessage()"></fa-icon>
+</div>
+
+<ng-template #contentDeleteQuestion let-modal>
+  <div class="edit-container">
+    <div class="row">
+      <div class="col-md-12" style="padding: 1rem;">
+        <h3>¿Realmente deseas borrar la pregunta?</h3>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 1rem; text-align: center;">
+      <div class="col-md-6">
+        <button class="btn btn-danger" (click)="onDeleteQuestion(deleteQuestionId, deleteQuestionIndex)">Sí</button>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-link" (click)="cancelDelete()">No</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

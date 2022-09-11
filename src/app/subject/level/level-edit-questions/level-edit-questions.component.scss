@@ -1,0 +1,349 @@
+.edit-container
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  background-color: rgb(233, 233, 233);
+  border-radius: 8px;
+  padding-bottom: 4%;
+
+  .level-title
+  {
+    font-weight: bold;
+    font-size: 3rem;
+    color: rgb(146, 146, 146);
+    padding: 2% 2% 3% 4%;
+  }
+
+  .level-list-container
+  {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.6% 1.6% 1.6% 2.5%;
+
+    table {
+      width: 100%;
+
+      thead {
+        background-color: rgb(87, 182, 182);
+        font-size: 1.2rem;
+        border-top: 3px solid rgb(124, 124, 124);
+        border-bottom: 3px solid rgb(124, 124, 124);
+        color: whitesmoke;
+
+        th {
+          padding: 1rem;
+        }
+      }
+
+      tbody {
+        background-color: rgb(90, 146, 146);
+
+        tr {
+
+          th {
+            border-bottom: 3px solid rgb(194, 194, 194);
+            padding: 1rem;
+            color: white;
+          }
+
+          &:hover {
+            filter: brightness(0.8);
+          }
+        }
+      }
+    }
+
+    .card-question
+    {
+      margin: 2%;
+      background-color: rgb(216, 216, 216);
+      border-radius: 4px;
+      border: 1px rgb(87, 127, 146) solid;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: all 0.2s ease-out;
+
+      .question-title
+      {
+        color: whitesmoke;
+        padding: 8px;
+        font-weight: bold;
+        background: rgb(35,91,65);
+        background: linear-gradient(90deg, rgba(35,91,65,1) 0%, rgba(39,105,77,1) 41%, rgba(64,112,87,1) 100%);
+      }
+
+      .card-title
+      {
+        font-size: 1.3rem;
+        font-weight: bold;
+        padding: 5% 0 10% 2%;
+      }
+
+      .buttons-container
+      {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 6%;
+        float: left;
+
+        button
+        {
+          margin-left: 15%;
+          margin-right: 20%;
+          display: inline-block;
+          background-color: steelblue;
+          border: 1px solid rgb(39, 66, 105);
+          border-radius: 4px;
+          color: whitesmoke;
+          font-weight: bold;
+          padding: 4px 20px 4px 20px;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          transition: all 0.2s ease-out;
+
+          &:hover
+          {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+          }
+        }
+
+        a
+        {
+          cursor: pointer;
+          display: inline-block;
+          color: rgb(190, 35, 35);
+
+          &:hover
+          {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .bigger-card
+    {
+      transform: scale(1.1);
+    }
+  }
+
+  .editing-container
+  {
+    padding-top: 2%;
+    margin-left: 10%;
+    width: 92%;
+
+    .answer-container
+    {
+      width: 50%;
+
+      .answer-title h3
+      {
+        margin-left: -40%;
+        font-weight: bold;
+        border-bottom: 1px bold aqua;
+        padding-bottom: 3%;
+      }
+
+      .option
+      {
+        width: 100%;
+        font-size: 1.01rem;
+        font-weight: bold;
+        color: rgb(80, 80, 80);
+        padding-bottom: 3%;
+        margin-bottom: 2%;
+        padding: 4%;
+        border-radius: 10px;
+
+        .icon
+        {
+          cursor: pointer;
+          color: rgb(47, 172, 35);
+
+          &:hover
+          {
+            filter: brightness(0.8);
+          }
+        }
+      }
+
+      .option-card-green
+      {
+        border: 1px rgb(57, 255, 31) solid !important;
+        background-color: rgb(171, 211, 164) !important;
+      }
+
+      .option-card-red
+      {
+        border: 1px rgb(255, 31, 31) solid;
+        background-color: rgb(211, 164, 164);
+      }
+    }
+
+    .form-container
+    {
+      padding-top: 3%;
+      width: 100%;
+
+      input
+      {
+        height: 2.4rem;
+        outline: none;
+        border: 1px solid rgb(141, 141, 141);
+        border-radius: 10px;
+        width: 60%;
+        margin-right: 1%;
+        transition: all 0.7s ease-in-out;
+
+        &:hover
+        {
+          box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+
+        &:focus
+        {
+          border: 1.5px solid rgb(37, 185, 116);
+          box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+        }
+      }
+
+      .answer-list
+      {
+        word-wrap: break-word;
+        font-size: 0.9rem;
+        margin-bottom: 3%;
+        border-bottom: 1px springgreen solid;
+      }
+
+      .edit-answer
+      {
+        padding: 4%;
+        border-radius: 10px;
+        margin-bottom: 3%;
+        word-wrap: break-word;
+        margin-right: 2%;
+        background-color: rgb(180, 180, 180);
+      }
+
+      .buttons-container
+      {
+        a
+        {
+          font-size: 1.2rem;
+          color: brown;
+          cursor: pointer;
+          padding-left: 4%;
+          padding-top: 0.8%;
+
+          &:hover
+          {
+            filter: brightness(1.2);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .extra-edit-container
+    {
+      margin-top: 6%;
+      border-top: 1px solid rgb(97, 97, 97);
+
+      .extra-title h3
+      {
+        margin-left: -20%;
+        margin-top: 10%;
+        font-weight: bold;
+        border-bottom: 1px bold aqua;
+        padding-bottom: 3%;
+      }
+
+      .extra-edit-form
+      {
+        margin-top: 1%;
+        width: 100%;
+        margin-left: -5%;
+
+        .extra-input
+        {
+          margin-top: 2%;
+          width: 100%;
+
+          label
+          {
+            margin-right: 4%;
+            color: rgb(58, 58, 58);
+            font-weight: bold;
+          }
+
+          input
+          {
+            height: 5%;
+            padding: 10px;
+            outline: none;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 1px solid springgreen;
+            transition: all 0.2s ease-in;
+
+            &:focus
+            {
+              border-bottom: 2.2px solid springgreen;
+            }
+          }
+        }
+
+        button
+        {
+          margin-top: 3%;
+          margin-left: 85%;
+        }
+      }
+    }
+  }
+
+}
+
+.error-message
+{
+  color: rgb(170, 178, 187);
+  left: 0;
+  bottom: 0;
+  background-color: brown;
+  position: fixed;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2%;
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+
+  .icon
+  {
+    cursor: pointer;
+    position: absolute;
+    right: 5%;
+    margin-right: 0;
+  }
+}
+
+.back-button-container {
+  margin: 0 0 1% 3%;
+}
+
+@media screen and (max-width: 719px)
+{
+  .error-message
+  {
+    .icon
+    {
+      right: 12%;
+    }
+  }
+}

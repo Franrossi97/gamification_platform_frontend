@@ -1,17 +1,31 @@
 <div style="background-color: white;
-border-radius: 10px;">
-  <div class="row" style="padding-right: 7px;">
-    <div class="col-md-1" style="z-index: 2;">
-      <app-navegation [subjectName]="subject.nombre" *ngIf="subject!=null"></app-navegation><!--
-      <app-navegation></app-navegation>-->
+border-radius: 10px; padding-bottom: 2rem;">
+
+  <div class="row title" *ngIf="subject">
+    <div class="col-md-8">
+      <h1>{{subject.nombre}}</h1>
     </div>
+
+    <div class="col-md-2 score-progress" *ngIf="!canEditSubject">
+      Progreso: <!--{{PROGRESS}}%-->
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" aria-label="Warning example"
+        [style]="getProgressWidth()" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{PROGRESS}}%</div>
+      </div>
+    </div>
+    <div class="col-md-2 score-progress" *ngIf="score != -1">
+      Puntaje: {{ score }} puntos
+    </div>
+  </div>
+  <hr>
+  <div class="row" >
 
     <div class="col-md-11" style="padding-top: 8px;">
       <div class="row" *ngIf="canEditSubject">
-        <div class="col" >
+        <div class="col option-pos">
           <app-options></app-options>
         </div>
-      </div>
+      </div><!--
       <div class="row score" *ngIf="score!=-1">
         <div class="col-md-4" >
           <h3>Tu puntaje:</h3>
@@ -19,18 +33,13 @@ border-radius: 10px;">
         <div class="col-md-8">
           <h3>{{score}}</h3>
         </div>
-      </div>
+      </div>-->
 
-      <div class="row">
+      <div class="row" style="margin-left: 8%;">
         <div class="col-md-12" *ngIf="subject!=null">
           <app-level [cantStudents]='subject.studentsCount'></app-level><!--
           <app-level [userType]='userType'></app-level>-->
         </div>
-        <!--
-        <div class="col-md">
-          <router-outlet></router-outlet>
-        </div>
-        -->
       </div>
     </div>
   </div>

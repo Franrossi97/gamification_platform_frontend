@@ -1,3 +1,4 @@
+import { DragScrollComponent } from 'ngx-drag-scroll';
 import { Badge } from 'src/app/shared/Badge';
 import { BadgeFactory } from './../../shared/BadgeFactory';
 import { PermissionService } from './../../services/permission.service';
@@ -7,10 +8,10 @@ import { UserService } from './../../services/user.service';
 import { LevelService } from './../../services/level.service';
 import { Level } from './../../shared/Level';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import {Location} from '@angular/common';
-import {faEdit, faPlus, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
-import { FormGroup, FormBuilder, FormControl, Validators, Form } from '@angular/forms';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-level',
@@ -19,35 +20,30 @@ import { FormGroup, FormBuilder, FormControl, Validators, Form } from '@angular/
 })
 export class LevelComponent implements OnInit
 {
+  @ViewChild('nav', {read: DragScrollComponent}) ds: DragScrollComponent;
+
+  questionIcon = faQuestionCircle;
   SUBJECT_ID: number;
   editOpened=false;
   levels: Level[];
   actualDate: Date=new Date();
-  editingLevelId:number=0;
-  editIcon=faEdit;
-  plusIcon=faPlus;
-  trashIcon=faTrashAlt;
+  editingLevelId = 0;
   @Input() cantStudents:number;
   //@Input() userType:number;
   @Output() newItemEvent=new EventEmitter<number>();
-  canEdit: boolean=false;
-  editNameForm: FormGroup;
-  editUnitNameForm: FormGroup;
-  newMaxScoreForm: FormGroup;
-  newUnitForm: FormGroup;
-  newCountQuetionsForm: FormGroup;
-  showEditName: number=0;
-  showEditUnit: number=0;
-  showNewUnit: number=0;
-  showNewScore: number=0;
-  showNewCountQuestions: number=0;
-  showAttemptError: number=0;
-  showDeletePopUpId: number=-1;
+  canEdit = false;
+  editNameForm: UntypedFormGroup;
+  editUnitNameForm: UntypedFormGroup;
+  newMaxScoreForm: UntypedFormGroup;
+  newUnitForm: UntypedFormGroup;
+  newCountQuetionsForm: UntypedFormGroup;
+  showAttemptError = 0;
+  showDeletePopUpId = -1;
   badgesDescriptions: Map<number, string>=new Map<number, string>();
   //badgesInfo: Map<number, string[]>;
 
   constructor(private router:Router, private route: ActivatedRoute, private location: Location, private levelService: LevelService,
-  private userService: UserService, private fb: FormBuilder, private permissionService: PermissionService) { }
+  private userService: UserService, private fb: UntypedFormBuilder, private permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
@@ -70,9 +66,13 @@ export class LevelComponent implements OnInit
   {
     if(this.editOpened)
     {
-      this.router.navigate([`subject/${this.SUBJECT_ID}`]);
-      this.editingLevelId=0;
-      //this.location.back();
+      if(id == this.editingLevelId) {
+        this.router.navigate([`subject/${this.SUBJECT_ID}`]);
+        this.editingLevelId=0;
+      }
+      else {
+        this.editingLevelId=id;
+      }
     }
     else
     {
@@ -85,7 +85,7 @@ export class LevelComponent implements OnInit
 
   getLevels(idSubject: number|string)
   {
-    this.levelService.getLevels(idSubject).subscribe(levels =>
+    this.levelService.getLevelsWithVerification(idSubject, +localStorage.getItem('userId')).subscribe(levels =>
     {
       /*
       levels.forEach(level =>
@@ -125,7 +125,7 @@ export class LevelComponent implements OnInit
 
   calculateDateDifference(creationDate: string): number
   {
-    let dif: number=Math.abs((this.actualDate.getTime())-new Date(creationDate).getTime());
+    const dif: number=Math.abs((this.actualDate.getTime())-new Date(creationDate).getTime());
     return Math.ceil(dif/(1000 * 3600 * 24));
   }
 
@@ -142,7 +142,7 @@ export class LevelComponent implements OnInit
 
   onChangeretries(indexLevel: number, idLevel: number, retries: boolean)
   {
-    let newLevelParams: Level=new Level();
+    const newLevelParams: Level=new Level();
     newLevelParams.id_nivel=idLevel;
     newLevelParams.reintentos=!retries;
     console.log(newLevelParams);
@@ -157,7 +157,7 @@ export class LevelComponent implements OnInit
     });
   }
 
-  onPlay(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number, retries: boolean)
+  onPlay(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number, retries: boolean, timesPlayed: boolean)
   {
     if(retries)
     {
@@ -168,7 +168,13 @@ export class LevelComponent implements OnInit
     }
     else
     {
-      this.allowAttempt(idLevel, idSubject, penalizacion, maxScore, countQuestions);
+      if(timesPlayed) {
+        this.showAttemptError=idLevel;
+      }
+      else {
+        this.startGame(0, penalizacion, maxScore, countQuestions, idLevel, idSubject);
+      }
+      //this.allowAttempt(idLevel, idSubject, penalizacion, maxScore, countQuestions);
     }
   }
 
@@ -185,174 +191,6 @@ export class LevelComponent implements OnInit
     this.levelService.receiveCountQuestions(countQuestions);
     this.levelService.sendSubjectId(idSubject);
     this.router.navigate([`/level/${idLevel}/questions`]);
-  }
-
-  onEditName(idLevel: number)
-  {
-    this.showEditName=idLevel;
-    this.editNameForm=this.fb.group(
-    {
-      name: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(200)]),
-    });
-  }
-
-  onSubmitNewName(idLevel: number)
-  {
-    let editedLevel=new Level();
-
-    editedLevel.id_nivel=idLevel;
-    editedLevel.descripcion=this.editNameForm.get('name').value;
-    console.log(editedLevel);
-    this.levelService.editLevel(editedLevel).subscribe(res =>
-    {
-      this.cancelEditName();
-    },err =>
-    {
-      console.log(err);
-    });
-  }
-
-  cancelEditName()
-  {
-    this.showEditName=0;
-    this.editNameForm=null;
-  }
-
-  onEditNameUnit(idUnit: number)
-  {
-    this.showEditUnit=idUnit;
-    this.editUnitNameForm=this.fb.group(
-    {
-      name: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
-    });
-  }
-
-  onSubmitNewUnitName(idUnit: number)
-  {
-    let editedUnit=new Unit();
-
-    editedUnit.id_unidad=idUnit;
-    editedUnit.nombre=this.editUnitNameForm.get('name').value;
-    this.editUnitNameForm.reset();
-  }
-
-  cancelEditUnitName()
-  {
-    this.showEditUnit=0;
-    this.editUnitNameForm=null;
-  }
-
-  onDeleteUnit(unitId: number|string, levelIndex: number)
-  {
-    this.levelService.deleteUnitLevel(unitId).subscribe(res =>
-    {
-      console.log(res);
-      let i: number=0;
-      this.levels[levelIndex].unitList.every(unit =>
-      {
-        i++;
-        return unit.id_unidad!=unitId
-      });
-
-      this.levels[levelIndex].unitList.splice(i, 1);
-      this.cancelEditName();
-    },err =>
-    {
-      console.log(err);
-    });
-  }
-
-  onAddNewUnit(idLevel: number|string)
-  {
-    this.showNewUnit=+idLevel;
-    this.newUnitForm=this.fb.group(
-    {
-      name: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(200)]),
-    });
-  }
-
-  onSubmitNewUnit(idLevel: number, levelIndex: number)
-  {
-    let newUnit: Unit=new Unit();
-    newUnit.nombre=this.newUnitForm.get('name').value;
-    this.editNameForm.reset();
-    this.levelService.addNewLevelUnit(idLevel, newUnit).subscribe(res =>
-    {
-      this.levels[levelIndex].unitList.push(newUnit);
-      this.cancelNewUnit();
-    },err =>
-    {
-      console.log(err);
-
-    });
-  }
-
-  cancelNewUnit()
-  {
-    this.showNewUnit=0;
-    this.newUnitForm=null;
-  }
-
-  onEditScore(idLevel: number)
-  {
-    this.showNewScore=idLevel;
-    this.newMaxScoreForm=this.fb.group(
-    {
-      score: new FormControl(null, [Validators.required, Validators.min(0)]),
-    });
-  }
-
-  onEditCountQuestions(idLevel: number)
-  {
-    this.showNewCountQuestions=idLevel;
-    this.newCountQuetionsForm=this.fb.group(
-    {
-      count: new FormControl(null, [Validators.required, Validators.min(1)]),
-    });
-  }
-
-  cancelNewCountQuestion()
-  {
-    this.showNewCountQuestions=0;
-    this.newCountQuetionsForm=null;
-  }
-
-  onSubmitNewCountQuestions(idLevel: number, levelIndex: number)
-  {
-    let newLevelValue: Level=new Level();
-    newLevelValue.id_nivel=idLevel;
-    newLevelValue.cantidad_preguntas=this.newCountQuetionsForm.get('count').value;
-    this.newCountQuetionsForm.reset;
-    this.levelService.editLevel(newLevelValue).subscribe(res =>
-    {
-      this.levels[levelIndex].cantidad_preguntas=newLevelValue.cantidad_preguntas;
-      this.cancelNewCountQuestion();
-    }, err =>
-    {
-      console.log(err);
-    });
-  }
-
-  onSubmitNewScore(idLevel: number, levelIndex: number)
-  {
-    let newLevelValue: Level=new Level();
-    newLevelValue.id_nivel=idLevel;
-    newLevelValue.puntaje_maximo=this.newMaxScoreForm.get('score').value;
-    this.newMaxScoreForm.reset;
-    this.levelService.editLevel(newLevelValue).subscribe(res =>
-    {
-      this.levels[levelIndex].puntaje_maximo=newLevelValue.puntaje_maximo;
-      this.cancelNewScore()
-    },err =>
-    {
-      console.log(err);
-    });
-  }
-
-  cancelNewScore()
-  {
-    this.showNewScore=0
-    this.newMaxScoreForm=null;
   }
 
   allowAttempt(idLevel: number, idSubject: number, penalizacion: number, maxScore: number, countQuestions: number)
@@ -375,9 +213,14 @@ export class LevelComponent implements OnInit
 
   getFormattedRecommendedDate(recommendedDate: Date): string
   {
-    let auxDate=new Date(recommendedDate);
+    const auxDate=new Date(recommendedDate);
+    let res = '';
 
-    return `${auxDate.getDay()}/${auxDate.getMonth()}/${auxDate.getFullYear()}`;
+    res = auxDate.getDay() > 9 ? `${auxDate.getDay()}` : `0${auxDate.getDay()}`;
+    res = auxDate.getMonth() > 9 ? `${res}/${auxDate.getMonth()}` : `${res}/0${auxDate.getMonth()}`;
+    res = `${res}/${auxDate.getFullYear()}`;
+
+    return res;
   }
 
   getPictureLinkForBadge(badgeType: number): string
@@ -411,30 +254,47 @@ export class LevelComponent implements OnInit
     });
   }
 
-  showDeleteLevelMenu(idLevel: number)
-  {
-    this.showDeletePopUpId=idLevel;
+  onChangeLevelValue(level: Level) {
+    const indexLevel = this.searchIndexLevelById(level.id_nivel);
+
+    if(indexLevel >= 0) {
+      this.levels[indexLevel] = level;
+    }
   }
 
-  deleteLevel(idLevel: number)
-  {
-    const indexDelete=this.levels.findIndex(item =>
-    {
-      item.id_nivel==idLevel;
-    });
+  onDeleteLevel(idLevel: number) {
+    const indexLevel = this.searchIndexLevelById(idLevel);
+    console.log(indexLevel, idLevel);
 
-    this.levelService.deleteLevel(idLevel).subscribe(res =>
-    {
-      this.levels.splice(indexDelete);
-    }, err =>
-    {
-
-    });
+    if(indexLevel >= 0) {
+      this.levels.splice(indexLevel);
+    }
   }
 
-  cancelDeleteLevel()
-  {
-    this.showDeletePopUpId=-1;
+  searchIndexLevelById(levelId: number): number {
+    console.log(this.levels);
+
+    return this.levels.findIndex(level => level.id_nivel == levelId);
+  }
+
+  scrollFirst() {
+    this.ds.moveTo(0);
+  }
+
+  scrollToLast() {
+    this.ds.moveTo(this.levels.length);
+  }
+
+  moveLeft() {
+    this.ds.moveLeft();
+  }
+
+  moveRight() {
+    this.ds.moveRight();
+  }
+
+  onSelectLevel(idLevel: number) {
+    document.getElementById(`level${idLevel}`).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
 }

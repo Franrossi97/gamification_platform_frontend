@@ -1,0 +1,36 @@
+.edit-level-container {
+  padding: 4%;
+  background-color: rgb(235, 235, 235);
+  border-radius: 20px;
+
+  label {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: rgb(97, 97, 97);
+  }
+
+  .title {
+
+    h4 {
+      font-weight: bold;
+      font-size: 2rem;
+      margin: 0 0 2% 1%;
+    }
+  }
+
+  .unit-edit-container {
+    color: white;
+    font-weight: bold;
+    margin-top: 2%;
+    margin-bottom: 6%;
+    padding: 5%;
+    border: 1px gainsboro solid;
+    border-radius: 10px;
+    background-color: rgb(126, 126, 126);
+  }
+
+  .btn-link {
+    color: red;
+    font-weight: bold;
+  }
+}

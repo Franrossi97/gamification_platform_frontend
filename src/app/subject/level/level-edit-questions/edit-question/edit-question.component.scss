@@ -1,0 +1,220 @@
+.editing-container
+  {
+    background-color: rgb(214, 214, 214);
+    padding-top: 2%;
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+
+    .question-title {
+      width: 100%;
+      margin-left: 1%;
+      margin-right: auto;
+      font-weight: bold;
+      font-size: 2.2rem;
+    }
+
+    .answer-container
+    {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+
+      .answer-title h3
+      {
+        font-size: 2rem;
+        margin-left: 12%;
+        font-weight: bold;
+        border-bottom: 1px bold aqua;
+        padding-bottom: 3%;
+      }
+
+      .option
+      {
+        font-size: 1.01rem;
+        font-weight: bold;
+        color: rgb(80, 80, 80);
+        padding-bottom: 3%;
+        margin-bottom: 2%;
+        padding: 1.8%;
+        border-radius: 10px;
+        margin-left: auto;
+        margin-right: auto;
+
+        .icon
+        {
+          cursor: pointer;
+          color: rgb(47, 172, 35);
+
+          &:hover
+          {
+            filter: brightness(0.8);
+          }
+        }
+      }
+
+      .option-card-green
+      {
+        border: 1px rgb(57, 255, 31) solid !important;
+        background-color: rgb(171, 211, 164) !important;
+      }
+
+      .option-card-red
+      {
+        border: 1px rgb(255, 31, 31) solid;
+        background-color: rgb(211, 164, 164);
+      }
+    }
+
+    .form-container
+    {
+      border-radius: 15px;
+      padding: 2%;
+      background-color: rgb(255, 255, 255);
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+
+      input
+      {
+        height: 2.4rem;
+        outline: none;
+        border: 1px solid rgb(141, 141, 141);
+        border-radius: 10px;
+        width: 60%;
+        margin-right: 1%;
+        transition: all 0.7s ease-in-out;
+
+        &:hover
+        {
+          box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+
+        &:focus
+        {
+          border: 1.5px solid rgb(37, 185, 116);
+          box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+        }
+      }
+
+      .answer-list
+      {
+        word-wrap: break-word;
+        font-size: 0.9rem;
+        margin-bottom: 3%;
+        border-bottom: 1px springgreen solid;
+      }
+
+      .edit-answer
+      {
+        padding: 4%;
+        border-radius: 10px;
+        margin-bottom: 3%;
+        word-wrap: break-word;
+        margin-right: 2%;
+        background-color: rgb(180, 180, 180);
+      }
+
+      .buttons-container
+      {
+        a
+        {
+          font-size: 1.2rem;
+          color: brown;
+          cursor: pointer;
+          padding-left: 4%;
+          padding-top: 0.8%;
+
+          &:hover
+          {
+            filter: brightness(1.2);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .extra-edit-container
+    {
+      width: 100%;
+
+      .extra-title h3
+      {
+        margin-left: 2%;
+        font-size: 2rem;
+        margin-top: 4%;
+        font-weight: bold;
+        border-bottom: 1px bold aqua;
+        padding-bottom: 3%;
+      }
+
+      .extra-edit-form
+      {
+        margin-left: 5%;
+        margin-top: -3%;
+        width: 100%;
+
+        .extra-input
+        {
+          margin-top: 2%;
+          width: 100%;
+
+          label
+          {
+            margin-right: 4%;
+            color: rgb(58, 58, 58);
+            font-weight: bold;
+          }
+
+          input
+          {
+            height: 5%;
+            padding: 10px;
+            outline: none;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 1px solid springgreen;
+            transition: all 0.2s ease-in;
+
+            &:focus
+            {
+              border-bottom: 2.2px solid springgreen;
+            }
+          }
+        }
+
+        button
+        {
+          margin: 3% 0 2% 0%;
+        }
+      }
+    }
+  }
+
+  .error-message
+  {
+    color: rgb(170, 178, 187);
+    left: 0;
+    bottom: 0;
+    background-color: brown;
+    position: fixed;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2%;
+    font-weight: bold;
+    font-size: 1.3rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+
+    .icon
+    {
+      cursor: pointer;
+      position: absolute;
+      right: 5%;
+      margin-right: 0;
+    }
+  }

@@ -1,0 +1,86 @@
+<div class="edit-level-container">
+
+  <div class="row title">
+    <h4>Editar el nivel seleccionado</h4>
+  </div>
+
+  <form [formGroup]='getEditLevelForm()' (ngSubmit)="onSubmitNewLevelValues()" *ngIf="getEditLevelForm()!=undefined">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Título:</label>
+          <input class="form-control" type="text" placeholder="Nuevo nombre del nivel" formControlName='name' maxlength="200" minlength="1">
+          <span *ngIf="getEditLevelForm().get('name').touched && getEditLevelForm().get('name').invalid" class="error-input">Ingrese un nombre válido</span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Puntaje:</label>
+          <input class="form-control" type="number" placeholder="800" formControlName='score' min="0">
+          <span *ngIf="getEditLevelForm().get('score').touched && getEditLevelForm().get('score').invalid" class="error-input">Ingrese un puntaje válido</span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Cantidad de preguntas:</label>
+          <input class="form-control" type="number" placeholder="14" formControlName='maxQuestions' min="0">
+          <span *ngIf="getEditLevelForm().get('maxQuestions').touched && getEditLevelForm().get('maxQuestions').invalid" class="error-input">Ingrese una cantidad válida</span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-success" type="submit" [disabled]='getEditLevelForm().invalid'>Cargar cambios</button>
+      </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-link" type="button" (click)='onCancelEditLevel()'>Cancelar</button>
+      </div>
+    </div>
+  </form>
+
+  <label style="margin-top: 6%;">Editar o eliminar unidades:</label>
+  <div class="col-md-12 unit-edit-container" *ngIf="level">
+    <div *ngFor="let unit of level.unitList; let i = index" style="width: 100%;">
+      {{unit.nombre}}&nbsp;
+      <button class="btn btn-info btn-sm" (click)='createEditUnitForm(unit.id_unidad, i)'><fa-icon [icon]='editIcon'></fa-icon></button>&nbsp;
+      <button class="btn btn-link btn-sm" (click)='onDeleteUnit(unit.id_unidad, i)'><fa-icon [icon]='trashIcon'></fa-icon></button>
+
+      <form [formGroup]="getEditUnitFrom()" *ngIf="unit.id_unidad == selectedUnitId" style="margin-top: 3%;" (ngSubmit)="onEditUnitValue(idLevel, i)">
+        <input class="form-control" type="text" placeholder="Nuevo nombre de la unidad" formControlName='unitName' maxlength="200" minlength="1">
+        <span *ngIf="getEditUnitFrom().get('unitName').touched && getEditUnitFrom().get('unitName').invalid" class="error-input">Ingrese un nombre válido</span>
+
+        <div class="row" style="margin-top: 3%;">
+          <div class="col">
+            <button class="btn btn-success" type="submit" [disabled]='getEditUnitFrom().invalid'>Cargar cambio</button>
+          </div>
+
+          <div class="col">
+            <button class="btn btn-link" type="button" (click)='cancelEditName()'>Cancelar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <form [formGroup]='getCreateNewUnitForm()' *ngIf="getCreateNewUnitForm()!=undefined" (ngSubmit)="onSubmitNewUnit()">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Nueva unidad (opcional):</label>
+          <input class="form-control" type="text" placeholder="Nuevo nombre de la unidad" formControlName='unitName' maxlength="200" minlength="1">
+          <span *ngIf="getCreateNewUnitForm().get('unitName').touched && getCreateNewUnitForm().get('unitName').invalid" class="error-input">Ingrese un nombre válido</span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-success" type="submit" [disabled]='getCreateNewUnitForm().invalid'>Crear unidad</button>
+      </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-link" type="button" (click)='onCancelNewUnit()'>Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

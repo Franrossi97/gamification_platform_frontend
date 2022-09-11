@@ -2,9 +2,9 @@ import { BadgeTimer } from './../../../shared/BadgeTimer';
 import { BadgeQuestions } from './../../../shared/BadgeQuestion';
 import { BadgeDate } from './../../../shared/BadgeDate';
 import { BadgeAttempts } from './../../../shared/BadgeAttempts';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
-export async function generateBadge(fullEditingBadge: BadgeAttempts | BadgeDate | BadgeQuestions | BadgeTimer, editBadgeForm: FormGroup)
+export async function generateBadge(fullEditingBadge: BadgeAttempts | BadgeDate | BadgeQuestions | BadgeTimer, editBadgeForm: UntypedFormGroup)
   {
     let badgeAux: any=fullEditingBadge;
     console.log(badgeAux);

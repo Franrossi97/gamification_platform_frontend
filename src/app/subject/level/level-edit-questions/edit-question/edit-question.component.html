@@ -1,0 +1,91 @@
+<div class="row" style="margin: 0 0 1% 5%;">
+  <button class="btn btn-secondary" (click)="goBack()">
+    <fa-icon [icon]="backIcon"></fa-icon>
+    Volver
+  </button>
+</div>
+
+<div class="editing-container" *ngIf="editingQuestion">
+
+  <div class="row question-title" id="starting-point">
+    <h1>Editar pregunta: {{ editingQuestion.texto }}</h1>
+  </div>
+  <hr>
+  <div class="row answer-container">
+    <div class="answer-title">
+      <h3>Opciones:</h3>
+    </div>
+
+    <div class="row" style="width: 95%; margin-left: 2.5%;">
+      <div class="col-md-12 option option-card-red" *ngFor="let option of editingQuestion.opciones; let i=index"
+        [ngClass]="{'option-card-green': option.porcentaje_puntaje >0 }">
+        {{option.texto}} ({{option.porcentaje_puntaje}}%)
+        &nbsp;
+        <fa-icon [icon]="editIcon" class="icon" id="optionEdit"
+        (click)="!disableAddButtons[i] && onSelectOption(option.id_opcion, i)"></fa-icon>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row form-container" *ngIf="editingOption">
+
+    <div class="col-md-6">
+      <form [formGroup]="editQuestionForm" (ngSubmit)='odEditAnswer()' id="editQuestionForm">
+        <input type="text" formControlName="answer" style="margin-bottom: 2%; width: 100%;">
+
+        <button type="submit" class="btn btn-primary" id="loadEditAnswer"
+        [disabled]='disableButtonLoadChange'>Sumar cambio a pendientes</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row answer-list" *ngFor="let answer of editedAnswer">
+        {{answer.texto}}
+      </div>
+      <div class="row edit-answer" *ngIf="editQuestionForm.get('answer').value!=''">
+        {{editQuestionForm.get('answer').value}}
+      </div>
+
+      <div class="row buttons-container">
+        <button class="btn btn-success" (click)="onLoadAll()" id="loadAll"
+        [disabled]='editedAnswer.length==0'>Cargar todos lo cambios</button>
+
+        <a (click)="resetAll()">Descartar cambios</a>
+      </div>
+
+    </div>
+
+  </div>
+  <hr>
+  <div class="row extra-edit-container">
+    <div class="col-md-12 extra-title">
+      <h3>Otras características de la pregunta:</h3>
+    </div>
+
+    <div class="col-md-12 extra-edit-form" *ngIf="editFeaturesForm">
+      <form [formGroup]="editFeaturesForm" (ngSubmit)='onEditFeatures()' id="featuresForm">
+
+        <div class="extra-input">
+          <label>Tiempo (seg):</label>
+          <input type="number" formControlName="time">
+        </div>
+
+        <div class="extra-input">
+          <label>Recompensa (monedas):</label>
+          <input type="number" formControlName="coins">
+        </div>
+
+        <button type="submit" class="btn btn-info" id="editFeature">Modificar extras</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="error-message" *ngIf="showErrorMessage">
+  ERROR
+  {{errorMessage}}
+
+  <fa-icon [icon]='XIcon' class="icon" (click)="closeErrorMessage()"></fa-icon>
+</div>

@@ -2,7 +2,7 @@ import { BadgeTimer } from './../../../shared/BadgeTimer';
 import { BadgeQuestions } from './../../../shared/BadgeQuestion';
 import { BadgeDate } from './../../../shared/BadgeDate';
 import { BadgeAttempts } from './../../../shared/BadgeAttempts';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { LevelService } from './../../../services/level.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
@@ -25,10 +25,10 @@ export class BadgeMenuComponent implements OnInit {
   XIcon=faTimes;
   badges: Array<Badge>;
   selectedBadgeType: number=-1;
-  editBadgeForm: FormGroup;
+  editBadgeForm: UntypedFormGroup;
   fullEditingBadge: BadgeAttempts|BadgeDate|BadgeQuestions|BadgeTimer;
 
-  constructor(private route: ActivatedRoute, private levelService: LevelService, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private levelService: LevelService, private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void
   {
@@ -81,10 +81,10 @@ export class BadgeMenuComponent implements OnInit {
   {
     this.editBadgeForm=this.fb.group(
     {
-      extra: new FormControl(0, [Validators.required]),
-      parameter: new FormControl(0, [Validators.required]),
-      date: new FormControl('1997-06-17'),
-      perQuestion: new FormControl(false),
+      extra: new UntypedFormControl(0, [Validators.required]),
+      parameter: new UntypedFormControl(0, [Validators.required]),
+      date: new UntypedFormControl('1997-06-17'),
+      perQuestion: new UntypedFormControl(false),
     });
   }
 

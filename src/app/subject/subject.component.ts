@@ -1,11 +1,11 @@
+import { Level } from 'src/app/shared/Level';
 import { PermissionService } from './../services/permission.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../services/user.service';
 import { LevelService } from './../services/level.service';
 import { SubjectService } from './../services/subject.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SubjectClass } from '../shared/Subject';
-import { Level } from '../shared/Level';
 
 @Component({
   selector: 'app-subject',
@@ -15,11 +15,11 @@ import { Level } from '../shared/Level';
 export class SubjectComponent implements OnInit
 {
   ID_SUBJECT: number;
-  //userType:number=0;
+  PROGRESS = 0;
+  levels: Array<Level>;
   subject: SubjectClass=null;
-  levels:Level[];
-  canEditSubject: boolean=false;
-  score: number=0;
+  canEditSubject = false;
+  score = 0;
 
   constructor(private subjectService:SubjectService, private levelService:LevelService, private userService: UserService,
   private route: ActivatedRoute, private permissionService: PermissionService) { }
@@ -29,14 +29,14 @@ export class SubjectComponent implements OnInit
     this.route.params.subscribe(params =>
     {
       this.ID_SUBJECT= params['id'];
-      //this.getUserType(params['id']);
       this.getUserType();
       this.getWholeSubjectData(this.ID_SUBJECT);
       this.getUserScore();
+      this.getLevels();
     })
   }
 
-  async getUserType()
+  getUserType()
   {
     this.permissionService.canEdit('materia').then(res =>
     {
@@ -44,7 +44,7 @@ export class SubjectComponent implements OnInit
     });
   }
 
-  async getUserScore() {
+  getUserScore() {
     this.userService.getUserScore(this.ID_SUBJECT, +localStorage.getItem('userId')).subscribe(res => {
       this.score = res.puntaje_tot;
     });
@@ -55,8 +55,29 @@ export class SubjectComponent implements OnInit
     this.subjectService.getOneSubject(idSubject).subscribe(res =>
     {
       this.subject=res;
-
-      //this.getLevels(res.id_materia)
     })
+  }
+
+  getLevels() {
+    this.levelService.getLevelsWithVerification(this.ID_SUBJECT, +localStorage.getItem('userId')).subscribe(res => {
+      this.levels = res;
+
+      this.calculateProgress();
+    });
+  }
+
+  calculateProgress() {
+    const totLevels = this.levels.length;
+    const answeredLevels = this.levels.filter(level => level.timesPlayed).length
+
+    if(totLevels == 0) {
+      this.PROGRESS = 0
+    } else {
+      this.PROGRESS = (answeredLevels/totLevels)*100;
+    }
+  }
+
+  getProgressWidth() {
+    return `width: ${this.PROGRESS}%`;
   }
 }

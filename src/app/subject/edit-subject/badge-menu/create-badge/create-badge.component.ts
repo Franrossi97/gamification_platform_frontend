@@ -1,7 +1,7 @@
 import { BadgeFactory } from './../../../../shared/BadgeFactory';
 import { LevelService } from './../../../../services/level.service';
 import { badgeInfo } from './../../../../shared/BadgeInformation';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { generateBadge } from '../generateBadge';
@@ -16,7 +16,7 @@ export class CreateBadgeComponent implements OnInit {
   @Input() idLevel: number;
   @Output() successfulUpdate: EventEmitter<boolean>=new EventEmitter();
   @Output() errorMessage: EventEmitter<string>=new EventEmitter();
-  createBadgeForm: FormGroup;
+  createBadgeForm: UntypedFormGroup;
   selectedBadgeType: number=-1;
   XIcon=faTimes;
   private availableBadges: Array<{tipo_insignia: number, nombre: string}>;
@@ -29,12 +29,12 @@ export class CreateBadgeComponent implements OnInit {
   }
 
   initializeBadge() {
-    this.createBadgeForm= new FormGroup({
-      badgeType: new FormControl(-1),
-      extra: new FormControl(0, [Validators.required]),
-      parameter: new FormControl(0, [Validators.required]),
-      date: new FormControl('1997-06-17'),
-      perQuestion: new FormControl(false),
+    this.createBadgeForm= new UntypedFormGroup({
+      badgeType: new UntypedFormControl(-1),
+      extra: new UntypedFormControl(0, [Validators.required]),
+      parameter: new UntypedFormControl(0, [Validators.required]),
+      date: new UntypedFormControl('1997-06-17'),
+      perQuestion: new UntypedFormControl(false),
     });
 
     this.observeBadgeTypeChange();
