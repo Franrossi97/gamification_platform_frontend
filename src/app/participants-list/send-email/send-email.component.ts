@@ -1,6 +1,6 @@
 import { Email } from './../../shared/Email';
 import { EmailSenderService } from './../../services/email-sender.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -12,9 +12,9 @@ export class SendEmailComponent implements OnInit {
 
   @Input() emailsToSend: Array<string>;
   @Output() cancelationEmitter = new EventEmitter<boolean>();
-  private sendEmailForm: FormGroup;
+  private sendEmailForm: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder, private emailSenderService: EmailSenderService) { }
+  constructor(private fb: UntypedFormBuilder, private emailSenderService: EmailSenderService) { }
 
   ngOnInit(): void {
     this.createEmailForm();
@@ -22,8 +22,8 @@ export class SendEmailComponent implements OnInit {
 
   createEmailForm() {
     this.sendEmailForm= this.fb.group({
-      subject: new FormControl('', []),
-      message: new FormControl('', [Validators.required])
+      subject: new UntypedFormControl('', []),
+      message: new UntypedFormControl('', [Validators.required])
     });
   }
 

@@ -1,9 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from './../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ParticipantsListService } from './../services/participants-list.service';
 import { Component, OnInit } from '@angular/core';
-import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes, faMinusSquare, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare, faSortAlphaDown, faSortNumericDown, faStar, faTimes, faMinusSquare, faEnvelope, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { Location } from '@angular/common';
 
 const BADGES_NAMES=[
   'Insignia de pregunta',
@@ -19,6 +21,7 @@ const BADGES_NAMES=[
 })
 export class ParticipantsListComponent implements OnInit
 {
+  arrowLeftIcon = faArrowLeft;
   SUBJECT_ID: number;
   envelopeIcon= faEnvelope;
   plusIcon=faPlusSquare;
@@ -35,6 +38,7 @@ export class ParticipantsListComponent implements OnInit
   availableFilters: Array<boolean>=new Array<boolean>(4);
   private showError=false;
   private showDeleteQuestion=false;
+  errorMessage: string;
   showEmailMenu= false;
   emailsToSend: Array<string>=new Array<string>();
 
@@ -42,7 +46,7 @@ export class ParticipantsListComponent implements OnInit
   deleteUserIndex: number;
 
   constructor(private participantsListService: ParticipantsListService, private userService: UserService,
-    private route: ActivatedRoute, private modalService: NgbModal) { }
+    private route: ActivatedRoute, private modalService: NgbModal, private location: Location) { }
 
   ngOnInit(): void
   {
@@ -51,12 +55,14 @@ export class ParticipantsListComponent implements OnInit
       this.SUBJECT_ID=params.id_subject;
       this.availableFilters.fill(true);
       this.availableFilters[0]=false;
-      this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID,0).subscribe((students: ListStudents[]) =>
+
+      this.applyFilter(0);
+      /*this.participantsListService.getParticipantsForSubject(this.SUBJECT_ID,0).subscribe((students: ListStudents[]) =>
       {
         this.students=students;
       }, err => {
         this.showError=true;
-      });
+      });*/
     });
   }
 
@@ -118,7 +124,16 @@ export class ParticipantsListComponent implements OnInit
     {
       this.students=resFilter;
       this.showError=false;
-    }, err => {
+    }, (err: HttpErrorResponse) => {
+      if(err.status == 400) {
+        this.setErrorMessage('Ocurrió un error. Intente más tarde.')
+      }
+      else {
+        if(err.status == 404) {
+          this.setErrorMessage('No existen usuarios en la materia.')
+        }
+      }
+
       this.showError=true;
     });
   }
@@ -178,6 +193,14 @@ export class ParticipantsListComponent implements OnInit
 
   setShowDeleteQuestion(value: boolean) {
     this.showDeleteQuestion= value;
+  }
+
+  setErrorMessage(message: string) {
+    this.errorMessage = message;
+  }
+
+  onGoBack() {
+    this.location.back();
   }
 }
 

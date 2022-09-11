@@ -2,6 +2,15 @@
   <app-achievement-menu [idStudent]="selectedUserId" [studentName]="selectedUserName"></app-achievement-menu>
 </ng-template>
 
+<div class="row">
+  <div style="margin: 0 0 1% 8%;">
+    <button class="btn btn-secondary" (click)="onGoBack()">
+      <fa-icon [icon]='arrowLeftIcon'></fa-icon>
+      Volver
+    </button>
+  </div>
+</div>
+
 <div class="list-container">
   <div class="list-title">
     Listado de estudiantes
@@ -59,9 +68,9 @@
               </tr>
             </tbody>
           </table>
-        </td><!--
-        <td>{{student.puntaje_prom}}</td>-->
-        <td>{{student.puntaje_tot}}</td>
+        </td>
+        <td *ngIf="student.puntaje_tot">{{student.puntaje_tot}}</td>
+        <td *ngIf="!student.puntaje_tot">0</td>
         <td class="icon-field">
           <fa-icon [icon]='plusIcon' class="fa-icon"
           (click)="assignAchieveToUser(contentNewAchievement, student.id_usuario, student.nombre+' '+student.apellido)"></fa-icon>
@@ -118,7 +127,7 @@
 
   <div class="row" *ngIf="getShowError()">
     <div class="col-md-5">
-      <h4>Ocurrió un error. Intente más tarde</h4>
+      <h4>{{ errorMessage }}</h4>
     </div>
   </div>
 </div>

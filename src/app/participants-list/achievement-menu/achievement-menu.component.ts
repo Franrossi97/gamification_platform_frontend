@@ -2,7 +2,7 @@ import { ParticipantsListService } from './../../services/participants-list.serv
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { Achievement } from 'src/app/shared/Achievement';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {faMinus} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -16,7 +16,7 @@ export class AchievementMenuComponent implements OnInit {
   @Input() studentName: string;
   ID_SUBJECT: number;
   minusIcon=faMinus;
-  newAchievementForm: FormGroup;
+  newAchievementForm: UntypedFormGroup;
   showNewAchievementForm: boolean=false;
   userAchievements: Array<Achievement>;
   subjectAchievements: Array<Achievement>;
@@ -25,7 +25,7 @@ export class AchievementMenuComponent implements OnInit {
   selectedAchievements: Array<number>=new Array<number>();
 
   constructor(private route: ActivatedRoute, private participantsListService: ParticipantsListService,
-    private fb: FormBuilder) { }
+    private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void
   {
@@ -70,9 +70,9 @@ export class AchievementMenuComponent implements OnInit {
   {
     this.newAchievementForm=this.fb.group(
     {
-      title: new FormControl('', [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
-      description: new FormControl('', [Validators.required, Validators.maxLength(200), Validators.minLength(0)]),
-      increment: new FormControl(0, [Validators.required, Validators.max(100), Validators.min(0)])
+      title: new UntypedFormControl('', [Validators.required, Validators.maxLength(50), Validators.minLength(5)]),
+      description: new UntypedFormControl('', [Validators.required, Validators.maxLength(200), Validators.minLength(0)]),
+      increment: new UntypedFormControl(0, [Validators.required, Validators.max(100), Validators.min(0)])
     });
   }
 
