@@ -1,6 +1,6 @@
 <div class="result-container">
   <div class="stars">
-    <img class="stars-img" src={{getLinkforStars()}} *ngIf="countStars>0">
+    <img class="stars-img" src={{getLinkforStars()}} *ngIf="countStars >= 0">
   </div>
 
   <!--
@@ -9,7 +9,7 @@
   </div>-->
 
 
-  <div class="result-alert" *ngIf="countStars>0" [ngClass]="{'wrong-alert': (countStars==1), 'good-alert': (countStars==2), 'excellent-alert': (countStars==3) }">
+  <div class="result-alert" *ngIf="countStars >= 0" [ngClass]="{'wrong-alert': (countStars==1 || countStars==0), 'good-alert': (countStars==2), 'excellent-alert': (countStars==3) }">
     {{getMessage()}}
   </div>
 
@@ -44,9 +44,9 @@
         Continuar
       </button>
 
-      <button class="button-options again" (click)="false" routerLink='/level/{{LEVEL_ID}}/questions' [disabled]="RETRIES">
+      <!--<button class="button-options again" (click)="false" routerLink='/level/{{LEVEL_ID}}/questions' [disabled]="RETRIES">
         Volver a jugar
-      </button>
+      </button>-->
 
   </div>
 </div>

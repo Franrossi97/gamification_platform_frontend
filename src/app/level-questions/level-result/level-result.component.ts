@@ -13,80 +13,57 @@ import { cartelSpecifications } from './cartelSpecifications';
 export class LevelResultComponent implements OnInit
 {
   LEVEL_ID: number;
+  MAX_SCORE: number;
   finalScore: number=undefined;
   countStars=0;
   //cartelSpecifications: Map<number, infoToShow>=new Map<number, infoToShow>();
-  RETRIES: boolean;
   SUBJECT_ID: number;
 
   constructor(private questionResultService: QuestionResultService, private levelService: LevelService, private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
-    this.route.params.subscribe(async params =>
-    {
-      await this.levelService.sendLevelId().subscribe(id =>
-      {
-        this.LEVEL_ID=id;
-        this.getLevelInformation(this.LEVEL_ID);
-      });
-
-      //this.initializecartelSpecifications();
-
-      this.getFinalScore();
+    this.route.parent.paramMap.subscribe(paramMap => {
+      this.LEVEL_ID = +paramMap.get('id');
+      this.getLevelInformation(this.LEVEL_ID);
     });
   }
 
 
   getFinalScore()
   {
-    this.levelService.getMaxScore().subscribe(maxScore =>
-    {
+    /*this.levelService.getMaxScore().subscribe(maxScore =>
+    {*/
       this.questionResultService.getFinalScore().subscribe((score: number) =>
       {
         this.finalScore=Math.ceil(score);
-        this.countStars=this.howManyStars(score, maxScore);
+        this.countStars= this.howManyStars(score, this.MAX_SCORE);
         /*console.log(this.finalScore);
         console.log(this.countStars);*/
 
       });
-    });
+    //});
   }
-/*
-  initializecartelSpecifications()
-  {
-    this.cartelSpecifications.set(1,
-    {
-      img: "../../../assets/img/result_background/stars1.png",
-      message: 'MAL',
-    });
-    this.cartelSpecifications.set(2,
-    {
-      img: "../../../assets/img/result_background/stars2.png",
-      message: 'MUY BIEN',
-    });
-    this.cartelSpecifications.set(3,
-    {
-      img: "../../../assets/img/result_background/stars3.png",
-      message: 'EXCELENTE',
-    });
-  }*/
 
   howManyStars(score: number, maxScore: number): number
   {
     let res:number;
-    if((maxScore*0.8)<=score)
-    {
+
+    if((maxScore*0.8)<=score) {
       res=3
     }
-    else
-    if((maxScore*0.8)>score && (maxScore*0.5)<=score)
-    {
-      res=2;
-    }
-    else
-    {
-      res=1;
+    else {
+      if((maxScore*0.8)>score && (maxScore*0.5)<=score) {
+        res=2;
+      }
+      else {
+        if(score < (maxScore*0.5) && score >= (maxScore*0.3)) {
+          res = 1
+        }
+        else {
+          res = 0;
+        }
+      }
     }
 
     return res;
@@ -99,16 +76,17 @@ export class LevelResultComponent implements OnInit
 
   getLinkforStars(): string
   {
-    //console.log(cartelSpecifications);
     return cartelSpecifications.get(this.countStars).img;
   }
 
   getLevelInformation(idLevel: number)
   {
-    this.levelService.getOneLevel(idLevel).subscribe((res: Level) =>
+    this.levelService.getOneLevel(idLevel).subscribe(async (res: Level) =>
     {
-      this.SUBJECT_ID=res.id_materia;
-      this.RETRIES=!!res.reintentos;
+      this.SUBJECT_ID = await res.id_materia;
+      this.MAX_SCORE = await res.puntaje_maximo;
+
+      this.getFinalScore();
     });
   }
 }

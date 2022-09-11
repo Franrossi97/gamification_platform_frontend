@@ -623,8 +623,8 @@ export class LevelQuestionsComponent implements OnInit
 
   getPendingQuestions(idStudent: number, idLevel: number|string, lastAttempt: Date)
   {
-    let auxDate: Date=new Date(lastAttempt);
-    let dateForComparison: string=`${auxDate.getFullYear()}-${auxDate.getMonth()+1}-${auxDate.getDate()} ${auxDate.getHours()}:${auxDate.getMinutes()}:${auxDate.getSeconds()}`;
+    const auxDate = new Date(lastAttempt);
+    const dateForComparison =`${auxDate.getFullYear()}-${auxDate.getMonth()+1}-${auxDate.getDate()} ${auxDate.getHours()}:${auxDate.getMinutes()}:${auxDate.getSeconds()}`;
     console.log(dateForComparison);
 
     this.questionService.getQuestionsAfterDate(this.SUBJECT_ID, idStudent, idLevel, dateForComparison).subscribe((numberQuestions: questionsAnswered[])=>
@@ -778,10 +778,7 @@ export class LevelQuestionsComponent implements OnInit
     this.userService.setCountCoins(idCoin, coins).subscribe(res =>
     {
       console.log(res);
-    },err =>
-    {
-
-    })
+    });
   }
 
   getBadges(idLevel: number|string)
