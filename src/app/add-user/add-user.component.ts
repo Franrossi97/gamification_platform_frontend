@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './../services/user.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { User } from '../shared/User';
 
@@ -12,28 +12,32 @@ import { User } from '../shared/User';
 })
 export class AddUserComponent implements OnInit
 {
+  SUBJECT_ID: number;
   magnifying=faSearch;
-  searchUserForm:FormGroup;
+  searchUserForm:UntypedFormGroup;
   message:string;
   successful:boolean;
   @Input() userType:number;
 
   @ViewChild('fform') searchUserFormDirective;
-  constructor(private fb: FormBuilder, private userService: UserService, private route: ActivatedRoute,
+  constructor(private fb: UntypedFormBuilder, private userService: UserService, private route: ActivatedRoute,
   private router: Router) { }
 
   ngOnInit(): void
   {
-    this.message=null;
-    this.successful=false;
-    this.createLevelForm();
+    this.route.paramMap.subscribe(param => {
+      this.SUBJECT_ID = +param.get('id');
+      this.message=null;
+      this.successful=false;
+      this.createLevelForm();
+    });
   }
 
   createLevelForm()
   {
     this.searchUserForm=this.fb.group(
     {
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new UntypedFormControl(null, [Validators.required, Validators.email]),
     });
   }
 
@@ -44,15 +48,16 @@ export class AddUserComponent implements OnInit
     {
       console.log(user);
       this.message=`El usuario con correo electrónico ${userEmail} se encuentra registrado. Agregando el usuario...`;
-      this.searchUserForm.reset();
-      console.log(user[0].id_usuario);
 
-      this.userService.linkUsertoSubject(this.userType, user[0].id_usuario, this.route.snapshot.params.id).subscribe(res =>
-      {
-        console.log(res);
-        this.successful=true;
-        //Redireccionar a la lista de estudiantes?
-      });
+      setTimeout(() => {
+        this.searchUserForm.reset();
+        console.log(user[0].id_usuario);
+
+        this.userService.linkUsertoSubject(this.userType, user[0].id_usuario, this.SUBJECT_ID).subscribe(res =>
+        {
+          this.successful=true;
+        });
+      }, 1500);
     }
     ,err =>
     {
