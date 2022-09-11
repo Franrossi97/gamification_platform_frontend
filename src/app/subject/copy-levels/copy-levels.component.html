@@ -1,3 +1,12 @@
+<div class="row">
+  <div class="col" style="margin: 0 0 1% 6%;">
+    <button class="btn btn-secondary" (click)="onGoBack()">
+      <fa-icon [icon]="leftArrowIcon"></fa-icon>
+      Volver
+    </button>
+  </div>
+</div>
+
 <div class="copy-container">
   <div class="row title">
     <h1>Seleccione una materia para copiar sus niveles:</h1>
@@ -47,7 +56,7 @@
   </div>
 
   <div class="row options-container error" *ngIf="showErrorGetScreen">
-    <h2>Error al encontrar los niveles</h2>
+    <h2>No se encontraron materias relacionadas con el nombre de la materia</h2>
 
     <h4>Intente de nuevo o cambie los parámetros de búsqueda</h4>
   </div>

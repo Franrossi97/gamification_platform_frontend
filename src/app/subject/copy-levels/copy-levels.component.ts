@@ -1,5 +1,6 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { faTimes, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SubjectService } from './../../services/subject.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -12,17 +13,19 @@ import { SubjectClass } from 'src/app/shared/Subject';
 })
 export class CopyLevelsComponent implements OnInit {
 
+  leftArrowIcon = faArrowLeft;
   xIcon=faTimes;
   years: Array<number>;
-  subjectFilterForm: FormGroup;
+  subjectFilterForm: UntypedFormGroup;
   private ID_SUBJECT: number;
   private subject: SubjectClass;
   relatedSubjects: Array<SubjectClass>;
-  showErrorGetScreen: boolean=true;
-  showErrorCopyScreen: boolean=false;
+  showErrorGetScreen = true;
+  showErrorCopyScreen = false;
 
 
-  constructor(private route: ActivatedRoute, private subjectService: SubjectService, private fb: FormBuilder, private router: Router) { }
+  constructor(private route: ActivatedRoute, private subjectService: SubjectService,
+    private fb: UntypedFormBuilder, private router: Router, private location: Location) { }
 
   ngOnInit(): void
   {
@@ -65,8 +68,10 @@ export class CopyLevelsComponent implements OnInit {
     this.subjectService.getSubjectBySearchWithOutLimit(search, quarter, year).subscribe(res =>
     {
       this.relatedSubjects=res;
-      console.log(this.relatedSubjects);
-      this.showErrorGetScreen=false;
+
+      this.relatedSubjects = this.relatedSubjects.filter(subjectElem => subjectElem.id_materia !=  this.ID_SUBJECT);
+
+      this.showErrorGetScreen= this.relatedSubjects.length == 0;
     }, err =>
     {
       this.showErrorGetScreen=true;
@@ -77,8 +82,8 @@ export class CopyLevelsComponent implements OnInit {
   {
     this.subjectFilterForm=this.fb.group(
     {
-      quarter: new FormControl(-1),
-      year: new FormControl(-1),
+      quarter: new UntypedFormControl(-1),
+      year: new UntypedFormControl(-1),
     });
 
     this.onChangeFilters();
@@ -86,8 +91,8 @@ export class CopyLevelsComponent implements OnInit {
 
   generateArrayofYears()
   {
-    let actualTime: Date=new Date();
-    let actualYear: number=actualTime.getFullYear();
+    const actualTime =new Date();
+    const actualYear =actualTime.getFullYear();
     let beginningYear: number=actualYear-6;
 
     for(; beginningYear<=actualYear; beginningYear++)
@@ -130,6 +135,10 @@ export class CopyLevelsComponent implements OnInit {
 
   public setSubject(subject: SubjectClass){
     this.subject= subject;
+  }
+
+  onGoBack() {
+    this.location.back();
   }
 
 }
