@@ -1,9 +1,7 @@
 import { PermissionService } from './../services/permission.service';
-import { SubjectService } from './../services/subject.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SubjectClass } from '../shared/Subject';
-import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +10,9 @@ import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 })
 export class HomeComponent implements OnInit {
 
-  private canEdit: boolean=false;
+  private canEdit = false;
   private arrowDown=faCaretDown;
-  private showDropDown: boolean=true;
+  private showDropDown = true;
 
   constructor(private permissionService: PermissionService, private router: Router,
     private route: ActivatedRoute) { }

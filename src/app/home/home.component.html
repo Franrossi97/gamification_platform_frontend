@@ -1,7 +1,14 @@
 <div class="container" style="padding-top: 1rem;">
   <div class="row">
     <div class="col-md-12 card">
-      <h2>Mis materias</h2>
+      <div class="row title-cont">
+        <div class="col-md-10">
+          <h1>Mis materias</h1>
+        </div>
+        <div class="col-md-2 create-button-cont" *ngIf="getCanEdit()">
+          <button class="btn btn-info" routerLink="/create-subject">Crear materia</button>
+        </div>
+      </div>
       <hr>
 
       <div class="row dropdown">
@@ -25,8 +32,7 @@
 
 <div class="footer-search">
   <div class="title-container">
-    <h4>No encontras tu materia</h4>
-    <h1>Buscala acá:</h1>
+    <h3>Acá podés buscar las materias en las que no estés inscripto:</h3>
   </div>
 
   <div class="search-box">

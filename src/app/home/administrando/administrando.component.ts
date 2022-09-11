@@ -15,12 +15,12 @@ import { generateArrayOfSubjectsId, generateMapOfImageOfSubjectsId } from '../Ut
 })
 export class AdministrandoComponent implements OnInit {
 
-  private USER_ID: number=0;
+  private USER_ID =0;
   private subjects: Array<SubjectClass>=new Array<SubjectClass>();
   private imagesOfSubjectId: Map<number, any>= new Map<number, any>();
 
-  private actualPage: number=0;
-  private totalPages: number=0;
+  private actualPage =0;
+  private totalPages =0;
   private pages: Array<number>=new Array<number>();
 
   constructor(private subjectService: SubjectService, private router: Router) { }
@@ -106,7 +106,7 @@ export class AdministrandoComponent implements OnInit {
 
   getTeacherSubjectIndexById(idSubject: number): number
   {
-    let res: number=-1;
+    let res =-1;
 
     for(let i=0; i<this.subjects.length && res==-1; i++)
     {
@@ -147,7 +147,7 @@ export class AdministrandoComponent implements OnInit {
 
       var img = document.getElementById(`${key}`) as HTMLImageElement;
 
-      console.log(img);
+      //console.log(img);
       img.src= imgUrl;
     });
 

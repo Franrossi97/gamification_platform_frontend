@@ -1,3 +1,11 @@
+.title-cont {
+  margin-top: 2%;
+
+  .create-button-cont {
+    margin-top: 1%;
+  }
+}
+
 .card
 {
   width: 85%;
@@ -74,6 +82,7 @@
   margin-left: auto;
   margin-right: auto;
   box-shadow:rgba(0, 0, 0, 0.23) 0px 6px 6px, rgba(0, 0, 0, 0.19) 0px 10px 20px;
+  padding-bottom: 5%;
 
   .search-box
   {
@@ -90,7 +99,7 @@
       color: rgb(94, 138, 163);
     }
 
-    h1
+    h3
     {
       color: rgb(31, 74, 100);
     }
