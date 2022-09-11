@@ -3,7 +3,7 @@ import { UserService } from './../services/user.service';
 import { SubjectService } from './../services/subject.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { SubjectClass } from './../shared/Subject';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -14,12 +14,12 @@ import { Component, OnInit } from '@angular/core';
 export class SearchBoxComponent implements OnInit {
 
   magnifying=faSearch;
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
   searchResultSubject: Array<SubjectClass>;
   selectedSubject: SubjectClass=null;
-  private loadingSearch: boolean= false;
+  private loadingSearch = false;
 
-  constructor(private subjectService:SubjectService, private fb: FormBuilder, private userService: UserService,
+  constructor(private subjectService:SubjectService, private fb: UntypedFormBuilder, private userService: UserService,
     private router: Router) { }
 
   ngOnInit(): void
@@ -31,7 +31,7 @@ export class SearchBoxComponent implements OnInit {
   {
     this.searchForm=this.fb.group(
     {
-      search: new FormControl('', [Validators.required]),
+      search: new UntypedFormControl('', [Validators.required]),
     });
   }
 
@@ -48,6 +48,12 @@ export class SearchBoxComponent implements OnInit {
   onSelectSubject(index: number)
   {
     this.selectedSubject=this.searchResultSubject[index];
+
+    setTimeout(this.scrollToResult, 500);
+  }
+
+  scrollToResult() {
+    document.getElementById('selectedSubject').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
   onSingUpSubject(idSubject: number)

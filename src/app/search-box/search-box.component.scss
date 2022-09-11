@@ -9,6 +9,11 @@
   {
     margin-bottom: 2%;
 
+    input {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
     .subject-list
     {
       font-size: 1.2rem;
@@ -53,6 +58,7 @@
     {
       width: 100%;
       margin-left: 2.5%;
+      font-size: 2rem;
     }
 
     .selected-subject-content
