@@ -31,6 +31,10 @@
               <label class="col-lg-4 control-label">Contraseña</label>
               <div class="col-md-8">
                 <input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+                <span *ngIf="newUserForm.get('passwordmenu.password').touched &&
+                  (newUserForm.get('passwordmenu.password').getError('minlength') || newUserForm.get('passwordmenu.password').getError('maxlength'))" class="error-alert-form">
+                  La contraseña debe tener una longitud entre 10 y 35 caracteres <br></span>
+
                  <span *ngIf="newUserForm.get('passwordmenu.password').touched &&
                   newUserForm.get('passwordmenu.password').getError('containsNumber')" class="error-alert-form">
                   La contraseña debe contener números <br></span>
