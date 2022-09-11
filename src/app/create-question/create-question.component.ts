@@ -1,7 +1,8 @@
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Location} from '@angular/common';
 import { QuestionService } from './../services/question.service';
-import { FormBuilder, FormGroup, Validators, FormControl, FormArray, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Question } from '../shared/Question';
 import { Option } from '../shared/Option';
@@ -13,16 +14,14 @@ import { Option } from '../shared/Option';
 })
 export class CreateQuestionComponent implements OnInit
 {
-
-  newQuestionForm: FormGroup;
-  newOptionsForm: FormGroup;
+  backIcon = faArrowLeft;
+  newQuestionForm: UntypedFormGroup;
+  newOptionsForm: UntypedFormGroup;
   //valid:boolean=true;
   questionType:number;
   selectedOption:boolean;
   checkboxControl: boolean[]=[false, false, false, false];
-  private loadingCreate: boolean= false;
-
-  constructor(private fb: FormBuilder, private questionService: QuestionService,
+  constructor(private fb: UntypedFormBuilder, private questionService: QuestionService,
     private route: ActivatedRoute, private router: Router, private location: Location) { }
 
   ngOnInit(): void
@@ -40,10 +39,10 @@ export class CreateQuestionComponent implements OnInit
   {
     this.newQuestionForm=this.fb.group(
     {
-      question: new FormControl(null, [Validators.required]),
-      difficult: new FormControl(false),
-      time: new FormControl(30, [Validators.required, Validators.min(0)]),
-      coins: new FormControl(0, [Validators.required, Validators.min(0)]),
+      question: new UntypedFormControl(null, [Validators.required]),
+      difficult: new UntypedFormControl(false),
+      time: new UntypedFormControl(30, [Validators.required, Validators.min(0)]),
+      coins: new UntypedFormControl(0, [Validators.required, Validators.min(0)]),
       //score: new FormControl(null, [Validators.required]),
     })
   }
@@ -54,23 +53,23 @@ export class CreateQuestionComponent implements OnInit
     {
       option1: this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(false),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(false),
       }),
       option2: this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(false),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(false),
       }),
       option3:  this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(false),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(false),
       }),
       option4:  this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(false),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(false),
       }),
     });
   }
@@ -79,39 +78,31 @@ export class CreateQuestionComponent implements OnInit
   {
     this.newOptionsForm.valueChanges.subscribe(changes =>
     {
-      if(this.questionType==1)
-      {
-        //this.newOptionsForm.get('checks.option1');
+      //this.newOptionsForm.get('checks.option1');
 
-        if(changes.option1.score) //Con estas verificaciones se bloquean los otros checkbox.
+      if(changes.option1.score) //Con estas verificaciones se bloquean los otros checkbox.
+      {
+        this.disableCheckbox(1);
+      }
+      else
+        if(changes.option2.score)
         {
-          this.disableCheckbox(1);
-          console.log(1);
+          this.disableCheckbox(2);
         }
         else
-          if(changes.option2.score)
+          if(changes.option3.score)
           {
-            this.disableCheckbox(2);
-            console.log(2);
+            this.disableCheckbox(3);
           }
           else
-            if(changes.option3.score)
+            if(changes.option4.score)
             {
-              this.disableCheckbox(3);
-              console.log(3);
+              this.disableCheckbox(4);
             }
             else
-              if(changes.option4.score)
-              {
-                this.disableCheckbox(4);
-                console.log(4);
-              }
-              else
-              {
-                this.enableCheckbox();
-              }
-
-      }
+            {
+              this.enableCheckbox();
+            }
     });
   }
 
@@ -132,29 +123,19 @@ export class CreateQuestionComponent implements OnInit
   }
 
   enableCheckbox()
-  {/*
-    const N=4;
-    let i=0;
-    for(i;i<N;i++)
-    {
-      this.checkboxControl[i]=false;
-    }*/
-
+  {
     this.checkboxControl.fill(false);
   }
 
   onSubmitQuestion()
   {
-    this.loadingCreate= true;
-    let newQuestion:Question;
-    newQuestion=this.createQuestion();
+    const newQuestion = this.createQuestion();
     console.log(newQuestion);
 
     this.questionService.createQuestion(this.route.snapshot.params.id, newQuestion).subscribe(res =>
     {
       this.newQuestionForm.reset();
       this.newOptionsForm.reset();
-      this.loadingCreate= false;
       this.location.back();
     },error =>
     {
@@ -164,8 +145,8 @@ export class CreateQuestionComponent implements OnInit
 
   createQuestion(): Question
   {
-    let options=this.createOptions();
-    let question=new Question(null, this.newQuestionForm.get('question').value,
+    const options=this.createOptions();
+    const question=new Question(null, this.newQuestionForm.get('question').value,
     this.newQuestionForm.get('difficult').value, this.questionType,/*
     this.newQuestionForm.get('score').value,*/ localStorage.getItem('userId'),
     this.newQuestionForm.get('time').value, this.newQuestionForm.get('coins').value, this.route.snapshot.params.id, options);
@@ -174,7 +155,7 @@ export class CreateQuestionComponent implements OnInit
 
   createOptions(): Option[]
   {
-    let options: Option[]=new Array();
+    const options: Array<Option> = new Array<Option>();
     options.push(new Option(this.newOptionsForm.get('option1.text').value, !this.checkboxControl[0] ? 100 : 0, 0));
     options.push(new Option(this.newOptionsForm.get('option2.text').value, !this.checkboxControl[1] ? 100 : 0, 0));
     options.push(new Option(this.newOptionsForm.get('option3.text').value, !this.checkboxControl[2] ? 100 : 0, 0));
@@ -183,7 +164,20 @@ export class CreateQuestionComponent implements OnInit
     return options;
   }
 
-  getLoadingCreate() {
-    return this.loadingCreate;
+  isCheckBoxSelected() {
+    let cont = 0;
+
+    this.checkboxControl.forEach(control => {
+      if(control == true) {
+        cont++;
+      }
+    });
+
+    return cont == 3;
   }
+
+  onBack() {
+    this.location.back();
+  }
+
 }

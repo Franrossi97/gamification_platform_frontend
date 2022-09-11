@@ -1,7 +1,19 @@
+<div class="row">
+  <div class="col" style="margin: 0 0 1% 1%;">
+    <button class="btn btn-secondary" (click)="onGoBack()">
+      <fa-icon [icon]="arrowLeftIcon"></fa-icon>
+      Volver
+    </button>
+  </div>
+</div>
+
 <div class="selection-container">
-  <div class="row">
-    <div class="col">
+  <div class="row title" style="padding: 1rem 0 1rem 0;">
+    <div class="col-md-9">
       <h2>Seleccione el tipo de pregunta que desea crear:</h2>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-success" (click)="onGoQuestionBank()">Acceder al banco de preguntas</button>
     </div>
   </div>
 

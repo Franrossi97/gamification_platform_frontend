@@ -1,9 +1,11 @@
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, AbstractControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from 'src/app/services/question.service';
 import { Option } from 'src/app/shared/Option';
 import { Question } from 'src/app/shared/Question';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-multiple-choice',
@@ -12,14 +14,14 @@ import { Question } from 'src/app/shared/Question';
 })
 export class MultipleChoiceComponent implements OnInit {
 
-  newQuestionForm: FormGroup;
-  newOptionsForm: FormGroup;
-  valid:boolean=true;
-  questionType:number;
-  selectedOption:boolean;
-  private loadingCreate: boolean= false;
-
-  constructor(private fb: FormBuilder, private questionService: QuestionService, private route: ActivatedRoute, private router: Router) { }
+  backIcon = faArrowLeft;
+  newQuestionForm: UntypedFormGroup;
+  newOptionsForm: UntypedFormGroup;
+  valid = true;
+  questionType: number;
+  selectedOption: boolean;
+  constructor(private fb: UntypedFormBuilder, private questionService: QuestionService,
+    private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void
   {
@@ -33,10 +35,10 @@ export class MultipleChoiceComponent implements OnInit {
   {
     this.newQuestionForm=this.fb.group(
     {
-      question: new FormControl(null, [Validators.required]),
-      difficult: new FormControl(false),
-      time: new FormControl(30, [Validators.required, Validators.min(0)]),
-      coins: new FormControl(0, [Validators.required, Validators.min(0)]),
+      question: new UntypedFormControl(null, [Validators.required]),
+      difficult: new UntypedFormControl(false),
+      time: new UntypedFormControl(30, [Validators.required, Validators.min(0)]),
+      coins: new UntypedFormControl(0, [Validators.required, Validators.min(0)]),
       //score: new FormControl(null, [Validators.required]),
     })
   }
@@ -47,23 +49,23 @@ export class MultipleChoiceComponent implements OnInit {
     {
       option1: this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(0, [Validators.min(0), Validators.max(100)]),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(0, [Validators.min(0), Validators.max(100)]),
       }),
       option2: this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(0, [Validators.min(0), Validators.max(100)]),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(0, [Validators.min(0), Validators.max(100)]),
       }),
       option3:  this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(0, [Validators.min(0), Validators.max(100)]),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(0, [Validators.min(0), Validators.max(100)]),
       }),
       option4:  this.fb.group(
       {
-        text: new FormControl(null, [Validators.required]),
-        score: new FormControl(0, [Validators.min(0), Validators.max(100)]),
+        text: new UntypedFormControl(null, [Validators.required]),
+        score: new UntypedFormControl(0, [Validators.min(0), Validators.max(100)]),
       }),
     }, {validator: this.sumScoreValidator});
   }
@@ -78,17 +80,14 @@ export class MultipleChoiceComponent implements OnInit {
 
   onSubmitQuestion()
   {
-    this.loadingCreate=true;
-    let newQuestion:Question;
-    newQuestion=this.createQuestion();
+    const newQuestion = this.createQuestion();
     console.log(newQuestion);
 
     this.questionService.createQuestion(this.route.snapshot.params.id, newQuestion).subscribe(res =>
     {
       this.newQuestionForm.reset();
       this.newOptionsForm.reset();
-      this.loadingCreate=false;
-      this.router.navigate(['level', this.route.snapshot.params.id, 'question', 'create', 'select']);
+      this.location.back();
     }, err =>
     {
       console.log(err);
@@ -97,8 +96,8 @@ export class MultipleChoiceComponent implements OnInit {
 
   createQuestion(): Question
   {
-    let options=this.createOptions();
-    let question=new Question(null, this.newQuestionForm.get('question').value,
+    const options=this.createOptions();
+    const question=new Question(null, this.newQuestionForm.get('question').value,
     this.newQuestionForm.get('difficult').value, this.questionType/*,
     this.newQuestionForm.get('score').value*/, localStorage.getItem('userId'),
     this.newQuestionForm.get('time').value, this.newQuestionForm.get('coins').value, this.route.snapshot.params.id, options);
@@ -116,8 +115,7 @@ export class MultipleChoiceComponent implements OnInit {
     return options;
   }
 
-  getLoadingCreate() {
-    return this.loadingCreate;
+  onBack() {
+    this.location.back();
   }
-
 }
