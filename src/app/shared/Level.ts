@@ -19,4 +19,5 @@ export class Level
   id_materia: number;
   unitList: Unit[];
   badges: Badge[];
+  timesPlayed: boolean;
 }
