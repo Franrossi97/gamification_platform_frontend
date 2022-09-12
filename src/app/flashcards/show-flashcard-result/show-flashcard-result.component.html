@@ -152,7 +152,7 @@
       </div>-->
     </div>
 
-    <div class="row empty-alert" *ngIf="flashcardItemsResult==null">
+    <div class="row empty-alert" *ngIf="flashcardItemsResult==null || flashcardItemsResult.length == 0">
       <h3>No se han respondido flashcards según su criterio de búsqueda todavía.</h3>
     </div>
   </div>

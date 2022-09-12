@@ -1,67 +1,70 @@
 <div class="edit-container">
+
   <div class="row">
     <div class="col-md-12">
-
+      <div class="back-button" (click)="onBack()">
+        <fa-icon [icon]="arrowLeft"></fa-icon>
+        Volver
+      </div>
     </div>
-  </div>
+    <div class="col-md-10">
+      <div class="flashcard-title" *ngIf="!showFlashcardForm && flashcard!=undefined">
+        Flashcards de {{flashcard.titulo}}
 
-  <div class="row">
-    <div class="back-button" (click)="onBack()">
-      <fa-icon [icon]="arrowLeft"></fa-icon>
-      Volver
-    </div>
-    <div class="flashcard-title" *ngIf="!showFlashcardForm && flashcard!=undefined">
-      {{flashcard.titulo}}
+        <div style="width: 100%;">
+          <button class="btn btn-success btn-sm"
+          style="margin-top: 10px;" (click)="onShowFlashcardForm(flashcard.titulo)" id="titleFormButton">Editar nombre</button>
+        </div>
+      </div>
 
-      <button class="btn btn-success btn-sm"
-      style="width: 30%; margin-top: 10px; margin-left: 25%;" (click)="onShowFlashcardForm(flashcard.titulo)" id="titleFormButton">Editar</button>
-    </div>
+      <div style="margin-left: 4%; margin-bottom: 2%;">
+        <form [formGroup]="editFlashcardForm" (ngSubmit)="onEditFlashcardTitle()" *ngIf="showFlashcardForm" id="editTitleForm">
+          <label class="form-title">Edite el titulo:</label>
 
-    <div style="margin-left: 6%; margin-bottom: 2%;">
-      <form [formGroup]="editFlashcardForm" (ngSubmit)="onEditFlashcardTitle()" *ngIf="showFlashcardForm" id="editTitleForm">
-        <label class="form-title">Edite el titulo:</label>
+          <textarea type="text" formControlName="title" class="edit-content edit-content-title"></textarea>
 
-        <textarea type="text" formControlName="title" class="edit-content"></textarea>
+          <span class="error-message"
+          *ngIf="this.editFlashcardForm.get('title').touched && this.editFlashcardForm.get('title').invalid">
+            Ingrese un valor válido
+          </span><br>
 
-        <span class="error-message"
-        *ngIf="this.editFlashcardForm.get('title').touched && this.editFlashcardForm.get('title').invalid">
-          Ingrese un valor válido
-        </span><br>
+          <button type="submit" class="btn btn-success btn-sm" id="editTitle" style="font-weight: bold;">Editar</button>
 
-        <button type="submit" class="btn btn-success btn-sm" id="editTitle">Editar</button>
+          <a (click)="onCancelEditFlashcard()" class="btn btn-link cancel-content" id="cancelEditTitle">Cancelar</a><br>
 
-        <a (click)="onCancelEditFlashcard()" class="cancel-content" id="cancelEditTitle">Cancelar</a><br>
-
-        <span class="error-message" *ngIf="updateTitleError">Ocurrió un error al actualizar la Flashcard</span>
-      </form>
+          <span class="error-message" *ngIf="updateTitleError">Ocurrió un error al actualizar la Flashcard</span>
+        </form>
+      </div>
     </div>
 
-    <div class="icon-trash flashcard-delete" (click)="onDeleteFlashcard()" id="deleteFlashcard">
-      <fa-icon [icon]="trashIcon"></fa-icon>
+    <div class="col-md-2">
+      <div class="icon-trash flashcard-delete" (click)="openDeleteFlashcard(contentDeleteFlashcard)" id="deleteFlashcard">
+        <fa-icon [icon]="trashIcon"></fa-icon>
+      </div>
     </div>
 
   </div>
   <div class="bottom-border"></div>
 
   <div class="row" *ngIf="flashcard!=undefined">
-    <div class="col-3" *ngFor="let item of flashcard.items; index as i" style="margin-bottom: 3%;">
+    <div class="col-md-4 col-sm-12" *ngFor="let item of flashcard.items; index as i" style="margin-bottom: 3%;">
       <div class="flashcard-card">
         <div class="title-card">
           Flashcard item Nº{{i+1}}:
         </div>
         <div class="bottom-border"></div>
         <div class="content-card" *ngIf="showFlashcardItemForm!=item.id_item">
-          <div style="width: 100%;">
+          <div style="width: 100%; margin: 0 auto 0 auto; word-wrap: break-word;">
             {{item.contenido}}
           </div>
 
           <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-10" style="text-align: center;">
               <button class="btn btn-light btn-sm"
-              style="width: 80%; margin-top: 10px; margin-left: 1%;" (click)="onShowFlashcardItemForm(item.id_item, item.contenido)" id="editItemFlashcard">Editar</button>
+              style="width: 80%; margin-top: 10px;" (click)="onShowFlashcardItemForm(item.id_item, item.contenido)" id="editItemFlashcard">Editar</button>
             </div>
 
-            <div class="col-md-2 icon-trash" (click)="onDeleteFlashcardItem(item.id_item, i)" id="deleteItem">
+            <div class="col-md-2 icon-trash leftposition" (click)="openDeleteFlashcardItem(contentDeleteFlashcardItem, item.id_item, i)" id="deleteItem">
               <fa-icon [icon]="trashIcon"></fa-icon>
             </div>
           </div>
@@ -80,7 +83,7 @@
 
           <button type="submit" class="btn btn-success btn-sm" id="editItem">Editar</button>
 
-          <a (click)="onCancelEditItem()" class="cancel-content" id="cancelEdit">Cancelar</a><br>
+          <button (click)="onCancelEditItem()" class="btn btn-link cancel-content" id="cancelEdit">Cancelar</button><br>
 
           <span class="error-message" *ngIf="updateItemError">Ocurrió un error al actualizar la Flashcard</span>
         </form>
@@ -88,3 +91,41 @@
     </div>
   </div>
 </div>
+
+<ng-template #contentDeleteFlashcard let-modal>
+  <div class="modal-container">
+    <div class="row">
+      <div class="col">
+        <h3>¿Realmente deseas eliminar todas las flashcards del nivel?</h3>
+      </div>
+    </div>
+
+    <div class="row options-container">
+      <div class="col option">
+        <button class="btn btn-danger" (click)="onDeleteFlashcard()">Sí</button>
+      </div>
+      <div class="col option">
+        <button class="btn btn-link" (click)="closeModal()">No</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentDeleteFlashcardItem let-modal>
+  <div class="modal-container">
+    <div class="row">
+      <div class="col">
+        <h3>¿Realmente deseas eliminar la flashcard seleccionada?</h3>
+      </div>
+    </div>
+
+    <div class="row options-container">
+      <div class="col option">
+        <button class="btn btn-danger" (click)="onDeleteFlashcardItem(editFlashcardItemId, editFlashcardItemIndex)">Sí</button>
+      </div>
+      <div class="col option">
+        <button class="btn btn-link" (click)="closeModal()">No</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

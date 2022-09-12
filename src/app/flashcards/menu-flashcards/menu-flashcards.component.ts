@@ -6,7 +6,7 @@ import { FlashcardService } from './../../services/flashcard.service';
 import { faSearch, faPager, faTimesCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
 import { Flashcard } from 'src/app/shared/Flashcard';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-menu-flashcards',
@@ -20,13 +20,13 @@ export class MenuFlashcardsComponent implements OnInit {
   flashcardIcon=faPager;
   xSymbolIcon=faTimesCircle;
   plusIcon=faPlusCircle;
-  showSearchError: boolean=false;
-  searchForm: FormGroup;
+  showSearchError = false;
+  searchForm: UntypedFormGroup;
   dontAllowFilters: Array<boolean>=new Array<boolean>(3);
-  allowCreation: boolean=false;
+  allowCreation = false;
 
-  constructor(private flashcardService: FlashcardService, private router: Router, private fb: FormBuilder,
-  private userService: UserService, private permissionService: PermissionService) { }
+  constructor(private flashcardService: FlashcardService, private router: Router, private fb: UntypedFormBuilder,
+  private permissionService: PermissionService) { }
 
   ngOnInit(): void
   {
@@ -63,7 +63,7 @@ export class MenuFlashcardsComponent implements OnInit {
 
   getSearchSubject()
   {
-    let searchParam: string=this.searchForm.get('search').value;
+    const searchParam: string=this.searchForm.get('search').value;
 
     if(searchParam!='')
     {
@@ -71,6 +71,7 @@ export class MenuFlashcardsComponent implements OnInit {
       this.flashcardService.getFlahscardBySearch(+localStorage.getItem('userId'), searchParam).subscribe(res =>
       {
         this.flashcards=res;
+        this.dontAllowFilters.fill(true);
       });
     }
   }
@@ -95,7 +96,7 @@ export class MenuFlashcardsComponent implements OnInit {
   {
     this.searchForm=this.fb.group(
     {
-      search: new FormControl('',[]),
+      search: new UntypedFormControl('',[]),
     });
   }
 

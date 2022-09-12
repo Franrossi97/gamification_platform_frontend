@@ -14,6 +14,7 @@ import { Flashcard } from 'src/app/shared/Flashcard';
 export class ShowFlashcardsComponent implements OnInit {
 
   faAngleDoubleLeft
+  ID_FLASHCARD: number;
   flashcard: Flashcard;
   flashcardItems: Array<FlashcardItem>;
   showFlashcardItem: FlashcardItem;
@@ -30,11 +31,11 @@ export class ShowFlashcardsComponent implements OnInit {
   {
     this.route.paramMap.subscribe(params =>
     {
-      this.getFlashcard(+params.get('id_flashcard'));
+      this.ID_FLASHCARD = +params.get('id_flashcard');
 
-      this.getFlashcardItems(+params.get('id_flashcard'));
+      this.getFlashcard(this.ID_FLASHCARD);
 
-      //console.log(params.get('id_flashcard'));
+      this.getFlashcardItems(this.ID_FLASHCARD);
     });
   }
 
@@ -55,9 +56,6 @@ export class ShowFlashcardsComponent implements OnInit {
       this.flashcardItems=res;
 
       this.showFlashcard();
-
-      //console.log(this.flashcardItems);
-
     });
   }
 
@@ -79,10 +77,10 @@ export class ShowFlashcardsComponent implements OnInit {
     if(!this.blockButtons)
     {
       //console.log('respuesta', answer);
-      this.flashcardService.registerFlashcardResult(idItem, +localStorage.getItem('userId'), answer).subscribe(res =>
+      this.flashcardService.registerFlashcardResult(idItem, +localStorage.getItem('userId'), answer).subscribe(() =>
       {
         this.showFlashcard();
-      }, err =>
+      }, () =>
       {
         this.selectedError=true;
       });
@@ -98,12 +96,7 @@ export class ShowFlashcardsComponent implements OnInit {
   {
     this.userService.numberUserType(+localStorage.getItem('userId'), idSubject).then(res =>
     {
-      if(res!=2)
-      {
-        this.blockButtons=true; //bloquear botones para no guardar desempeño
-      }
-
-      this.blockButtons=true;
+      this.blockButtons=res!=2; //bloquear botones para no guardar desempeño
     });
   }
 

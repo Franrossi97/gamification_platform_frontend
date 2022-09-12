@@ -1,6 +1,5 @@
-import { PermissionService } from './../../services/permission.service';
 import { faAngleLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FormGroup, FormBuilder, FormControl, Validator, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { FlashcardService } from './../../services/flashcard.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -17,7 +16,7 @@ export class ShowFlashcardResultComponent implements OnInit {
   idFlashcard: number;
   titleFlashcard: string;
   flashcardItemsResult: Array<flashcardResult>=null;
-  filterForm: FormGroup;
+  filterForm: UntypedFormGroup;
   leftArrowIcon=faAngleLeft;
   searchIcon=faSearch;
   public pieChartOptions: ChartOptions = {
@@ -30,7 +29,7 @@ export class ShowFlashcardResultComponent implements OnInit {
   public pieChartPlugins = [];
 
   constructor(private route: ActivatedRoute, private flashcardService: FlashcardService,
-    private fb: FormBuilder)
+    private fb: UntypedFormBuilder)
   {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
@@ -40,16 +39,16 @@ export class ShowFlashcardResultComponent implements OnInit {
   {
     this.route.paramMap.subscribe(async params =>
     {
-      this.idFlashcard=Number(params.get('id_flashcard'));
+      await this.createFilterForm();
 
-      this.createFilterForm();
+      this.idFlashcard= await Number(params.get('id_flashcard'));
       this.setFlashcardTitle(this.idFlashcard);
     });
   }
 
-  getFlashcardItems(idFlashcard: number, minMonth: number, maxMonth: number, year: number)
+  getFlashcardItems(idFlashcard: number, quarter: number, year: number)
   {
-    this.flashcardService.getFlashcardResult(idFlashcard, minMonth, maxMonth, year).subscribe((itemsRes: Array<flashcardResult>) =>
+    this.flashcardService.getFlashcardResult(idFlashcard, quarter, year).subscribe((itemsRes: Array<flashcardResult>) =>
     {
       this.flashcardItemsResult=itemsRes;
     });
@@ -59,22 +58,15 @@ export class ShowFlashcardResultComponent implements OnInit {
   {
     this.filterForm=this.fb.group(
     {
-      quarter: new FormControl('', Validators.required),
-      year: new FormControl('', Validators.required),
+      quarter: new UntypedFormControl('', Validators.required),
+      year: new UntypedFormControl('', Validators.required),
     });
   }
 
   onSubmitFilters()
   {
     this.flashcardItemsResult=null;
-    if(this.filterForm.get('quarter').value==1)
-    {
-      this.getFlashcardItems(this.idFlashcard, 3, 7, this.filterForm.get('year').value);
-    }
-    else
-    {
-      this.getFlashcardItems(this.idFlashcard, 8, 12, this.filterForm.get('year').value);
-    }
+    this.getFlashcardItems(this.idFlashcard, this.filterForm.get('quarter').value, this.filterForm.get('year').value);
   }
 
   setFlashcardTitle(idFlashcard: number)
@@ -87,7 +79,7 @@ export class ShowFlashcardResultComponent implements OnInit {
 
   generateArrayOfYears(): Array<number>
   {
-    let initialYear= 2005, res: Array<number>=new Array<number>();
+    const initialYear= 2005, res: Array<number>=new Array<number>();
 
     for (let i = initialYear; i < 2999; i++) {
       res.push(i)

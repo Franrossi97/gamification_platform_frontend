@@ -4,7 +4,7 @@ import { FlashcardService } from './../../services/flashcard.service';
 import { FlashcardItem } from './../../shared/FlashcardItem';
 import { Flashcard } from './../../shared/Flashcard';
 import { SubjectService } from './../../services/subject.service';
-import { FormBuilder, Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormControl, UntypedFormArray } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubjectClass } from 'src/app/shared/Subject';
 import { Level } from 'src/app/shared/Level';
@@ -18,7 +18,7 @@ export class CreateFlashcardComponent implements OnInit
 {
 
   idSubjectSelected = -1;
-  newFlashCardInformationForm: FormGroup;
+  newFlashCardInformationForm: UntypedFormGroup;
   subjectsToSelect: Array<SubjectClass>;
   levelsForSelectedSubject: Array<Level>;
   showErrorMessage = false;
@@ -27,7 +27,7 @@ export class CreateFlashcardComponent implements OnInit
 
   @ViewChild('fform') newFlashCardInformationFormDirective;
 
-  constructor(private fb: FormBuilder, private subjectService: SubjectService, private flashcardService: FlashcardService,
+  constructor(private fb: UntypedFormBuilder, private subjectService: SubjectService, private flashcardService: FlashcardService,
   private router: Router) { }
 
   ngOnInit(): void
@@ -49,9 +49,9 @@ export class CreateFlashcardComponent implements OnInit
   {
     this.newFlashCardInformationForm=this.fb.group(
     {
-      subject: new FormControl(null, Validators.required),
-      level: new FormControl(null, Validators.required),
-      title: new FormControl(null, [Validators.required, Validators.maxLength(120)]),
+      subject: new UntypedFormControl(null, Validators.required),
+      level: new UntypedFormControl(null, Validators.required),
+      title: new UntypedFormControl(null, [Validators.required, Validators.maxLength(120)]),
       items: this.fb.array([], Validators.required),
     });
 
@@ -94,7 +94,7 @@ export class CreateFlashcardComponent implements OnInit
 
   onAddNewFlashcardItem()
   {
-    const control=new FormControl('', [Validators.required, Validators.minLength(10)]);
+    const control=new UntypedFormControl('', [Validators.required, Validators.minLength(10)]);
 
     this.getItemsControl().push(control);
   }
@@ -106,16 +106,14 @@ export class CreateFlashcardComponent implements OnInit
 
   getItemsControl()
   {
-    return this.newFlashCardInformationForm.get('items') as FormArray;
+    return this.newFlashCardInformationForm.get('items') as UntypedFormArray;
   }
 
   onCreateFlashcard()
   {
-    let newFlashcard: Flashcard;
+    const newFlashcard: Flashcard = new Flashcard(null, this.newFlashCardInformationForm.get('title').value,
+    null, null, null, 0, this.generateArrayFlashcardItems(), +localStorage.getItem('userId'));
     //console.log(this.getItemsControl().controls);
-
-    newFlashcard=new Flashcard(null, this.newFlashCardInformationForm.get('title').value,
-    null, null, null, 0, this.generateArrayFlashcardItems());
     newFlashcard.id_nivel=this.newFlashCardInformationForm.get('level').value
 
     console.log(newFlashcard, this.generateArrayFlashcardItems());
@@ -127,6 +125,7 @@ export class CreateFlashcardComponent implements OnInit
       this.router.navigate(['flashcards', 'list']);
     }, err =>
     {
+      console.log(err);
       this.showErrorMessage=true;
     });
   }

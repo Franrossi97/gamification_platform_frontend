@@ -1,9 +1,10 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faTrashAlt, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardService } from './../../services/flashcard.service';
 import { Flashcard } from './../../shared/Flashcard';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-flashcard',
@@ -14,17 +15,19 @@ export class EditFlashcardComponent implements OnInit {
 
   ID_FLASHCARD: number;
   flashcard: Flashcard;
-  editFlashcardForm: FormGroup;
-  editFlashcardItemForm: FormGroup;
-  showFlashcardForm: boolean=false;
-  showFlashcardItemForm: number=-1;
-  updateTitleError: boolean=false;
-  updateItemError: boolean=false;
+  editFlashcardForm: UntypedFormGroup;
+  editFlashcardItemForm: UntypedFormGroup;
+  showFlashcardForm = false;
+  showFlashcardItemForm = -1;
+  updateTitleError = false;
+  updateItemError = false;
   trashIcon=faTrashAlt;
   arrowLeft= faArrowLeft;
+  editFlashcardItemId: number;
+  editFlashcardItemIndex: number;
 
-  constructor(private fb: FormBuilder, private flashcardService: FlashcardService, private route: ActivatedRoute,
-    private router: Router) { }
+  constructor(private fb: UntypedFormBuilder, private flashcardService: FlashcardService, private route: ActivatedRoute,
+    private router: Router, private modalService: NgbModal) { }
 
   ngOnInit(): void
   {
@@ -42,7 +45,7 @@ export class EditFlashcardComponent implements OnInit {
   {
     this.editFlashcardForm=this.fb.group(
     {
-      title: new FormControl('', [Validators.required])
+      title: new UntypedFormControl('', [Validators.required])
     });
   }
 
@@ -56,12 +59,12 @@ export class EditFlashcardComponent implements OnInit {
 
   onEditFlashcardTitle()
   {
-    this.flashcardService.editFlashcard(this.flashcard.id_nivel, this.editFlashcardForm.get('title').value).subscribe(res =>
+    this.flashcardService.editFlashcard(this.flashcard.id_nivel, this.editFlashcardForm.get('title').value).subscribe(() =>
     {
       this.showFlashcardForm=false;
       this.flashcard.titulo=this.editFlashcardForm.get('title').value;
       this.updateTitleError=false;
-    }, err =>
+    }, () =>
     {
       this.updateTitleError=true;
     });
@@ -69,8 +72,9 @@ export class EditFlashcardComponent implements OnInit {
 
   onDeleteFlashcard()
   {
-    this.flashcardService.deleteFlashcard(this.flashcard.id_flashcard).subscribe(res =>
+    this.flashcardService.deleteFlashcard(this.flashcard.id_flashcard).subscribe(() =>
     {
+      this.closeModal();
       this.router.navigate(['flashcards', 'list']);
     });
   }
@@ -79,7 +83,7 @@ export class EditFlashcardComponent implements OnInit {
   {
     this.editFlashcardItemForm=this.fb.group(
     {
-      content: new FormControl('', [Validators.required])
+      content: new UntypedFormControl('', [Validators.required])
     });
   }
 
@@ -100,10 +104,10 @@ export class EditFlashcardComponent implements OnInit {
 
   onEditFlashcardItem(idItem: number)
   {
-    this.flashcardService.editFlashcardItem(idItem, this.editFlashcardItemForm.get('content').value).subscribe(res =>
+    this.flashcardService.editFlashcardItem(idItem, this.editFlashcardItemForm.get('content').value).subscribe(() =>
     {
       this.updateItemError=false;
-    }, err =>
+    }, () =>
     {
       this.updateItemError=true;
     });
@@ -124,9 +128,12 @@ export class EditFlashcardComponent implements OnInit {
 
   onDeleteFlashcardItem(idItem: number, index: number)
   {
-    this.flashcardService.deleteFlashcardItem(idItem).subscribe(res =>
+    this.flashcardService.deleteFlashcardItem(idItem).subscribe(() =>
     {
       this.flashcard.items.splice(index, 1);
+      this.editFlashcardItemId = -1;
+      this.editFlashcardItemIndex = -1;
+      this.closeModal();
     });
   }
 
@@ -141,5 +148,21 @@ export class EditFlashcardComponent implements OnInit {
   onBack()
   {
     this.router.navigate(['flashcards', 'list']);
+  }
+
+  openDeleteFlashcard(content)
+  {
+    this.modalService.open(content);
+  }
+
+  openDeleteFlashcardItem(content, flashcardItemId: number, flashcardItemIndex: number) {
+    this.editFlashcardItemId = flashcardItemId;
+    this.editFlashcardItemIndex = flashcardItemIndex;
+
+    this.modalService.open(content);
+  }
+
+  closeModal() {
+    this.modalService.dismissAll()
   }
 }

@@ -75,7 +75,7 @@
         [disabled]="newFlashCardInformationForm.invalid" type="submit">Crear</button>
 
         <span *ngIf="newFlashCardInformationForm.touched && newFlashCardInformationForm.invalid"
-          style="color: red; margin-left: 2%;">Ocurrió un error al crear las flashcards</span>
+          style="color: red; margin-left: 2%;">Debe completar todos los campos</span>
         <span *ngIf="showErrorMessage" style="color: red;">Ocurrió un error al crear las flashcards</span>
       </div>
     </form>

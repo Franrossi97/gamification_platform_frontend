@@ -78,7 +78,7 @@
 
       .search-icon
       {
-        margin-left: 1%;
+        margin-left: -12%;
         margin-top: 1%;
       }
 
@@ -87,6 +87,7 @@
 
   .flashcard-card
   {
+    text-align: center;
     border: 1px rgb(151, 151, 151) solid;
     border-radius: 8px;
     margin: 3%;
@@ -116,11 +117,8 @@
 
     .flashcard-icon
     {
-      //background-color: rgba(105, 105, 105, 0.541);
       font-size: 2rem;
       color: dodgerblue;
-      margin-left: 41%;
-      margin-right: 41%;
     }
 
     .create
@@ -179,5 +177,14 @@
     font-weight: bold;
     margin-top: 2%;
     font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .flashcard-list-container {
+    .filters {
+      padding-bottom: 2%;
+    }
   }
 }

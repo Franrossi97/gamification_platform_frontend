@@ -23,9 +23,9 @@
 
   .icon-trash
   {
+
     font-size: 1.2rem;
     color: red;
-    margin-left: -16%;
     margin-top: 10px;
 
     &:hover
@@ -35,22 +35,21 @@
     }
   }
 
+  .leftposition {
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: -18%;
+  }
+
   .flashcard-delete
   {
     font-size: 3rem;
-    margin-left: 34%;
-    margin-top: 3%;
   }
 
   .flashcard-card
   {
-    /*background: rgb(255,255,255);
-    background: linear-gradient(354deg, rgba(255,255,255,1) 0%, rgba(187,207,221,1) 6%, rgba(0,167,229,1) 39%);*/
-    background: rgb(42,80,182);
-    background: -moz-linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
-    background: -webkit-linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
-    background: linear-gradient(356deg, rgba(42,80,182,1) 0%, rgba(0,105,126,1) 3%, rgba(0,212,255,1) 17%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#2a50b6",endColorstr="#00d4ff",GradientType=1);
+    background: radial-gradient(#1fe4f5, #3fbafe);
     border-radius: 8px;
     border: 4px rgb(0, 187, 255) solid;
     padding: 5%;
@@ -73,20 +72,21 @@
       font-size: 1.2rem;
       width: 100%;
       margin-right: auto;
-      //margin-bottom: 4%;
+      word-wrap: break-word;
     }
 
     .content-card
     {
       margin-top: 5%;
       width: 100%;
-      margin-left: 7%;
+      margin-left: auto;
       margin-right: auto;
     }
   }
 
   .flashcard-title
   {
+    word-wrap: break-word;
     font-size: 3rem;
     font-weight: bold;
     color: rgb(100, 199, 166);
@@ -114,20 +114,18 @@
     border: 1px honeydew solid;
     outline: none;
     width: 100%;
-    margin-bottom: 5%;
+    margin-bottom: 1%;
     color: whitesmoke;
+  }
+
+  .edit-content-title {
+    width: 50%;
   }
 
   .cancel-content
   {
     color: rgb(199, 0, 0);
     font-weight: bold;
-    margin-left: 5%;
-
-    &:hover
-    {
-      cursor: pointer;
-    }
   }
 
   .error-message
@@ -140,10 +138,42 @@
 
   .form-title
   {
+    width: 100%;
     text-decoration: underline;
-    margin-top: 5%;
+    margin-top: 3%;
     margin-left: -2%;
     font-weight: bold;
     font-size: 1.2rem;
   }
+}
+
+.modal-container {
+  h3 {
+    padding: 1rem;
+  }
+
+  .options-container {
+    padding: 1rem;
+
+    .option {
+      align-items: center;
+      align-self: center;
+      align-content: center;
+      text-align: center;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .edit-container {
+    .leftposition {
+      margin-left: 0%;
+    }
+
+    .flashcard-delete {
+      font-size: 2rem;
+      margin-left: 10%;
+    }
+  }
+
 }
