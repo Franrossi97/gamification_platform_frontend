@@ -3,7 +3,7 @@ import { BadgeFactory } from './BadgeFactory';
 import { LevelService } from './../services/level.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormControl } from '@angular/forms';
 import {faAngleDoubleRight, faAngleDoubleLeft} from '@fortawesome/free-solid-svg-icons'
 import { Level } from '../shared/Level';
 import { Unit } from '../shared/Unit';
@@ -18,19 +18,19 @@ export class CreateLevelComponent implements OnInit
   doubleRight=faAngleDoubleRight;
   doubleLeft=faAngleDoubleLeft;
   mostrarPrimero:boolean;
-  numberUnits:number=0;
-  actualPage:number=0;
+  numberUnits = 0;
+  actualPage = 0;
   units=new Map<number,string>();
-  newLevelForm: FormGroup;
-  newUnitForm: FormGroup;
+  newLevelForm: UntypedFormGroup;
+  newUnitForm: UntypedFormGroup;
   allUnitsCreated:boolean;
   newLevel:Level=new Level();
-  badgesForm: Array<FormGroup>=new Array(4);
+  badgesForm: Array<UntypedFormGroup>=new Array(4);
 
   //badgeFactory: BadgeFactory;
   @ViewChild('fform') newLevelFormDirective;
 
-  constructor(private fb: FormBuilder, private router: Router, private levelService: LevelService, private route: ActivatedRoute) { }
+  constructor(private fb: UntypedFormBuilder, private router: Router, private levelService: LevelService, private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
@@ -48,7 +48,7 @@ export class CreateLevelComponent implements OnInit
     {
       description: new FormControl(null, [Validators.minLength(0), Validators.maxLength(200)]),
       recommended_date: new FormControl(null, Validators.required),
-      max_score: new FormControl(0, [Validators.required, Validators.min(1)]),
+      max_score: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(99999)]),
       count_questions: new FormControl(0, [Validators.required, Validators.min(1)]),
       allowAttempts: new FormControl(false),
       penalization: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
@@ -210,9 +210,7 @@ export class CreateLevelComponent implements OnInit
   {
     this.units.forEach((value, key) =>
     {
-      var newUnit=new Unit();
-      newUnit.nombre=value;
-      this.newLevel.unitList.push(newUnit);
+      this.newLevel.unitList.push(new Unit(null, value));
     });
     //console.log(this.newLevel);
   }
@@ -265,8 +263,8 @@ export class CreateLevelComponent implements OnInit
   enableCreation(): boolean
   {
     let res: boolean;
-    let resLeft: boolean=true;
-    let resRight: boolean=true;
+    let resLeft = true;
+    //let resRight = true;
     if(this.newLevelForm.get('badges_checkbox.checkQuestion_uso').value)
     {
       resLeft=resLeft && this.newLevelForm.get('badges.checkQuestion.preguntas_seguidas').valid && this.newLevelForm.get('badges.checkQuestion.valor_bonus').valid;
@@ -293,8 +291,6 @@ export class CreateLevelComponent implements OnInit
     (this.newLevelForm.get('description').valid && this.newLevelForm.get('recommended_date').valid && this.newLevelForm.get('max_score').valid &&
     this.newLevelForm.get('count_questions').valid && this.newLevelForm.get('penalization').valid && this.newLevelForm.get('allowAttempts').valid &&
     this.newLevelForm.get('nUnits').valid);
-
-    //console.log(!res);
 
     return res;
   }

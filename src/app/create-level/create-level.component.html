@@ -17,7 +17,7 @@
 
         <label class="input-title">Puntaje máximo:</label>
         <div class="row">
-          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='1' max="100">
+          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='1' max="99999">
           <span *ngIf="newLevelForm.get('max_score').touched && newLevelForm.get('max_score').invalid" style="color: red;">
             Ingrese un valor válido.
           </span>
