@@ -34,7 +34,7 @@
             </div>
             <label class="col-lg-4 control-label">Carrera</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" formControlName="career" placeholder="Ingenieria en Informática">
+							<input type="text" class="form-control" formControlName="career" placeholder="Ingenieria Informática">
 
               <span class="error-msg" *ngIf="newSubjectForm.get('career').touched && newSubjectForm.get('career').invalid">Inserte un nombre de carrera válido.</span>
 						</div>
@@ -49,7 +49,7 @@
             </div>
         </div>
           <button class="btn btn-primary mb-3" type="submit"
-          [disabled]="newSubjectForm.invalid" style="margin-top: 5%;">Crear</button>
+          [disabled]="newSubjectForm.invalid || fileSizeError || fileTypeError" style="margin-top: 5%;">Crear materia</button>
       </form>
 
       <div style="margin-top: -8%;">

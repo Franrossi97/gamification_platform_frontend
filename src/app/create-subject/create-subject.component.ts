@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { SubjectService } from './../services/subject.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { SubjectClass } from '../shared/Subject';
 
 class ImageSnippet {
@@ -15,19 +15,19 @@ class ImageSnippet {
 })
 export class CreateSubjectComponent implements OnInit {
 
-  newSubjectForm: FormGroup;
+  newSubjectForm: UntypedFormGroup;
   subject: SubjectClass=null;
   uploadPic;
   fileName: string;
   fileData: FormData;
   fileS: ImageSnippet;
-  fileSizeError: boolean=false;
-  fileTypeError: boolean=false;
-  private loadingSubmit: boolean=false;
+  fileSizeError = false;
+  fileTypeError = false;
+  private loadingSubmit = false;
 
   @ViewChild('fform') newSubjectFormDirective;
 
-  constructor(private fb: FormBuilder, private subjectService: SubjectService, private router: Router) { }
+  constructor(private fb: UntypedFormBuilder, private subjectService: SubjectService, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -38,11 +38,11 @@ export class CreateSubjectComponent implements OnInit {
   {
     this.newSubjectForm=this.fb.group(
     {
-      name: new FormControl(null, [Validators.required,Validators.minLength(2),Validators.maxLength(35)]),
-      quarter: new FormControl(null, [Validators.required]),
-      year: new FormControl(null, [Validators.required,Validators.minLength(4),Validators.maxLength(4)]),
-      career: new FormControl(null, [Validators.required,Validators.minLength(10),Validators.maxLength(40)]),
-      image: new FormControl(null),
+      name: new UntypedFormControl(null, [Validators.required,Validators.minLength(2),Validators.maxLength(35)]),
+      quarter: new UntypedFormControl(null, [Validators.required]),
+      year: new UntypedFormControl(null, [Validators.required,Validators.minLength(4),Validators.maxLength(4)]),
+      career: new UntypedFormControl(null, [Validators.required,Validators.minLength(10),Validators.maxLength(40)]),
+      image: new UntypedFormControl(null),
     });
 
     //this.newSubjectForm.valueChanges.subscribe(data => {});
@@ -77,7 +77,7 @@ export class CreateSubjectComponent implements OnInit {
     let fileName: string= null;
 
     if(this.fileS) {
-      const fileName: string=
+      fileName =
       `${this.newSubjectForm.get('year').value}_${this.newSubjectForm.get('career').value}_${this.fileS.file.name}`;
     }
 
