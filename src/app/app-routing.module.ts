@@ -1,3 +1,4 @@
+import { EditQuestionComponent } from './subject/level/level-edit-questions/edit-question/edit-question.component';
 import { SubjectViewGuard } from './auth/permission/subject-view.guard';
 import { SubjectCreationGuard } from './auth/permission/subject-creation.guard';
 import { AdministrandoComponent } from './home/administrando/administrando.component';
@@ -5,12 +6,11 @@ import { CursandoComponent } from './home/cursando/cursando.component';
 import { EditUserComponent } from './admin-menu/edit-user/edit-user.component';
 import { AdminAddUserComponent } from './admin-menu/admin-add-user/admin-add-user.component';
 import { AdminGuard } from './auth/admin/admin.guard';
-import { AddUserComponent } from './add-user/add-user.component';
 import { UserListComponent } from './admin-menu/user-list/user-list.component';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { UserProfileComponent } from './header/user-profile/user-profile.component';
 import { FlashcardsPermissionGuard } from './auth/flashcards/flashcards-permission.guard';
-import { LevelEditComponent } from './subject/level/level-edit/level-edit.component';
+import { LevelEditComponent } from './subject/level/level-edit-questions/level-edit-questions.component';
 import { PresentationComponent } from './presentation/presentation.component';
 import { ShowFlashcardsComponent } from './flashcards/show-flashcards/show-flashcards.component';
 import { EditFlashcardComponent } from './flashcards/edit-flashcard/edit-flashcard.component';
@@ -56,6 +56,7 @@ const routes: Routes = [
   {path: 'subject/:id_subject/participants', component: ParticipantsListComponent, canActivate: [AuthGuard, PermissionGuard]},
   {path: 'subject/:id_subject/copy', component: CopyLevelsComponent, canActivate: [AuthGuard, PermissionGuard]},
   {path: 'subject/:id_subject/level/:id_level/edit', component: LevelEditComponent, canActivate: [AuthGuard, PermissionGuard]},
+  {path: 'level/:id_level/edit/question/:id_question', component: EditQuestionComponent},
   {path: 'subject/:id_subject/level/:id', canActivate: [AuthGuard, PermissionGuard], children:
   [
     {path: 'question/create/select', component: SelectQuestionTypeComponent, canActivate: [SubjectCreationGuard]},
