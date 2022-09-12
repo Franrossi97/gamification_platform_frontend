@@ -54,8 +54,14 @@
         <div class="btn-inside">
           <div class="col-md-9">
             <div class="session-btn" *ngIf="!this.isAuthenticated()">
-              <button type="button" class="btn btn-primary btn-sm" routerLink='login'>Ingresar</button>&nbsp;&nbsp;
-              <button type="button" class="btn btn-secondary btn-sm" routerLink='register'>Registrarse</button>
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-primary btn-sm" routerLink='login'>Ingresar</button>
+                </div>
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-secondary btn-sm" routerLink='register'>Registrarse</button>
+                </div>
+              </div>
             </div>
 
             <div class="session-btn" *ngIf="this.isAuthenticated()">
