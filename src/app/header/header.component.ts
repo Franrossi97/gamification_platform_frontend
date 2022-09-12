@@ -22,11 +22,12 @@ export class HeaderComponent implements OnInit
   canView=false;
   canCreateSubject=false;
 
-  constructor(private subjectService:SubjectService, private permissionService: PermissionService, private route: ActivatedRoute) { }
+  constructor(private subjectService:SubjectService, private permissionService: PermissionService,
+    private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void
   {
-    this.route.paramMap.subscribe(param =>
+    this.route.paramMap.subscribe(() =>
     {
       this.getSubjects();
       this.getPermissionForAdmin();
@@ -59,6 +60,8 @@ export class HeaderComponent implements OnInit
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
     this.canView=false;
+
+    this.router.navigate(['login']);
   }
 
   getPermissionForAdmin()

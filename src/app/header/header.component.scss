@@ -112,7 +112,7 @@
     .hamburger
     {
       border-radius: 7px;
-      width: 60px;
+      width: 80%;
       height: 10px;
       background-color: rgb(113, 198, 255);
       margin-top: 0.5rem;
@@ -368,17 +368,18 @@
 
 }
 
-@media screen and (min-width: 940px) and (max-width: 949px)
+@media screen and (min-width: 940px) and (max-width: 999px)
 {
   .right-hamburger
   {
-    display: none;
+    margin-top: 2rem;
+    margin-left: 79%;
+    margin-right: 9.5%;
   }
 
   .btn-inside
   {
-    margin-top: 6%;
-    margin-left: -33%;
+    display: none;
   }
 
   .user-profile
@@ -387,7 +388,7 @@
   }
 }
 
-@media screen and (min-width: 950px) and (max-width: 999px)
+/*@media screen and (min-width: 950px) and (max-width: 999px)
 {
   .right-hamburger
   {
@@ -409,7 +410,7 @@
   {
     display: none;
   }
-}
+}*/
 
 @media screen and (min-width: 1000px) and (max-width: 1069px)
 {
@@ -431,17 +432,12 @@
 
   .user-profile
   {
-    margin-top: -24%;
-    margin-left: 55%;
-    padding-top: 6%;
-    //padding-left: 10%;
-    width: 30%;
-    height: 50px;
-
-    .icon-container
-    {
-      width: 34%;
-    }
+    margin-top: -4.8vw;
+    margin-left: 10vw;
+    padding-top: 0.1vw;
+    width: 6.5vw;
+    height: 6.5vw;
+    font-size: 2.5rem;
   }
 }
 
@@ -466,9 +462,8 @@
   .user-profile
   {
     margin-top: -4.8vw;
-    margin-left: 55%;
-    padding-top: 0.8vw;
-    //padding-left: 1.9vw;
+    margin-left: 10vw;
+    padding-top: 0.1vw;
     width: 6.5vw;
     height: 6.5vw;
     font-size: 2.5rem;
@@ -496,9 +491,8 @@
   .user-profile
   {
     margin-top: -4.8vw;
-    margin-left: 55%;
-    padding-top: 0.8vw;
-    //padding-left: 1.9vw;
+    margin-left: 10vw;
+    padding: 30%;
     width: 6.5vw;
     height: 6.5vw;
     font-size: 2.5rem;
@@ -525,9 +519,8 @@
   .user-profile
   {
     margin-top: -3.5vw;
-    margin-left: 65%;
-    padding-top: 0.7vw;
-    //padding-left: 1.5vw;
+    margin-left: 10vw;
+    padding: 30%;
     width: 5.5vw;
     height: 5.5vw;
     font-size: 2.5rem;

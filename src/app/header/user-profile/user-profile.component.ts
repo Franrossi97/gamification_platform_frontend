@@ -1,5 +1,5 @@
 import { passwordMatching } from './../../shared/validators/equal-validator';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { User } from './../../shared/User';
 import { UserService } from './../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,14 +17,14 @@ export class UserProfileComponent implements OnInit {
   user: User;
   editing: boolean=false;
   editingPassword: boolean=false;
-  userInfoForm: FormGroup;
-  passwordForm: FormGroup;
+  userInfoForm: UntypedFormGroup;
+  passwordForm: UntypedFormGroup;
   newInfoUser: User;
   errors: Array<string>= new Array<string>();
   showChangePasswordMessage: boolean;
   changePasswordMessage: string;
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void
   {
@@ -49,10 +49,10 @@ export class UserProfileComponent implements OnInit {
     this.editing=true;
     this.userInfoForm=this.fb.group(
     {
-      nombre: new FormControl(this.user.nombre, [Validators.required]),
-      apellido: new FormControl(this.user.apellido, [Validators.required]),
-      mail: new FormControl(this.user.mail, [Validators.required]),
-      matricula: new FormControl(this.user.matricula, [Validators.required]),
+      nombre: new UntypedFormControl(this.user.nombre, [Validators.required]),
+      apellido: new UntypedFormControl(this.user.apellido, [Validators.required]),
+      mail: new UntypedFormControl(this.user.mail, [Validators.required]),
+      matricula: new UntypedFormControl(this.user.matricula, [Validators.required]),
     });
   }
 
@@ -132,9 +132,9 @@ export class UserProfileComponent implements OnInit {
     this.editingPassword=true;
     this.passwordForm=this.fb.group(
     {
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      newpassword: new FormControl(null, [Validators.required, Validators.minLength(6), containsSpecialCharacter(), containsNumber(), containsMayus()]),
-      repeatnewpassword: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+      password: new UntypedFormControl(null, [Validators.required, Validators.minLength(6)]),
+      newpassword: new UntypedFormControl(null, [Validators.required, Validators.minLength(6), containsSpecialCharacter(), containsNumber(), containsMayus()]),
+      repeatnewpassword: new UntypedFormControl(null, [Validators.required, Validators.minLength(6)]),
     },
     {
       validators: passwordMatching,
