@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms'
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +22,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {CollapseModule} from 'ngx-bootstrap/collapse';
 import { CreateLevelComponent } from './create-level/create-level.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -41,7 +41,7 @@ import { EditFlashcardComponent } from './flashcards/edit-flashcard/edit-flashca
 import { ShowFlashcardResultComponent } from './flashcards/show-flashcard-result/show-flashcard-result.component';
 import { PresentationComponent } from './presentation/presentation.component';
 import { CopyLevelsComponent } from './subject/copy-levels/copy-levels.component';
-import { LevelEditComponent } from './subject/level/level-edit/level-edit.component';
+import { LevelEditComponent } from './subject/level/level-edit-questions/level-edit-questions.component';
 import { BadgeMenuComponent } from './subject/edit-subject/badge-menu/badge-menu.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
@@ -56,6 +56,8 @@ import { AdministrandoComponent } from './home/administrando/administrando.compo
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-badge/create-badge.component';
 import { SendEmailComponent } from './participants-list/send-email/send-email.component';
+import { EditLevelInformationComponent } from './subject/level/edit-level-information/edit-level-information.component';
+import { EditQuestionComponent } from './subject/level/level-edit-questions/edit-question/edit-question.component';
 
 
 @NgModule({
@@ -103,7 +105,9 @@ import { SendEmailComponent } from './participants-list/send-email/send-email.co
     AdministrandoComponent,
     LoadingSpinnerComponent,
     CreateBadgeComponent,
-    SendEmailComponent
+    SendEmailComponent,
+    EditLevelInformationComponent,
+    EditQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -113,12 +117,12 @@ import { SendEmailComponent } from './participants-list/send-email/send-email.co
     HttpClientModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    BsDropdownModule,
     CollapseModule,
     ChartsModule,
     NgbModule,
     SocialLoginModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    DragScrollModule
   ],
   providers:
   [
@@ -131,8 +135,8 @@ import { SendEmailComponent } from './participants-list/send-email/send-email.co
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              //'151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
-              '574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
+              '151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
+              //'574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
             )
           },
           {
