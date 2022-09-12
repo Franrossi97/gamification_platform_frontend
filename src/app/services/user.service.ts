@@ -69,7 +69,7 @@ export class UserService {
 
   async numberUserType(idUser: number|string, idSubject: number|string): Promise<number>
   {
-    const checkUrl: string=`${baseURL}/subject/${idSubject}/user/${idUser}`
+    const checkUrl =`${baseURL}/subject/${idSubject}/user/${idUser}`
 
     return this.http.get<number>(checkUrl).toPromise();
   }

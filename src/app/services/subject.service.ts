@@ -106,7 +106,7 @@ export class SubjectService
 
   getSubjectBySearchWithOutLimit(searchWord: string, quarter: number, year: number): Observable<Array<SubjectClass>>
   {
-    const getSearchUrl: string=`${baseURL}/subject/search/${searchWord}/${quarter}/${year}`;
+    const getSearchUrl = `${baseURL}/subject/search/${searchWord}/${quarter}/${year}`;
 
     return this.http.get<Array<SubjectClass>>(getSearchUrl);
   }

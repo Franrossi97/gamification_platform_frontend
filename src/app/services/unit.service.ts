@@ -11,10 +11,31 @@ export class UnitService {
 
   constructor(private http:HttpClient) { }
 
-  getUnits(id_level:number|string): Observable<Array<Unit>>
+  getUnits(idLevel:number|string): Observable<Array<Unit>>
   {
-    let url:string=`${baseURL}/level/${id_level}/units`;
+    const url = `${baseURL}/level/${idLevel}/units`;
 
     return this.http.get<Array<Unit>>(url);
+  }
+
+  addNewLevelUnit(levelId: number|string, newUnit: Array<Unit>)
+  {
+    const newLevelUrl =`${baseURL}/level/${levelId}/unit`;
+
+    return this.http.post(newLevelUrl, newUnit);
+  }
+
+  editUnitLevelName(editUnit: Unit)
+  {
+    const editUnitNameUrl =`${baseURL}/unit/${editUnit.id_unidad}`;
+
+    return this.http.patch(editUnitNameUrl, editUnit);
+  }
+
+  deleteUnitLevel(unitId: number|string)
+  {
+    const deleteUrl =`${baseURL}/unit/${unitId}`;
+
+    return this.http.delete(deleteUrl);
   }
 }

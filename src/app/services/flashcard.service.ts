@@ -104,17 +104,16 @@ export class FlashcardService {
     return this.http.post(postUrl, result);
   }
 
-  getFlashcardResult(idFlashcard: number, minMonth: number, maxMonth: number, year: number)
+  getFlashcardResult(idFlashcard: number, quarter: number, year: number)
   {
-    const getUrl: string=`${baseURL}/flashcard/${idFlashcard}/month/${minMonth}/${maxMonth}/year/${year}`;
+    const getUrl =`${baseURL}/flashcard/${idFlashcard}/quarter/${quarter}/year/${year}`;
 
     return this.http.get(getUrl);
   }
 
   canEditFlashcard(idFlashcard: number, idUser: number)
   {
-    const getEditUrl: string=`${baseURL}/flashcard/${idFlashcard}/user/${idUser}/edit`;
-    console.log(getEditUrl);
+    const getEditUrl = `${baseURL}/flashcard/${idFlashcard}/user/${idUser}/edit`;
 
     return this.http.get<number>(getEditUrl).toPromise();
   }

@@ -3,7 +3,6 @@ import { BadgeQuestions } from './../shared/BadgeQuestion';
 import { BadgeDate } from './../shared/BadgeDate';
 import { BadgeAttempts } from './../shared/BadgeAttempts';
 import { Level } from './../shared/Level';
-import { Badge } from './../shared/Badge';
 import { UnitService } from './unit.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -25,28 +24,34 @@ export class LevelService
   PLAYING_LEVEL_ID: number=undefined;
   constructor(private http: HttpClient, private unitService:UnitService) { }
 
-  getLevels(id_subject:number|string): Observable<Level[]>
+  getLevels(idSubject:number|string): Observable<Level[]>
   {
-    const url:string=`${baseURL}/subject/${id_subject}/levels`;
+    const url =`${baseURL}/subject/${idSubject}/levels`;
 
     return this.http.get<Level[]>(url);
   }
 
+  getLevelsWithVerification(idSubject: number|string, idStudent: number) {
+    const getUrl = `${baseURL}/subject/${idSubject}/student/${idStudent}/levels`;
+
+    return this.http.get<Array<Level>>(getUrl);
+  }
+
   getOneLevel(idLevel: number)
   {
-    const getUrl: string=`${baseURL}/level/${idLevel}`;
+    const getUrl =`${baseURL}/level/${idLevel}`;
 
     return this.http.get<Level>(getUrl);
   }
 
-  getUnits(id_level:number|string): Observable<Unit[]>
+  getUnits(idLevel:number|string): Observable<Unit[]>
   {
-    return this.unitService.getUnits(id_level);
+    return this.unitService.getUnits(idLevel);
   }
 
   createLevel(newLevel: Level, idSubject: number|string)
   {
-    const postUrl: string=`${baseURL}/subject/${idSubject}/level`;
+    const postUrl =`${baseURL}/subject/${idSubject}/level`;
     console.log(newLevel);
 
     return this.http.post(postUrl, newLevel);
@@ -54,28 +59,28 @@ export class LevelService
 
   deleteLevel(idLevel: number)
   {
-    const deleteUrl: string=`${baseURL}/level/${idLevel}`;
+    const deleteUrl =`${baseURL}/level/${idLevel}`;
 
     return this.http.delete(deleteUrl);
   }
 
   getAttempts(idLevel: number|string, idSubject: number): Observable<number>
   {
-    const getAttemptsUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/attempts`;
+    const getAttemptsUrl =`${baseURL}/subject/${idSubject}/level/${idLevel}/attempts`;
 
     return this.http.get<number>(getAttemptsUrl);
   }
 
   allowAttempt(idSubject: number, idLevel: number|string, idUser: number|string)
   {
-    const getBooleanAttemptUrl: string=`${baseURL}/user/${idUser}/subject/${idSubject}/level/${idLevel}/allowattempts`;
+    const getBooleanAttemptUrl =`${baseURL}/user/${idUser}/subject/${idSubject}/level/${idLevel}/allowattempts`;
 
     return this.http.get(getBooleanAttemptUrl);
   }
 
   changeAvailability(idSubject: number, idLevel: number|string, status: boolean)
   {
-    const patchUrl: string=`${baseURL}/subject/${idSubject}/level/${idLevel}/availability`;
+    const patchUrl =`${baseURL}/subject/${idSubject}/level/${idLevel}/availability`;
 
     console.log(patchUrl);
     console.log(status);
@@ -92,7 +97,7 @@ export class LevelService
   getCountLevels(idSubject: number)
   {
     //return this.countLevels;
-    const getCountUrl: string=`${baseURL}/subject/${idSubject}/levelsamount`
+    const getCountUrl =`${baseURL}/subject/${idSubject}/levelsamount`
 
     return this.http.get<number>(getCountUrl);
   }
@@ -127,76 +132,55 @@ export class LevelService
     return this.countQuestionsLevel.asObservable();
   }
 
-  addNewLevelUnit(levelId: number|string, newUnit: Unit)
-  {
-    const newLevelUrl: string=`${baseURL}/level/${levelId}/unit`;
-
-    return this.http.post(newLevelUrl, newUnit);
-  }
-
   editLevel(editLevel: Level)
   {
-    const editLevelUrl: string=`${baseURL}/level/${editLevel.id_nivel}`;
+    const editLevelUrl =`${baseURL}/level/${editLevel.id_nivel}`;
 
     return this.http.patch(editLevelUrl, editLevel);
   }
 
-  editUnitLevelName(editUnit: Unit)
-  {
-    const editUnitNameUrl: string=`${baseURL}/unit/${editUnit.id_unidad}`;
-
-    return this.http.patch(editUnitNameUrl, editUnit);
-  }
-
-  deleteUnitLevel(unitId: number|string)
-  {
-    const deleteUrl: string=`${baseURL}/unit/${unitId}`;
-
-    return this.http.delete(deleteUrl);
-  }
-
   getBadges(idLevel: number|string): Observable<any[]>
   {
-    const getBadgesUrl: string=`${baseURL}/level/${idLevel}/badges`;
+    const getBadgesUrl =`${baseURL}/level/${idLevel}/badges`;
 
     return this.http.get<any[]>(getBadgesUrl);
   }
 
   getBadgeSpecify(idBadge: number|string, badgeType: number)
   {
-    const getBadgesUrl: string=`${baseURL}/badges/${idBadge}/type/${badgeType}`;
+    const getBadgesUrl =`${baseURL}/badges/${idBadge}/type/${badgeType}`;
 
     return this.http.get<BadgeAttempts|BadgeDate|BadgeQuestions|BadgeTimer>(getBadgesUrl);
   }
 
   updateUsedBadges(idSubject: number, idLevel: number|string, idStudent: number|string, newValue: string): Observable<any>
   {
-    const updateBadgesUrl: string=`${baseURL}/badges/subject/${idSubject}/level/${idLevel}/student/${idStudent}`;
+    const updateBadgesUrl =`${baseURL}/badges/subject/${idSubject}/level/${idLevel}/student/${idStudent}`;
 
     return this.http.patch(updateBadgesUrl, newValue);
   }
 
   createBadge(badge: any, idLevel: number) {
-    const postBadgeUrl: string= `${baseURL}/badges/level/${idLevel}`;
+    const postBadgeUrl = `${baseURL}/badges/level/${idLevel}`;
 
     return this.http.post(postBadgeUrl, badge);
   }
 
   editBadge(badge: any)
   {
-    const patchBadgeUrl: string=`${baseURL}/badge/${badge.id_insignia}`;
+    const patchBadgeUrl =`${baseURL}/badge/${badge.id_insignia}`;
 
     return this.http.patch(patchBadgeUrl, badge);
   }
 
-  getAvailableBadges(idLevel: number | String) {
-    const getUrl: string=`${baseURL}/level/${idLevel}/badges/available`;
+  getAvailableBadges(idLevel: number | string) {
+    const getUrl =`${baseURL}/level/${idLevel}/badges/available`;
 
     return this.http.get<Array<{tipo_insignia: number, nombre: string}>>(getUrl);
   }
 
-  getUsedBadges(idLevel: number | String) {
-    const getUrl: string=`${baseURL}/level/${idLevel}/badges/used`;
+  getUsedBadges(idLevel: number | string) {
+    const getUrl =`${baseURL}/level/${idLevel}/badges/used`;
 
     return this.http.get<Array<{tipo_insignia: number}>>(getUrl);
   }
