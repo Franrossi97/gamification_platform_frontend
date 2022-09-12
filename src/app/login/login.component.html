@@ -21,7 +21,6 @@
             </div>
           </div>
           <button class="btn btn-primary mb-3" type="submit" [disabled]="loginUserForm.invalid">Ingresar</button><br>
-          <span *ngIf="invalidLogin" style="color: red;">Usuario y/o contraseña incorrectos</span>
           <span *ngIf="loginUserForm.touched && loginUserForm.invalid" style="color: red;">
             <span *ngIf="loginUserForm.get('mail').errors">Inserte un mail válido.</span><br>
             <span *ngIf="loginUserForm.get('password').errors">Inserte una contraseña válida.</span><br>
@@ -47,7 +46,7 @@
   <div class="row options-login-container">
 
     <div class="login-button-container">
-      <button (click)="onGoogleLogin(neededData)" class="google">
+      <button (click)="onGoogleLogin()" class="google">
           <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
 
           <p>Login with Google</p>
@@ -55,7 +54,7 @@
     </div>
 
     <div class="login-button-container">
-      <button (click)="onFacebookLogin(neededData)" class="facebook" disabled>
+      <button (click)="onFacebookLogin()" class="facebook" disabled>
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1365px-Facebook_f_logo_%282019%29.svg.png">
 
         <p>Login with Facebook</p>
@@ -63,7 +62,7 @@
     </div>
   </div>
 
-  <div #neededData>
+  <div id="neededData">
     <div  class="row user-form-component" *ngIf="showRegistrationForm">
       <h3>Datos extra necesarios:</h3>
 
@@ -81,4 +80,8 @@
       </form>
     </div>
   </div>
+</div>
+
+<div class="error-container" *ngIf="showErrorMessage">
+  <h4>ERROR - {{ errorMessage }}</h4>
 </div>
