@@ -77,16 +77,16 @@
                   </button>
                 </div>
 
-                <div class="col">
-                  <button class="edit-option btn btn-link" *ngIf="flashcard.edita">
+                <div class="col" *ngIf="flashcard.edita">
+                  <button class="edit-option btn btn-link">
                     <a (click)="onEditFlashcard(flashcard.id_flashcard, flashcard.titulo)">
                       Editar
                     </a>
                   </button>
                 </div>
 
-                <div class="col">
-                  <button class="see-option btn btn-link" *ngIf="flashcard.edita">
+                <div class="col" *ngIf="flashcard.edita">
+                  <button class="see-option btn btn-link">
                     <a (click)="onCheckResultFlashcard(flashcard.id_flashcard, flashcard.titulo)">
                       Ver Resultados
                     </a>
