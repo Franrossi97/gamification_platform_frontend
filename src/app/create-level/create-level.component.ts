@@ -3,7 +3,7 @@ import { BadgeFactory } from './BadgeFactory';
 import { LevelService } from './../services/level.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormControl, UntypedFormControl, UntypedFormArray } from '@angular/forms';
 import {faAngleDoubleRight, faAngleDoubleLeft} from '@fortawesome/free-solid-svg-icons'
 import { Level } from '../shared/Level';
 import { Unit } from '../shared/Unit';
@@ -93,7 +93,31 @@ export class CreateLevelComponent implements OnInit
         }),
       }),
       nUnits: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]),
+      units: this.fb.array([], [Validators.required])
     });
+
+    this.onSelectNumberUnits();
+  }
+
+  onSelectNumberUnits()
+  {
+    this.newLevelForm.get('nUnits').valueChanges.subscribe(change => {
+      this.getItemsControl().clear();
+
+      for(let i =0; i < change; i++) {
+        this.getItemsControl().push(new UntypedFormControl('', [Validators.maxLength(50), Validators.minLength(4), Validators.required]));
+      }
+    });
+  }
+
+  /*onRemoveNewFlashcardItem(index: number)
+  {
+    this.getItemsControl().removeAt(index);
+  }*/
+
+  getItemsControl()
+  {
+    return this.newLevelForm.get('units') as UntypedFormArray;
   }
 
   createUnitForm()
@@ -141,16 +165,14 @@ export class CreateLevelComponent implements OnInit
   onSubmitLevel()
   {
     this.loadLevelInformation();
-
     this.loadUnits();
 
     this.newLevel.badges=this.loadBadges();
 
 
-    this.levelService.createLevel(this.newLevel, this.route.snapshot.params.id).subscribe(res =>
+    this.levelService.createLevel(this.newLevel, this.route.snapshot.params.id).subscribe(() =>
     {
-      console.log(res);
-      this.router.navigate([`subject/${this.route.snapshot.params.id}`]);
+      this.router.navigate(['subject', this.route.snapshot.params.id]);
       window.location.reload();
     },
     err =>
@@ -208,11 +230,9 @@ export class CreateLevelComponent implements OnInit
 
   loadUnits()
   {
-    this.units.forEach((value, key) =>
-    {
-      this.newLevel.unitList.push(new Unit(null, value));
+    this.getItemsControl().controls.forEach(unitControl => {
+      this.newLevel.unitList.push(unitControl.value);
     });
-    //console.log(this.newLevel);
   }
 
   loadBadges()
@@ -290,7 +310,7 @@ export class CreateLevelComponent implements OnInit
 
     (this.newLevelForm.get('description').valid && this.newLevelForm.get('recommended_date').valid && this.newLevelForm.get('max_score').valid &&
     this.newLevelForm.get('count_questions').valid && this.newLevelForm.get('penalization').valid && this.newLevelForm.get('allowAttempts').valid &&
-    this.newLevelForm.get('nUnits').valid);
+    this.newLevelForm.get('nUnits').valid) && this.newLevelForm.get('units').valid;
 
     return res;
   }
