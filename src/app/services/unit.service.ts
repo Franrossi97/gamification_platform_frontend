@@ -18,11 +18,11 @@ export class UnitService {
     return this.http.get<Array<Unit>>(url);
   }
 
-  addNewLevelUnit(levelId: number|string, newUnit: Array<Unit>)
+  addNewLevelUnit(levelId: number|string, newUnit: Array<Unit>): Observable<number>
   {
     const newLevelUrl =`${baseURL}/level/${levelId}/unit`;
 
-    return this.http.post(newLevelUrl, newUnit);
+    return this.http.post<number>(newLevelUrl, newUnit);
   }
 
   editUnitLevelName(editUnit: Unit)
