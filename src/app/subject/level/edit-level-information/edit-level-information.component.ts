@@ -105,6 +105,7 @@ export class EditLevelInformationComponent implements OnInit {
     this.unitService.addNewLevelUnit(this.idLevel, newUnit).subscribe(res =>
     {
       this.onCancelNewUnit();
+      newUnit[0].id_unidad = res;
       this.level.unitList.push(newUnit[0]);
       this.levelChangeEvent.emit(this.level);
       this.selectedUnitId = -1;
