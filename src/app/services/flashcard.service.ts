@@ -57,14 +57,14 @@ export class FlashcardService {
     return this.http.post(postUrl, newItem);
   }
 
-  editFlashcard(idFlashcard: number, title: string)
+  editFlashcard(idFlashcard: number, title: Flashcard)
   {
     const patchUrl: string=`${baseURL}/flashcard/${idFlashcard}`;
 
     return this.http.patch(patchUrl, title);
   }
 
-  editFlashcardItem(idItem: number, content: string)
+  editFlashcardItem(idItem: number, content: FlashcardItem)
   {
     const patchUrl: string=`${baseURL}/flashcard/item/${idItem}`;
 
