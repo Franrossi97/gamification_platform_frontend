@@ -1,3 +1,4 @@
+import { FlashcardItem } from 'src/app/shared/FlashcardItem';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faTrashAlt, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,7 +60,7 @@ export class EditFlashcardComponent implements OnInit {
 
   onEditFlashcardTitle()
   {
-    this.flashcardService.editFlashcard(this.flashcard.id_nivel, this.editFlashcardForm.get('title').value).subscribe(() =>
+    this.flashcardService.editFlashcard(this.flashcard.id_flashcard, new Flashcard(null, this.editFlashcardForm.get('title').value)).subscribe(() =>
     {
       this.showFlashcardForm=false;
       this.flashcard.titulo=this.editFlashcardForm.get('title').value;
@@ -104,9 +105,10 @@ export class EditFlashcardComponent implements OnInit {
 
   onEditFlashcardItem(idItem: number)
   {
-    this.flashcardService.editFlashcardItem(idItem, this.editFlashcardItemForm.get('content').value).subscribe(() =>
+    this.flashcardService.editFlashcardItem(idItem, new FlashcardItem(null, this.editFlashcardItemForm.get('content').value)).subscribe(() =>
     {
       this.updateItemError=false;
+      this.showFlashcardItemForm = -1;
     }, () =>
     {
       this.updateItemError=true;
