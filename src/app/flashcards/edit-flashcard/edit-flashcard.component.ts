@@ -93,9 +93,9 @@ export class EditFlashcardComponent implements OnInit {
     this.showFlashcardForm=false;
   }
 
-  onShowFlashcardItemForm(index: number, value: string)
+  onShowFlashcardItemForm(flashcardId: number, value: string)
   {
-    this.showFlashcardItemForm=index;
+    this.showFlashcardItemForm=flashcardId;
     this.createFlashcardItemForm();
 
     this.editFlashcardItemForm.get('content').setValue(value);
@@ -103,10 +103,12 @@ export class EditFlashcardComponent implements OnInit {
     this.updateItemError=false;
   }
 
-  onEditFlashcardItem(idItem: number)
+  onEditFlashcardItem(idItem: number, flashcardIndex: number)
   {
     this.flashcardService.editFlashcardItem(idItem, new FlashcardItem(null, this.editFlashcardItemForm.get('content').value)).subscribe(() =>
     {
+      this.flashcard.items[flashcardIndex].contenido = this.editFlashcardItemForm.get('content').value;
+
       this.updateItemError=false;
       this.showFlashcardItemForm = -1;
     }, () =>

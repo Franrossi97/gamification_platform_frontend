@@ -71,7 +71,7 @@
 
         </div>
 
-        <form [formGroup]="editFlashcardItemForm" (ngSubmit)="onEditFlashcardItem(item.id_item)" *ngIf="showFlashcardItemForm==item.id_item" id="editItemFlashcardForm">
+        <form [formGroup]="editFlashcardItemForm" (ngSubmit)="onEditFlashcardItem(item.id_item, i)" *ngIf="showFlashcardItemForm==item.id_item" id="editItemFlashcardForm">
           <label>Edite el contenido del flashcard:</label>
 
           <textarea type="text" formControlName="content" class="edit-content"></textarea>
