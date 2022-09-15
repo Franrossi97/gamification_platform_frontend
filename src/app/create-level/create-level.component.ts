@@ -231,7 +231,7 @@ export class CreateLevelComponent implements OnInit
   loadUnits()
   {
     this.getItemsControl().controls.forEach(unitControl => {
-      this.newLevel.unitList.push(unitControl.value);
+      this.newLevel.unitList.push(new Unit(null, unitControl.value));
     });
   }
 
