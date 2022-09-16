@@ -119,7 +119,7 @@
         </div>
       </div>
 
-      <div class="delete-menu" (click)="level.cuestionario_disponible &&
+      <div class="delete-menu" (click)="(!!level.cuestionario_disponible) &&
         onPlay(level.id_nivel, level.id_materia, level.penalizacion, level.puntaje_maximo, level.cantidad_preguntas, level.reintentos, level.timesPlayed)"
         *ngIf="!canEdit" [class.disable-play]="!level.cuestionario_disponible">
         <h4>
