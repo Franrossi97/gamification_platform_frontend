@@ -73,7 +73,7 @@ export class SubjectComponent implements OnInit
     if(totLevels == 0) {
       this.PROGRESS = 0
     } else {
-      this.PROGRESS = (answeredLevels/totLevels)*100;
+      this.PROGRESS = Math.round((answeredLevels/totLevels)*100);
     }
   }
 
