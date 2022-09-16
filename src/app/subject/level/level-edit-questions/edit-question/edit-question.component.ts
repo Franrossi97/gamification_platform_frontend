@@ -117,15 +117,26 @@ export class EditQuestionComponent implements OnInit {
 
   onLoadAll()
   {
-    this.questionService.editOptions(this.editedAnswer).subscribe(res =>
+    this.questionService.editOptions(this.editedAnswer).subscribe(async res =>
     {
+      await this.updateArrayOfAnswers();
+
       this.resetAll();
-      this.editingQuestion = null;
       this.editingOption = null;
-      this.editedLevelIndex = -1;
     }, err =>
     {
       this.setErrorMessage('Ocurrio un error al modificar la opción. Intente de nuevo.');
+    });
+  }
+
+  updateArrayOfAnswers() {
+    this.editingQuestion.opciones.forEach(option => {
+      for (let i = 0; i < this.editedAnswer.length; i++) {
+        if(this.editedAnswer[i].id_opcion == option.id_opcion) {
+          option.texto = this.editedAnswer[i].texto;
+        }
+
+      }
     });
   }
 
