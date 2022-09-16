@@ -31,6 +31,7 @@ export class EditQuestionComponent implements OnInit {
   disableButtonLoadChange = true;
   showErrorMessage = false;
   errorMessage: string;
+  successfullyChangeExtras = false;
 
   constructor(private levelService: LevelService, private questionService: QuestionService, private route: ActivatedRoute,
     private fb: UntypedFormBuilder, private location: Location) { }
@@ -94,10 +95,12 @@ export class EditQuestionComponent implements OnInit {
     const editedFeatures: Question=new Question(0, null, undefined, null, null,
       this.editFeaturesForm.get('time').value, this.editFeaturesForm.get('coins').value, null, null);
 
-    this.questionService.editQuestion(this.editingQuestion.id_pregunta, editedFeatures).subscribe(res =>
+    this.questionService.editQuestion(this.editingQuestion.id_pregunta, editedFeatures).subscribe(() =>
     {
-      console.log('All Good');
-    },err =>
+      this.successfullyChangeExtras = true;
+
+      setTimeout(() => {this.successfullyChangeExtras = false}, 2000);
+    }, () =>
     {
       this.setErrorMessage('No se puedo modificar los valores de la pregunta.')
     });
@@ -117,13 +120,13 @@ export class EditQuestionComponent implements OnInit {
 
   onLoadAll()
   {
-    this.questionService.editOptions(this.editedAnswer).subscribe(async res =>
+    this.questionService.editOptions(this.editedAnswer).subscribe(async () =>
     {
       await this.updateArrayOfAnswers();
 
       this.resetAll();
       this.editingOption = null;
-    }, err =>
+    }, () =>
     {
       this.setErrorMessage('Ocurrio un error al modificar la opción. Intente de nuevo.');
     });

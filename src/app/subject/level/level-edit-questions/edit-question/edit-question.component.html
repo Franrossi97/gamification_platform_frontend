@@ -76,9 +76,12 @@
           <input type="number" formControlName="coins">
         </div>
 
+        <p *ngIf="successfullyChangeExtras">Los cambios fueron aplicados correctamente</p>
+
         <button type="submit" class="btn btn-info" id="editFeature">Modificar extras</button>
       </form>
     </div>
+
   </div>
 
 </div>

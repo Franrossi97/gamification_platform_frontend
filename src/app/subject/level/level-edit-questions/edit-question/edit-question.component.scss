@@ -187,7 +187,14 @@
 
         button
         {
-          margin: 3% 0 2% 0%;
+          margin: 1% 0 2% 0%;
+        }
+
+        p {
+          font-weight: bold;
+          color: rgb(35, 133, 172);
+          width: 100%;
+          margin: 2% auto 0 auto;
         }
       }
     }
