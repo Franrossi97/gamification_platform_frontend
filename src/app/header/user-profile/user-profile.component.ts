@@ -15,8 +15,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UserProfileComponent implements OnInit {
 
   user: User;
-  editing: boolean=false;
-  editingPassword: boolean=false;
+  editing = false;
+  editingPassword = false;
   userInfoForm: UntypedFormGroup;
   passwordForm: UntypedFormGroup;
   newInfoUser: User;
@@ -65,12 +65,14 @@ export class UserProfileComponent implements OnInit {
     this.userInfoForm.get('matricula').value != this.user.matricula ? this.userInfoForm.get('matricula').value : undefined,
     this.userInfoForm.get('mail').value != this.user.mail ? this.userInfoForm.get('mail').value : undefined, undefined, undefined);
     //this.checkNewValues(this.newInfoUser);
-    this.userService.editUser(+localStorage.getItem('userId'), this.newInfoUser).subscribe(res =>
+    this.userService.editUser(+localStorage.getItem('userId'), this.newInfoUser).subscribe(() =>
     {
       this.user.nombre = this.userInfoForm.get('nombre').value;
       this.user.apellido = this.userInfoForm.get('apellido').value;
       this.user.matricula = this.userInfoForm.get('matricula').value;
       this.user.mail = this.userInfoForm.get('mail').value;
+
+      this.editing = false;
     }, (err: HttpErrorResponse) =>{
       console.log(err.error.message);
 

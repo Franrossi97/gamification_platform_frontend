@@ -82,27 +82,8 @@ $background-content-color: rgb(230, 230, 230);
   .button-container
   {
     padding-top: 3%;
-    width: 8.8%;
     margin-left: auto;
     margin-right: auto;
-
-    span
-    {
-      margin-top: 4%;
-      margin-left: 8%;
-      color: red;
-
-      &:hover
-      {
-        color: rgb(114, 0, 0);
-        cursor: pointer;
-      }
-    }
-  }
-
-  .edit-button-container
-  {
-    width: 16%;
   }
 
   .change-password

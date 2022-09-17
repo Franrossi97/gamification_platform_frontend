@@ -42,8 +42,12 @@
       </div>
 
       <div class="row button-container edit-button-container">
-        <button class="btn btn-info" type="submit" id="submitInfo">Guardar</button>
-        <span (click)="onCancel()" id="cancelEditInfo">Cancelar</span>
+        <div class="col-md-6">
+          <button class="btn btn-info" type="submit" id="submitInfo">Guardar</button>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-link" (click)="onCancel()" style="color: red;">Cancelar</button>
+        </div>
       </div>
     </form>
   </div>
@@ -67,8 +71,12 @@
         </div>
 
         <div class="row button-container edit-button-container">
-          <button class="btn btn-info" [disabled]="passwordForm.invalid" id="submitPassword">Cambiar</button>
-          <span (click)="onCancelPassword()" id="cancelPassword">Cancelar</span>
+          <div class="col-md-6">
+            <button class="btn btn-info" [disabled]="passwordForm.invalid" id="submitPassword">Cambiar</button>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-link" (click)="onCancelPassword()" style="color: red;">Cancelar</button>
+          </div>
         </div>
 
         <div class="row error-container">
