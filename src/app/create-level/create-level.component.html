@@ -15,38 +15,46 @@
           <input type="date" formControlName="recommended_date" class="form-input" placeholder="17/06/2021">
         </div>
 
-        <label class="input-title">Puntaje máximo:</label>
-        <div class="row">
-          <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='1' max="99999">
-          <span *ngIf="newLevelForm.get('max_score').touched && newLevelForm.get('max_score').invalid" style="color: red;">
-            Ingrese un valor válido.
-          </span>
+        <div class="row" style="padding: 3% 3% 3% 0;">
+          <div class="col-md-6 col-sm-12">
+            <label class="input-title">Puntaje máximo:</label>
+            <input type="number" formControlName="max_score" class="form-input" placeholder="30" min='1' max="99999">
+            <span *ngIf="newLevelForm.get('max_score').touched && newLevelForm.get('max_score').invalid" style="color: red;">
+              Ingrese un valor válido.
+            </span>
+          </div>
+
+          <div class="col-md-6 col-sm-12">
+            <label class="input-title">Preguntas a responder:</label>
+            <input type="number" formControlName="count_questions" class="form-input" placeholder="15" min='1'>
+            <span *ngIf="newLevelForm.get('count_questions').touched && newLevelForm.get('count_questions').invalid" style="color: red;">
+              Ingrese un valor válido.
+            </span>
+          </div>
         </div>
 
-        <label class="input-title">Cantidad de preguntas a responder:</label>
-        <div class="row">
-          <input type="number" formControlName="count_questions" class="form-input" placeholder="15" min='1'>
-          <span *ngIf="newLevelForm.get('count_questions').touched && newLevelForm.get('count_questions').invalid" style="color: red;">
-            Ingrese un valor válido.
-          </span>
-        </div>
+        <div class="row" style="padding: 3% 3% 3% 0;">
+          <div class="col-md-6 col-sm-12">
+            <div class="checkbox-wrapper">
+              <input type="checkbox" formControlName="allowAttempts" class="form-input" id="check" hidden>
+              <label class="checkmark" for="check"></label>
+              <div class="check-title">
+                <label for="check">Permite reintentos</label>
+              </div>
 
-        <div class="checkbox-wrapper row">
-          <input type="checkbox" formControlName="allowAttempts" class="form-input" id="check" hidden>
-          <label class="checkmark" for="check"></label>
-          <label class="check-title" for="check">Permite reintentos</label>
+              <span *ngIf="newLevelForm.get('allowAttempts').touched && newLevelForm.get('allowAttempts').invalid" style="color: red;">
+                Ingrese un valor válido.
+              </span>
+            </div>
+          </div>
 
-          <span *ngIf="newLevelForm.get('allowAttempts').touched && newLevelForm.get('allowAttempts').invalid" style="color: red;">
-            Ingrese un valor válido.
-          </span>
-        </div>
-
-        <label class="input-title">Penalización (%):</label>
-        <div class="row">
-          <input type="number" formControlName="penalization" class="form-input" placeholder="30" min='0' max="100">
-          <span *ngIf="newLevelForm.get('penalization').touched && newLevelForm.get('penalization').invalid" style="color: red;">
-            Ingrese un valor válido.
-          </span>
+          <div class="col-md-6 col-sm-12">
+            <label class="input-title">Penalización (%):</label>
+            <input type="number" formControlName="penalization" class="form-input" placeholder="30" min='0' max="100">
+            <span *ngIf="newLevelForm.get('penalization').touched && newLevelForm.get('penalization').invalid" style="color: red;">
+              Ingrese un valor válido.
+            </span>
+          </div>
         </div>
 
         <label class="input-title">Insignias:</label>
@@ -100,7 +108,9 @@
         </div>
 
 
-        <label class="input-title">Parámetros de insignias:</label>
+        <label class="input-title" *ngIf="newLevelForm.get('badges_checkbox.checkQuestion_uso').value ||
+        newLevelForm.get('badges_checkbox.checkTimer_uso').value || newLevelForm.get('badges_checkbox.checkDate_uso').value ||
+        newLevelForm.get('badges_checkbox.checkAttempt_uso').value">Parámetros de insignias:</label>
 
         <div formGroupName='badges'>
           <div formGroupName="checkQuestion" *ngIf="newLevelForm.get('badges_checkbox.checkQuestion_uso').value">
