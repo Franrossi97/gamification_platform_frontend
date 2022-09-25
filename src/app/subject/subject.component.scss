@@ -7,7 +7,7 @@
 
 .option-pos {
   width: 100%;
-  margin-left: 12%;
+  margin-left: 10%;
 }
 
 .score-progress {
@@ -27,4 +27,11 @@
   background-color: rgb(77, 187, 187);
   border-radius: 8px;
   border: 6px solid rgb(102, 102, 102);
+}
+
+@media screen and (max-width: 767px) {
+  .option-pos {
+    width: 100%;
+    margin-left: 0;
+  }
 }
