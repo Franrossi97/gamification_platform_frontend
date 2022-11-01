@@ -24,6 +24,7 @@ export class CreateSubjectComponent implements OnInit {
   fileSizeError = false;
   fileTypeError = false;
   private loadingSubmit = false;
+  loadButtonDisabled = false;
 
   @ViewChild('fform') newSubjectFormDirective;
 
@@ -74,6 +75,7 @@ export class CreateSubjectComponent implements OnInit {
   onSubmit()
   {
     this.loadingSubmit=true;
+    this.loadButtonDisabled = true;
     let fileName: string= null;
 
     if(this.fileS) {
@@ -89,6 +91,8 @@ export class CreateSubjectComponent implements OnInit {
       this.subjectService.uploadCoverImage(fileName, this.fileS.file).subscribe(res =>
       {
         this.submitRestOfForm();
+      }, err => {
+        this.loadButtonDisabled = false;
       });
     }
     else{
@@ -102,11 +106,9 @@ export class CreateSubjectComponent implements OnInit {
     {
       this.newSubjectForm.reset();
       this.router.navigate([`/subject/${lastInsertedId}`]);
-
-      this.loadingSubmit=true;
     }, err =>
     {
-      //Lanzar error
+      this.loadButtonDisabled = false;
     });
   }
 

@@ -34,12 +34,12 @@
             </div>
             <label class="col-lg-4 control-label">Carrera</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" formControlName="career" placeholder="Ingenieria Informática">
+							<input type="text" class="form-control" formControlName="career" placeholder="Nombre de la carrera">
 
               <span class="error-msg" *ngIf="newSubjectForm.get('career').touched && newSubjectForm.get('career').invalid">Inserte un nombre de carrera válido.</span>
 						</div>
 
-            <label class="col-lg-4 control-label">Imagen de portada</label>
+            <label class="col-md-12 control-label">Imagen de portada (Tamaño menor a 90Kb en formato png/jpg):</label>
             <div class="row">
               <input type="file" class="form-control-file" style="margin-left: 6%;"
               formControlName="image" (change)="onImageChanged(fileUpload)" #fileUpload>
@@ -49,7 +49,7 @@
             </div>
         </div>
           <button class="btn btn-primary mb-3" type="submit"
-          [disabled]="newSubjectForm.invalid || fileSizeError || fileTypeError" style="margin-top: 5%;">Crear materia</button>
+          [disabled]="newSubjectForm.invalid || fileSizeError || fileTypeError || loadButtonDisabled" style="margin-top: 5%;">Crear materia</button>
       </form>
 
       <div style="margin-top: -8%;">
