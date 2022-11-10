@@ -26,65 +26,48 @@
   <div class="row card-container">
 
     <div class="col-md-2 card" @fadeIn>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
       <div class="card-text juego-margin">
         <p>{{this.blockNames[0]}}</p>
       </div>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
     </div>
 
     <div class="col-md-2 card" @fadeIn>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
       <div class="card-text-little diversion-margin">
         <p>{{this.blockNames[1]}}</p>
       </div>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
     </div>
 
     <div class="col-md-2 card" @fadeIn>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
       <div class="card-text-little flashcard-margin">
         <p>{{this.blockNames[2]}}</p>
       </div>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
     </div>
 
     <div class="col-md-2 card" @fadeIn>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
       <div class="card-text-little competencia-size">
         <p>{{this.blockNames[3]}}</p>
       </div>
-      <div class="border-title"></div>
+      <!--<div class="border-title"></div>-->
     </div>
-  </div>
-
-  <div class="row description-container">
-    <h2>{{this.description[0]}}</h2>
-
-    <p>{{this.description[1]}}</p>
   </div>
 
   <div class="row footer-container">
     <div class="row options">
-      <div class="col-md-1 option" routerLink="/subjects">
-        <h5 class="materia-margin">Materias</h5>
-      </div>
-
-      <div class="col-md-1 option" routerLink="/flashcards/list">
-        <h5 class="flashcard-margin">Flashcards</h5>
-      </div>
-
-      <div class="col-md-1 option" (click)="openLink('http://campus.fi.mdp.edu.ar/')">
+      <div class="col-md option" (click)="openLink('http://campus.fi.mdp.edu.ar/')">
         <h5 class="campus-margin">Campus FI</h5>
       </div>
-      <div class="col-md-1 option" (click)="openLink('http://guaranifi.mdp.edu.ar/ingenieriaweb/historia_academica')">
+      <div class="col-md option" (click)="openLink('http://guaranifi.mdp.edu.ar/ingenieriaweb/historia_academica')">
         <h5 class="siu-margin">SIU Guaraní</h5>
       </div>
-      <div class="col-md-1 option" routerLink="">
+      <div class="col-md option" routerLink="/help">
         <h5 class="ayuda-margin">Ayuda</h5>
-      </div>
-      <div class="col-md-1 option">
-        <h5>Ayuda</h5>
       </div>
     </div>
 

@@ -1,0 +1,29 @@
+.help-container {
+  background-color: aliceblue;
+  border-radius: 12px;
+  padding: 1%;
+
+  h1 {
+    color: rgb(54, 54, 54);
+  }
+
+  h3 {
+    padding: 2% 0 0 1%;
+    color: rgb(54, 54, 54);
+  }
+
+  .qa-container {
+    padding: 1.5% 0 0 2.5%;
+
+    a {
+      color: rgb(8, 80, 189);
+
+      &:hover {
+        cursor: pointer;
+        color: rgb(20, 63, 128);
+        text-decoration: underline;
+      }
+    }
+  }
+
+}

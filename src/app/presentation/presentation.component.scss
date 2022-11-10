@@ -22,20 +22,16 @@
     height: 10%;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 0 0 8px 8px;
-    padding-bottom: 2%;
 
     .card
     {
+      background-color: transparent;
       color: rgb(255, 178, 61);
-      //height: 50px;
       width: 100%;
-      margin-left: 6.3%;
-      //padding: 6.8%;
-      padding-top: 6%;
-      padding-bottom: 6%;
+      margin-left: 6%;
       font-weight: bold;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      border: 0;
+      //box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
       .border-title
       {
@@ -102,19 +98,17 @@
 
     .options
     {
-      margin-left: 2%;
       width: 100%;
 
       .option
       {
         background-color: rgba(129, 129, 129, 0.178);
         padding: 5px 0px 5px 0px;
-        margin-left: 6.5%;
+        margin-right: 6%;
         transition: all 0.2s ease;
 
         h5
         {
-          //width: 85%;
           margin-left: auto;
           margin-right: auto;
           margin-top: 3%;
