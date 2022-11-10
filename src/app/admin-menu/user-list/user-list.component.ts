@@ -3,7 +3,7 @@ import { faEdit, faTrash, faMinusCircle, faPlus } from '@fortawesome/free-solid-
 import { UserService } from './../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from './../../shared/User';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-user-list',
@@ -17,8 +17,8 @@ export class UserListComponent implements OnInit {
   deleteIcon=faTrash;
   inactivateIcon=faMinusCircle;
   activateIcon=faPlus;
-  canEdit: boolean=false;
-  error: boolean=false;
+  canEdit = false;
+  error = false;
   errorMessage: string;/*
   changeLayoutEmitter=new EventEmitter();
   idEditting: boolean=false;*/
@@ -27,13 +27,11 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void
   {
-    this.route.params.subscribe(params =>
+    this.route.params.subscribe(() =>
     {
       this.userService.getAllUsers().subscribe((users: Array<User>) =>
       {
         this.users=users;
-
-        console.log(this.users);
       });
 
       this.getUserPermission();
@@ -42,7 +40,7 @@ export class UserListComponent implements OnInit {
 
   inactivateUser(userId: number, userIndex: number)
   {
-    this.userService.inactivateUser(userId).subscribe(res =>
+    this.userService.inactivateUser(userId).subscribe(() =>
     {
       this.error=false;
       this.users[userIndex].validado=false;
@@ -51,7 +49,7 @@ export class UserListComponent implements OnInit {
 
   activateUser(userId: number, userIndex: number)
   {
-    this.userService.activateUser(userId).subscribe(res =>
+    this.userService.activateUser(userId).subscribe(() =>
     {
       this.error=false;
       this.users[userIndex].validado=true;
@@ -65,10 +63,10 @@ export class UserListComponent implements OnInit {
 
   deleteUser(userId: number, userIndex: number)
   {
-    this.userService.removeUser(userId).subscribe(res =>
+    this.userService.removeUser(userId).subscribe(() =>
     {
       this.error=false;
-      this.users=this.users.splice(userIndex, 1);
+      this.users.splice(userIndex, 1);
     });
   }
 

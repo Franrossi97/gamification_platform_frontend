@@ -2,7 +2,7 @@ import { PermissionService } from './../../services/permission.service';
 import { NewUser } from './../../shared/NewUser';
 import { UserService } from './../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Permission } from 'src/app/shared/Permission';
 
@@ -15,10 +15,10 @@ export class AdminAddUserComponent implements OnInit {
 
   permissionsName: Array<Permission>;
   newUser: NewUser;
-  newUserForm: FormGroup;
+  newUserForm: UntypedFormGroup;
   error: boolean=false;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,
+  constructor(private fb: UntypedFormBuilder, private route: ActivatedRoute,
   private userService: UserService, private permissionService: PermissionService) { }
 
   ngOnInit(): void
@@ -34,12 +34,12 @@ export class AdminAddUserComponent implements OnInit {
   {
     this.newUserForm=this.fb.group(
     {
-      name: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
-      lastname: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      enrollment: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(8), Validators.min(0)]),
-      profile: new FormControl(null, Validators.required),
-      password: new FormControl('Gamificacion2022', [Validators.required, Validators.minLength(5)]),
+      name: new UntypedFormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(25)]),
+      lastname: new UntypedFormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
+      email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+      enrollment: new UntypedFormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(8), Validators.min(0)]),
+      profile: new UntypedFormControl(null, Validators.required),
+      password: new UntypedFormControl('Gamificacion2022', [Validators.required, Validators.minLength(5)]),
     });
   }
 
