@@ -1,3 +1,5 @@
+import { HelpComponent } from './presentation/help/help.component';
+import { AboutComponent } from './presentation/about/about.component';
 import { EditQuestionComponent } from './subject/level/level-edit-questions/edit-question/edit-question.component';
 import { SubjectViewGuard } from './auth/permission/subject-view.guard';
 import { SubjectCreationGuard } from './auth/permission/subject-creation.guard';
@@ -47,6 +49,8 @@ const routes: Routes = [
     {path: 'administrando', component: AdministrandoComponent, canActivate: [PermissionGuard]},
   ]},
   {path: 'register', component: UserRegisterComponent},
+  {path: 'about', component: AboutComponent},
+  {path: 'help', component: HelpComponent},
   {path: 'subject/:id', component: SubjectComponent, canActivate: [AuthGuard, SubjectViewGuard], children:
   [
     {path: 'level/:id_level', component: EditSubjectComponent},

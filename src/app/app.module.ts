@@ -58,6 +58,8 @@ import { CreateBadgeComponent } from './subject/edit-subject/badge-menu/create-b
 import { SendEmailComponent } from './participants-list/send-email/send-email.component';
 import { EditLevelInformationComponent } from './subject/level/edit-level-information/edit-level-information.component';
 import { EditQuestionComponent } from './subject/level/level-edit-questions/edit-question/edit-question.component';
+import { AboutComponent } from './presentation/about/about.component';
+import { HelpComponent } from './presentation/help/help.component';
 
 
 @NgModule({
@@ -107,7 +109,9 @@ import { EditQuestionComponent } from './subject/level/level-edit-questions/edit
     CreateBadgeComponent,
     SendEmailComponent,
     EditLevelInformationComponent,
-    EditQuestionComponent
+    EditQuestionComponent,
+    AboutComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -135,8 +139,8 @@ import { EditQuestionComponent } from './subject/level/level-edit-questions/edit
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              //'151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
-              '574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
+              '151329789164-ehvnceigb8aqm11uii1ebdp4lm2rdklt.apps.googleusercontent.com'
+              //'574491623225-q0efnqmmqgsipdmgd75aoq9gc1amboaq.apps.googleusercontent.com'
             )
           },
           {
