@@ -15,7 +15,7 @@
     background-color: rgb(26, 50, 75);
     width: 100%;
     margin-top: -1%;
-    margin-bottom: 4%;
+    margin-bottom: 3%;
     font-weight: bold;
     font-size: 1.6rem;
     padding-top: 1%;
@@ -25,15 +25,14 @@
 
   .content-flashcard
   {
-    width: 50%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
     background-color: rgb(20, 73, 94);
     border-radius: 10px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
-    padding: 9%;
-    padding-left: 12% !important;
+    padding: 5% 3% 5% 6%;
     color: gainsboro;
     box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
@@ -114,7 +113,6 @@
 
     .content-flashcard
     {
-      width: 90%;
       font-size: 1.75rem;
     }
 
@@ -137,7 +135,6 @@
   {
     .content-flashcard
     {
-      width: 90%;
       font-size: 1.8rem;
     }
 
@@ -164,7 +161,6 @@
   {
     .content-flashcard
     {
-      width: 90%;
       font-size: 1.8rem;
     }
 
@@ -191,7 +187,6 @@
   {
     .content-flashcard
     {
-      width: 90%;
       font-size: 1.8rem;
     }
 
@@ -212,10 +207,6 @@
 {
   .show-flashcard-container
   {
-    .content-flashcard
-    {
-      width: 79%;
-    }
 
     .options-result-flashcard
     {
@@ -240,7 +231,6 @@
   {
     .content-flashcard
     {
-      width: 79%;
       font-size: 4rem;
     }
 
@@ -263,7 +253,6 @@
   {
     .content-flashcard
     {
-      width: 79%;
       font-size: 4.5rem;
     }
 
@@ -286,7 +275,6 @@
   {
     .content-flashcard
     {
-      width: 79%;
       font-size: 3.5rem;
     }
 

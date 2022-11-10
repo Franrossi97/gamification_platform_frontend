@@ -116,8 +116,6 @@ export class CreateFlashcardComponent implements OnInit
     //console.log(this.getItemsControl().controls);
     newFlashcard.id_nivel=this.newFlashCardInformationForm.get('level').value
 
-    console.log(newFlashcard, this.generateArrayFlashcardItems());
-
     this.flashcardService.postFlashcard(newFlashcard).subscribe(res =>
     {
       //console.log('subido');
