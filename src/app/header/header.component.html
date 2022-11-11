@@ -42,7 +42,7 @@
           <a routerLink='home' class="dropdown-item list-item">Home</a>
           <a routerLink='subjects' class="dropdown-item list-item">Materias</a>
           <a routerLink='flashcards/list' class="dropdown-item list-item">Flashcards</a>
-          <a href="" class="dropdown-item list-item">About</a>
+          <a routerLink="about" class="dropdown-item list-item">Acerca de</a>
           <a routerLink="profile" class="dropdown-item list-item" *ngIf="this.isAuthenticated()">Mi perfil</a>
           <a (click)="logOut()" class="dropdown-item list-item" *ngIf="this.isAuthenticated()" id="logOutList">Salir</a>
           <a routerLink='login' class="dropdown-item list-item" *ngIf="!this.isAuthenticated()">Ingresar</a>
