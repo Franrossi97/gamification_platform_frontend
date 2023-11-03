@@ -54,7 +54,7 @@ export class CreateBadgeComponent implements OnInit {
       }),
       this.createBadgeForm);
 
-    this.levelService.createBadge(badgeAux, this.idLevel).subscribe(res =>
+    this.levelService.createBadge([badgeAux], this.idLevel).subscribe(res =>
     {
       this.onCloseWindow();
     }, err =>
