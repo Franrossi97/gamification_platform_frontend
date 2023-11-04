@@ -1,7 +1,7 @@
+import { UserService } from './../../services/user.service';
 import { Level } from 'src/app/shared/Level';
 import { ActivatedRoute } from '@angular/router';
 import { LevelService } from './../../services/level.service';
-import { QuestionResultService } from './../../services/question-result.service';
 import { Component, OnInit } from '@angular/core';
 import { cartelSpecifications } from './cartelSpecifications';
 
@@ -19,7 +19,7 @@ export class LevelResultComponent implements OnInit
   //cartelSpecifications: Map<number, infoToShow>=new Map<number, infoToShow>();
   SUBJECT_ID: number;
 
-  constructor(private questionResultService: QuestionResultService, private levelService: LevelService, private route: ActivatedRoute) { }
+  constructor(private userService : UserService, private levelService: LevelService, private route: ActivatedRoute) { }
 
   ngOnInit(): void
   {
@@ -32,17 +32,10 @@ export class LevelResultComponent implements OnInit
 
   getFinalScore()
   {
-    /*this.levelService.getMaxScore().subscribe(maxScore =>
-    {*/
-      this.questionResultService.getFinalScore().subscribe((score: number) =>
-      {
-        this.finalScore=Math.ceil(score);
-        this.countStars= this.howManyStars(score, this.MAX_SCORE);
-        /*console.log(this.finalScore);
-        console.log(this.countStars);*/
-
-      });
-    //});
+    this.userService.getUserGameScore(localStorage.getItem('userId'), this.LEVEL_ID, this.SUBJECT_ID).subscribe((score: number) => {
+      this.finalScore = score;
+      this.countStars= this.howManyStars(score, this.MAX_SCORE);
+    });
   }
 
   howManyStars(score: number, maxScore: number): number
