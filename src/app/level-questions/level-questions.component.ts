@@ -5,7 +5,6 @@ import { BadgeFactory } from './../shared/BadgeFactory';
 import { BadgeTimer } from './../shared/BadgeTimer';
 import { Badge } from './../shared/Badge';
 import { UserService } from './../services/user.service';
-import { QuestionResultService } from './../services/question-result.service';
 import { LevelService } from './../services/level.service';
 import { QuestionService } from './../services/question.service';
 import { Component, OnInit } from '@angular/core';
@@ -68,8 +67,7 @@ export class LevelQuestionsComponent implements OnInit
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
     private levelService: LevelService, private router: Router,
-    private questionResultService: QuestionResultService, private userService: UserService,
-    private constantService: ConstantService) { }
+    private userService: UserService, private constantService: ConstantService) { }
 
   ngOnInit(): void
   {
@@ -221,15 +219,15 @@ export class LevelQuestionsComponent implements OnInit
       {
         this.finalScore=score;
 
-        this.questionService.setFinishedQuestionnaire(localStorage.getItem('userId'), this.SUBJECT_ID, this.LEVEL_ID, this.finalScore).subscribe(res =>
-        {
-          this.questionResultService.recieveFinalScore(this.finalScore);
+        setTimeout( () => {
+          this.questionService.setFinishedQuestionnaire(localStorage.getItem('userId'), this.SUBJECT_ID, this.LEVEL_ID, this.finalScore).subscribe(res => {
           this.router.navigate(['result'], {relativeTo: this.route});
 
-        }, err =>
-        {
+        }, err => {
           console.log(err);
-        });
+        })},
+
+        1500);
       });
     }
 
