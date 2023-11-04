@@ -14,6 +14,7 @@ import { Option } from '../shared/Option';
 import { BadgeQuestions } from '../shared/BadgeQuestion';
 import { BadgeDate } from '../shared/BadgeDate';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { log } from 'console';
 
 const MAX_BADGES=4;
 const MAX_BOOSTERS=4;
@@ -58,7 +59,6 @@ export class LevelQuestionsComponent implements OnInit
   settedInterval;
   availableBadges: any[]=new Array<any>(MAX_BADGES);
   wonBadgeIndex: number;
-  showWonAlert=false;
   winBadges: Array<number> = new Array<number>(MAX_BADGES);
   extraBadgesScore=0;
   countTimer=0;
@@ -231,7 +231,7 @@ export class LevelQuestionsComponent implements OnInit
           console.log(err);
         })},
 
-        1500);
+        3000);
       });
     }
 
@@ -428,8 +428,6 @@ export class LevelQuestionsComponent implements OnInit
 
     this.porcentajesPregunta.forEach((value, key) =>
     {
-      console.log(`Pregunta:${key} || Porcentaje: ${value}`);
-
       finalScore+=(scoreEachQuestion*(value/100)); //Se suma cada uno de los porcentajes obtenidos de cada respuesta
     });
 
@@ -805,8 +803,6 @@ export class LevelQuestionsComponent implements OnInit
 
       this.assignBadges(res);
 
-      console.log(this.availableBadges);
-
       this.pendingQuestions(+localStorage.getItem('userId'), idLevel);
     }, err =>
     {
@@ -873,7 +869,6 @@ export class LevelQuestionsComponent implements OnInit
 
   getBadgePic(indexBadge: number)
   {
-    //return badgeInfo[indexBadge][0];
     return badgeInfo.get(indexBadge)[0];
   }
 
@@ -885,7 +880,6 @@ export class LevelQuestionsComponent implements OnInit
 
   async showWonBadgeAlert()
   {
-    this.showWonAlert=true;
     this.modalService.open(this.modalWonBadge)
     clearInterval(this.settedInterval);
     await new Promise((resolve) => {

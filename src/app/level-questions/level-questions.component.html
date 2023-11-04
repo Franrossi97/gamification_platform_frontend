@@ -70,15 +70,15 @@
 </div>
 
 <ng-template #youWonABadge let-modal>
-  <div class="alert-container badge-alert" *ngIf="showWonAlert">
+  <div class="row alert-container badge-alert">
 
-    <div class="content-container">
+    <div class="col-md-12 content-container">
       <h3>¡Felicitaciones!</h3>
 
       <h5>Ganaste una insignia</h5>
 
       <div class="img-container">
-        <img [src]="getBadgePic(wonBadgeIndex)"><!--
+        <img [src]="getBadgePic(wonBadgeIndex)" width="100%" height="auto"><!--
         <img src="../../../assets/img/badges/question_badge.png" height="120px">-->
       </div>
 

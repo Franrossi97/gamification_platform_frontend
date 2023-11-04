@@ -223,10 +223,8 @@ $secondary-bg-color: rgb(63, 63, 63);
 .alert-container
 {
   font-weight: bold;
-  width: 70%;
+  width: 100%;
   top: 38%;
-  left: 15%;
-  right: auto;
   padding: 4%;
   border-radius: 10px;
   position: absolute;
@@ -237,7 +235,6 @@ $secondary-bg-color: rgb(63, 63, 63);
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    //align-content: center;
 
     h3
     {
@@ -259,14 +256,15 @@ $secondary-bg-color: rgb(63, 63, 63);
     {
       margin-left: auto;
       margin-right: auto;
-      width: 28%;
+      width: 100%;
     }
 
     p
     {
+      font-size: 200%;
       margin-left: auto;
       margin-right: auto;
-      width: 38%;
+      width: 100%;
     }
   }
 }
