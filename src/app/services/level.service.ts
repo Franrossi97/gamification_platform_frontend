@@ -153,7 +153,7 @@ export class LevelService
     return this.http.get<BadgeAttempts|BadgeDate|BadgeQuestions|BadgeTimer>(getBadgesUrl);
   }
 
-  updateUsedBadges(idSubject: number, idLevel: number|string, idStudent: number|string, newValue: string): Observable<any>
+  updateUsedBadges(idSubject: number, idLevel: number|string, idStudent: number|string, newValue: Array<number>): Observable<any>
   {
     const updateBadgesUrl =`${baseURL}/badges/subject/${idSubject}/level/${idLevel}/student/${idStudent}`;
 
