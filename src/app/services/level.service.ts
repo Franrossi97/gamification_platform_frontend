@@ -157,7 +157,7 @@ export class LevelService
   {
     const updateBadgesUrl =`${baseURL}/badges/subject/${idSubject}/level/${idLevel}/student/${idStudent}`;
 
-    return this.http.patch(updateBadgesUrl, {"wonBadges": newValue});
+    return this.http.patch(updateBadgesUrl, {wonBadges: newValue});
   }
 
   createBadge(badge: any, idLevel: number) {
