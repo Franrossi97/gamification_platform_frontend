@@ -857,7 +857,7 @@ export class LevelQuestionsComponent implements OnInit
   {
     //console.log(newValue, newValue.toString(2));
 
-    //this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), (newValue >>> 0).toString(2)).subscribe(res =>
+    console.log(newValue.toString(2));
     await this.levelService.updateUsedBadges(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(async res =>
     {
       await this.showWonBadgeAlert();
