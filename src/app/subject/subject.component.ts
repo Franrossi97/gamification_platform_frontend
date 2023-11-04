@@ -45,7 +45,7 @@ export class SubjectComponent implements OnInit
   }
 
   getUserScore() {
-    this.userService.getUserScore(this.ID_SUBJECT, +localStorage.getItem('userId')).subscribe(res => {
+    this.userService.getUserScore(this.ID_SUBJECT, localStorage.getItem('userId')).subscribe(res => {
       this.score = res.puntaje_tot;
     });
   }
