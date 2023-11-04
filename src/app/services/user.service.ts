@@ -157,7 +157,7 @@ export class UserService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getUserScore(idSubject: number, idStudent: number) {
+  getUserScore(idSubject: number, idStudent: string) {
     const getUrl: string = `${baseURL}/subject/${idSubject}/student/${idStudent}/score`;
 
     return this.http.get<{puntaje_tot: number}>(getUrl);
