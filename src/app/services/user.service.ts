@@ -162,4 +162,10 @@ export class UserService {
 
     return this.http.get<{puntaje_tot: number}>(getUrl);
   }
+
+  getUserGameScore(idStudent: string, idLevel: number, idSubject: number) {
+    const getUrl = `${baseURL}/subject/${idSubject}/level/${idLevel}/student/${idStudent}/score`;
+
+    return this.http.get(getUrl);
+  }
 }
