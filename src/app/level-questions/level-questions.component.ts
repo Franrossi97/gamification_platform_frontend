@@ -55,7 +55,7 @@ export class LevelQuestionsComponent implements OnInit
   availableBadges: any[]=new Array<any>(MAX_BADGES);
   wonBadgeIndex: number;
   showWonAlert=false;
-  winBadges=0; //Binario
+  winBadges: Array<number> = new Array<number>(MAX_BADGES);
   extraBadgesScore=0;
   countTimer=0;
   availableCoins=0;
@@ -74,6 +74,7 @@ export class LevelQuestionsComponent implements OnInit
     this.route.params.subscribe(params =>
     {
       this.LEVEL_ID=params['id'];
+      this.winBadges.fill(0);
       this.availableBadges.fill(null);
       this.getLevelName(this.LEVEL_ID);
       this.retrieveCountQuestions();
@@ -89,19 +90,17 @@ export class LevelQuestionsComponent implements OnInit
       if(this.countQuestions==undefined)
       {
         this.router.navigate(['home']);
-
       }
-      //this.porcentajesPregunta.fill(0);
     });
 
   }
 
   getLevelName(idLevel: number)
   {
-    this.levelService.getOneLevel(idLevel).subscribe(res =>
+    this.levelService.getOneLevel(idLevel).subscribe(async res =>
     {
       this.LEVEL_NAME=res.descripcion;
-      this.PENALIZATAION=res.penalizacion;
+      this.PENALIZATAION= await res.penalizacion;
       this.addPenalization=res.penalizacion>0;
     });
   }
@@ -383,7 +382,7 @@ export class LevelQuestionsComponent implements OnInit
       this.extraBadgesScore+=extraAux;
       if(extraAux>0)
       {
-        this.winBadges+=4;
+        this.winBadges[this.wonBadgeIndex] = 1;
         this.updateValueBadgeLevel(this.LEVEL_ID, this.winBadges);
       }
     }
@@ -401,7 +400,7 @@ export class LevelQuestionsComponent implements OnInit
       this.extraBadgesScore+=extraAux;
       if(extraAux>0)
       {
-        this.winBadges+=8;
+        this.winBadges[this.wonBadgeIndex] = 1;
         this.updateValueBadgeLevel(this.LEVEL_ID, this.winBadges);
       }
     }
@@ -424,7 +423,7 @@ export class LevelQuestionsComponent implements OnInit
 
     this.porcentajesPregunta.forEach((value, key) =>
     {
-      //console.log(`Pregunta:${key} || Porcentaje: ${value}`);
+      console.log(`Pregunta:${key} || Porcentaje: ${value}`);
 
       finalScore+=(scoreEachQuestion*(value/100)); //Se suma cada uno de los porcentajes obtenidos de cada respuesta
     });
@@ -596,7 +595,7 @@ export class LevelQuestionsComponent implements OnInit
 
       if(extraAux>0)
       {
-        this.winBadges+=1;
+        this.winBadges[this.wonBadgeIndex] = 1;
         this.updateValueBadgeLevel(this.LEVEL_ID, this.winBadges);
       }
     }
@@ -613,7 +612,7 @@ export class LevelQuestionsComponent implements OnInit
       this.extraBadgesScore+=extraAux;
       if(extraAux>0)
       {
-        this.winBadges+=2;
+        this.winBadges[this.wonBadgeIndex] = 1;
         this.updateValueBadgeLevel(this.LEVEL_ID, this.winBadges);
       }
     }
@@ -853,12 +852,12 @@ export class LevelQuestionsComponent implements OnInit
     return i<this.availableBadges.length ? this.availableBadges[i] : null;
   }
 
-  async updateValueBadgeLevel(idLevel: number|string, newValue: number)
+  async updateValueBadgeLevel(idLevel: number|string, newValue: Array<number>)
   {
     //console.log(newValue, newValue.toString(2));
 
-    console.log(newValue.toString(2));
-    await this.levelService.updateUsedBadges(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), newValue.toString(2)).subscribe(async res =>
+    //this.levelService.updateUsedBadges(idLevel, localStorage.getItem('userId'), (newValue >>> 0).toString(2)).subscribe(res =>
+    await this.levelService.updateUsedBadges(this.SUBJECT_ID, idLevel, localStorage.getItem('userId'), newValue).subscribe(async res =>
     {
       await this.showWonBadgeAlert();
     },err =>
