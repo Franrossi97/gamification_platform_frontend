@@ -69,24 +69,26 @@
   </div>
 </div>
 
-<div class="alert-container badge-alert" *ngIf="showWonAlert">
+<ng-template #youWonABadge let-modal>
+  <div class="alert-container badge-alert" *ngIf="showWonAlert">
 
-  <div class="content-container">
-    <h3>¡Felicitaciones!</h3>
+    <div class="content-container">
+      <h3>¡Felicitaciones!</h3>
 
-    <h5>Ganaste una insignia</h5>
+      <h5>Ganaste una insignia</h5>
 
-    <div class="img-container">
-      <img [src]="getBadgePic(wonBadgeIndex)"><!--
-      <img src="../../../assets/img/badges/question_badge.png" height="120px">-->
+      <div class="img-container">
+        <img [src]="getBadgePic(wonBadgeIndex)"><!--
+        <img src="../../../assets/img/badges/question_badge.png" height="120px">-->
+      </div>
+
+      <p>{{getBadgeDetails(wonBadgeIndex)}}</p><!--
+      <p>Insignia de pregunta</p>-->
+
     </div>
 
-    <p>{{getBadgeDetails(wonBadgeIndex)}}</p><!--
-    <p>Insignia de pregunta</p>-->
-
   </div>
-
-</div>
+</ng-template>
 
 <div class="alert-container message-correct" *ngIf="showCorrect">
   <div class="content-container">

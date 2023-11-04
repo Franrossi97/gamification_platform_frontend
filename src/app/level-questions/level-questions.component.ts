@@ -7,12 +7,14 @@ import { Badge } from './../shared/Badge';
 import { UserService } from './../services/user.service';
 import { LevelService } from './../services/level.service';
 import { QuestionService } from './../services/question.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Question } from '../shared/Question';
 import { Option } from '../shared/Option';
 import { BadgeQuestions } from '../shared/BadgeQuestion';
 import { BadgeDate } from '../shared/BadgeDate';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 const MAX_BADGES=4;
 const MAX_BOOSTERS=4;
 
@@ -23,6 +25,8 @@ const MAX_BOOSTERS=4;
 })
 export class LevelQuestionsComponent implements OnInit
 {
+  @ViewChild("youWonABadge") modalWonBadge: TemplateRef<any>;
+
   coinsIcon=faCoins;
   COIND_ID: number;
   LEVEL_NAME='';
@@ -67,7 +71,8 @@ export class LevelQuestionsComponent implements OnInit
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
     private levelService: LevelService, private router: Router,
-    private userService: UserService, private constantService: ConstantService) { }
+    private userService: UserService, private constantService: ConstantService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void
   {
@@ -881,15 +886,16 @@ export class LevelQuestionsComponent implements OnInit
   async showWonBadgeAlert()
   {
     this.showWonAlert=true;
+    this.modalService.open(this.modalWonBadge)
     clearInterval(this.settedInterval);
     await new Promise((resolve) => {
-      setTimeout(() => {
-          // Resolve the promise
-          this.showWonAlert=false;
-          //resolve(console.log('hello'));
-          this.setTimer();
-      }, 3000);
-  });
+        setTimeout(() => {
+            // Resolve the promise
+            this.modalService.dismissAll();
+            //resolve(console.log('hello'));
+            this.setTimer();
+        }, 3000);
+    });
   }
 
   initializeBoosterPrices()
