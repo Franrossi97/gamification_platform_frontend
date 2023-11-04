@@ -32,9 +32,9 @@ export class LevelResultComponent implements OnInit
 
   getFinalScore()
   {
-    this.userService.getUserGameScore(localStorage.getItem('userId'), this.LEVEL_ID, this.SUBJECT_ID).subscribe((score: number) => {
-      this.finalScore = score;
-      this.countStars= this.howManyStars(score, this.MAX_SCORE);
+    this.userService.getUserGameScore(localStorage.getItem('userId'), this.LEVEL_ID, this.SUBJECT_ID).subscribe((score: {puntaje_final: number}) => {
+      this.finalScore = score.puntaje_final;
+      this.countStars= this.howManyStars(this.finalScore, this.MAX_SCORE);
     });
   }
 
